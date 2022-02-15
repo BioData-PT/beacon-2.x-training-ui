@@ -1,0 +1,11 @@
+{% include "beacon/nav.html" %}
+
+<form action="{% url 'beacon:variant_response' %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+        <legend><h2>Query:</h2></legend>
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        <input type="text" name="query" pattern="^\s*(X|Y|MT|[1-9]|1[0-9]|2[0-2])\s*\:\s*(\d+)\s+([ATCGN]+)\s*\>\s*([ATCGN]+)$" placeholder="chr : pos ref > alt" title="chromosome : position reference > alternate" value="">
+        <input type="submit" value="Search">
+    </fieldset>
+</form>

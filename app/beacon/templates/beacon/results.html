@@ -1,0 +1,15 @@
+{% include "beacon/nav.html" %}
+
+<p>{{count}} result(s):</p>
+
+{% if results %}
+    <ul>
+    {% for r in results %}
+        <li>{{r}}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No results found.</p>
+{% endif %}
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}

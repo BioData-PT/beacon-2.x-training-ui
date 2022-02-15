@@ -1,0 +1,19 @@
+{% include "beacon/nav.html" %}
+
+{% comment %}
+<form action="{% url 'beacon:display' %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+        <legend><h1>How many documents do you want to see?</h1></legend>
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        {% for i in display_options %}
+            <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ i }}">
+            <label for="choice{{ forloop.counter }}">{{ i }}</label><br>
+        {% endfor %}
+    </fieldset>
+    <input type="submit" value="Vote">
+</form>
+{% endcomment %}
+<h1>Beacon</h1>
+<p>Perform a query...</p>
+

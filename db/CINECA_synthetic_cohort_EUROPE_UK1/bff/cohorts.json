@@ -1,0 +1,38 @@
+[
+    {
+       "cohortDesign" : {
+          "id" : "OMIABIS:000101",
+          "label" : "longitudinal study design"
+       },
+       "cohortId" : "CINECA_synthetic_cohort_UK1",
+       "cohortInclusionCriteria" : {
+          "ageRange" : {
+             "end" : {
+                "iso8601duration" : "P65Y"
+             },
+             "start" : {
+                "iso8601duration" : "P18Y"
+             }
+          },
+          "genders" : [
+             {
+                "id" : "NCIT:C16576",
+                "label" : "female"
+             },
+             {
+                "id" : "NCIT:C20197",
+                "label" : "male"
+             }
+          ],
+          "locations" : [
+             {
+                "id" : "GAZ:00150372",
+                "label" : "UK"
+             }
+          ]
+       },
+       "cohortName" : "CINECA synthetic cohort UK1",
+       "cohortSize" : 2504,
+       "cohortType" : "study-defined"
+    }
+ ]

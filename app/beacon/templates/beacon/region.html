@@ -1,0 +1,11 @@
+{% include "beacon/nav.html" %}
+
+<form action="{% url 'beacon:region_response' %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+        <legend><h2>Query:</h2></legend>
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        <input type="text" name="query" pattern='^\d+\s*:\s*\d+$' placeholder="start : end" title="start : end" value="">
+        <input type="submit" value="Search">
+    </fieldset>
+</form>

@@ -1,0 +1,15 @@
+{% include "beacon/nav.html" %}
+
+<form action="{% url 'beacon:phenoclinic_response' %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+        <legend><h2>Query:</h2></legend>
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        <select name="target">
+            <option value="individuals">Individuals</option>
+            <option value="biosamples">Biosamples</option>
+        </select>
+        <input type="text" name="query"  placeholder="key=value or key><=value" title="key=value or key><=value if integer" value="" style="width: 600px;">
+        <input type="submit" value="Search">
+    </fieldset>
+</form>
