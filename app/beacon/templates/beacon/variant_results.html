@@ -22,21 +22,34 @@
     {% with selected='variant' %}{% include "beacon/nav.html" %}{% endwith %}
     
 
-    <main>
-        <h1>
+    <main class="wide">
+        <div class="results-form">
             <img src="{% static 'beacon/img/training_ui.png' %}" alt="">
-        </h1>
-        <form action="{% url 'beacon:variant_response' %}" method="post">
-            {% csrf_token %}
-            <input type="text" 
-                    name="query" 
-                    pattern="^\s*(X|Y|MT|[1-9]|1[0-9]|2[0-2])\s*\:\s*(\d+)\s+([ATCGN]+)\s*\>\s*([ATCGN]+)$" 
-                    placeholder="chr : pos ref > alt" 
-                    title="chromosome : position reference > alternate" 
-                    value="">
-            <button type="submit"><i class="fas fa-search"></i></button>
-        </form>
+            <form action="{% url 'beacon:variant_response' %}" method="post">
+                {% csrf_token %}
+                <input type="text" 
+                        name="query" 
+                        pattern="^\s*(X|Y|MT|[1-9]|1[0-9]|2[0-2])\s*\:\s*(\d+)\s+([ATCGN]+)\s*\>\s*([ATCGN]+)$" 
+                        placeholder="chr : pos ref > alt" 
+                        title="chromosome : position reference > alternate" 
+                        value="">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
         {% if error_message %}<p id="error"><strong>Error:</strong> {{ error_message }}</p>{% endif %}
+        <div class="results">
+            <p>{{count}} result(s):</p>
+
+            {% if results %}
+                <ul>
+                {% for r in results %}
+                    <li>{{r}}</a></li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>No results found.</p>
+            {% endif %}    
+        </div>
     </main>
 
 

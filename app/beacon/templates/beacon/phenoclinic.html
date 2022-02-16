@@ -1,15 +1,74 @@
-{% include "beacon/nav.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Beacon Training UI</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width, shrink-to-fit=no"/>
 
-<form action="{% url 'beacon:phenoclinic_response' %}" method="post">
-    {% csrf_token %}
-    <fieldset>
-        <legend><h2>Query:</h2></legend>
-        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-        <select name="target">
-            <option value="individuals">Individuals</option>
-            <option value="biosamples">Biosamples</option>
-        </select>
-        <input type="text" name="query"  placeholder="key=value or key><=value" title="key=value or key><=value if integer" value="" style="width: 600px;">
-        <input type="submit" value="Search">
-    </fieldset>
-</form>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
+              integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg"
+              crossorigin="anonymous" />
+
+        <link rel="stylesheet"
+	      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" />
+
+        <!-- <link rel="stylesheet" href="../static/css/style.css" /> -->
+        <link rel="stylesheet" href="{% static 'beacon/css/style.css' %}" />
+    </head>
+<body>
+
+
+    {% with selected='phenoclinic' %}{% include "beacon/nav.html" %}{% endwith %}
+
+    
+
+    <main>
+        <h1>
+            <img src="{% static 'beacon/img/training_ui.png' %}" alt="">
+        </h1>
+        <form action="{% url 'beacon:phenoclinic_response' %}" method="post">
+            {% csrf_token %}
+            <div>
+                            <select name="target">
+                <option value="individuals">Individuals</option>
+                <option value="biosamples">Biosamples</option>
+            </select>
+            <input type="text" 
+            name="query"  
+            placeholder="key=value or key><=value" 
+            title="key=value or key><=value if integer" 
+            value="" 
+            >
+            </div>
+
+        <button type="submit"><i class="fas fa-search"></i></button>
+        </form>
+        {% if error_message %}<p id="error"><strong>Error:</strong> {{ error_message }}</p>{% endif %}
+    </main>
+
+
+    {% comment %}
+    <!-- JQuery -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="{{ static('js/jquery.min.js') }}">\x3C/script>')</script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
+    <!-- End Jquery -->
+
+    <!-- Custom -->
+    <script>
+      // Examples
+      var examplesButton = $("#examples-button");
+      var examplesButtonText = $("#examples-button p");
+      var examples = $("#examples");
+
+      examplesButton.on("click", function(){
+          examplesButtonText.toggleClass("active");
+          examples.toggleClass("active");
+      });
+    </script>
+    <!-- End Custom -->
+    {% endcomment %}
+
+    </body>
+</html>

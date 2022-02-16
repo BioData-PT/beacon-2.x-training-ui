@@ -55,8 +55,17 @@ def index(request):
 def cohorts(request):
     collection_handle = get_collection_handle(db_handle, "cohorts")
 
-    results = list(collection_handle.find({}))
-    count = len(results)
+    try:
+        results = list(collection_handle.find({}))
+        count = len(results)
+    except:
+        error_message = "Something went wrong, please try again."
+        context = {
+            'error_message': error_message,
+            'count': 0,
+            'results': [],
+        }
+        return render(request, 'beacon/cohorts_results.html', context)
 
     context = {
         'error_message': None,
@@ -64,7 +73,7 @@ def cohorts(request):
         'results': results,
     }
 
-    return render(request, 'beacon/results.html', context)
+    return render(request, 'beacon/cohorts_results.html', context)
 
 
 ##################################################
@@ -89,9 +98,11 @@ def variant_response(request):
     pattern = '^(X|Y|MT|[1-9]|1[0-9]|2[0-2])\s*\:\s*(\d+)\s+([ATCGN]+)\s*\>\s*([ATCGN]+)$'
     m = re.match(pattern, query, re.IGNORECASE)
     if not m:
-        error_message = "Error"
-        return render(request, 'beacon/variant.html', {
+        error_message = "The input pattern is incorrect."
+        return render(request, 'beacon/variant_results.html', {
             'error_message': error_message,
+            'count': 0,
+            'results': [],
         })
     chromosome = m.group(1)
     start = int(m.group(2))
@@ -111,7 +122,7 @@ def variant_response(request):
         'results': results,
     }
 
-    return render(request, 'beacon/results.html', context)
+    return render(request, 'beacon/variant_results.html', context)
 
 ##################################################
 ### REGION
@@ -127,7 +138,7 @@ def region_response(request):
     try:
         query = request.POST['query']
     except KeyError:
-        error_message = "Error"
+        error_message = "The input pattern is incorrect."
         return render(request, 'beacon/region.html', {
             'error_message': error_message,
         })
@@ -136,7 +147,7 @@ def region_response(request):
     m = re.match(pattern, query, re.IGNORECASE)
     if not m:
         error_message = "Error"
-        return render(request, 'beacon/region.html', {
+        return render(request, 'beacon/region_results.html', {
             'error_message': error_message,
         })
     start = int(m.group(1))
@@ -155,7 +166,7 @@ def region_response(request):
         'results': results,
     }
 
-    return render(request, 'beacon/results.html', context)
+    return render(request, 'beacon/region_results.html', context)
 
 ##################################################
 ### PHENOCLINIC
@@ -263,8 +274,8 @@ def phenoclinic_response(request):
         target_collection = request.POST['target']
         query_request = request.POST['query']
     except KeyError:
-        error_message = "Error"
-        return render(request, 'beacon/phenoclinic.html', {
+        error_message = "Something went wrong, please try again."
+        return render(request, 'beacon/phenoclinic_results.html', {
             'error_message': error_message,
         })
 
@@ -274,7 +285,7 @@ def phenoclinic_response(request):
     query_json = parse_query(query_request, schema)
     if not query_json:
         error_message = "Something went wrong, please try again."
-        return render(request, 'beacon/phenoclinic.html', {
+        return render(request, 'beacon/phenoclinic_results.html', {
             'error_message': error_message,
         })
     print(f"Query: {target_collection} {query_json} ")
@@ -286,4 +297,4 @@ def phenoclinic_response(request):
         'count': count,
         'results': results,
     }
-    return render(request, 'beacon/results.html', context)
+    return render(request, 'beacon/phenoclinic_results.html', context)

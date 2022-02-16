@@ -1,0 +1,264 @@
+/* line 5, ../../../../../../../../../Library/Ruby/Gems/2.6.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+/* line 22, ../../../../../../../../../Library/Ruby/Gems/2.6.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+html {
+  line-height: 1;
+}
+
+/* line 24, ../../../../../../../../../Library/Ruby/Gems/2.6.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+ol, ul {
+  list-style: none;
+}
+
+/* line 26, ../../../../../../../../../Library/Ruby/Gems/2.6.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* line 28, ../../../../../../../../../Library/Ruby/Gems/2.6.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+/* line 30, ../../../../../../../../../Library/Ruby/Gems/2.6.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+q, blockquote {
+  quotes: none;
+}
+/* line 103, ../../../../../../../../../Library/Ruby/Gems/2.6.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+/* line 32, ../../../../../../../../../Library/Ruby/Gems/2.6.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+a img {
+  border: none;
+}
+
+/* line 116, ../../../../../../../../../Library/Ruby/Gems/2.6.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+  display: block;
+}
+
+/* line 4, ../sass/_main.scss */
+body {
+  background-color: #F5F9FA;
+  font-family: 'Open Sans', sans-serif;
+  color: #717578;
+  height: 100vh;
+}
+/* line 12, ../sass/_main.scss */
+body nav {
+  width: 100%;
+  min-width: 80%;
+  height: 55px;
+  position: fixed;
+  top: 0;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  justify-content: space-between;
+  transition: 0.5s;
+}
+/* line 31, ../sass/_main.scss */
+body nav div {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  justify-content: center;
+}
+/* line 39, ../sass/_main.scss */
+body nav div img {
+  height: 25px;
+  padding: 0 10px 0 20px;
+}
+/* line 43, ../sass/_main.scss */
+body nav div a {
+  padding: 5px;
+  font-size: 14px;
+  font-weight: lighter;
+  text-decoration: none;
+  color: #717578;
+  transition: ease .5s;
+}
+/* line 51, ../sass/_main.scss */
+body nav div a:hover {
+  color: #74C5EB;
+}
+/* line 54, ../sass/_main.scss */
+body nav div a.selected {
+  color: #1070B7;
+  font-weight: normal;
+}
+/* line 58, ../sass/_main.scss */
+body nav button {
+  background-color: #1070B7;
+  padding: 6px 12px;
+  color: white;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 11px;
+  border-radius: 8px;
+  border: none;
+  margin: 10px 30px 10px 0;
+  transition: ease .5s;
+  cursor: pointer;
+}
+/* line 71, ../sass/_main.scss */
+body nav button:hover {
+  background-color: #74C5EB;
+}
+/* line 77, ../sass/_main.scss */
+body main {
+  width: 85%;
+  margin: 55px auto 55px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+}
+/* line 84, ../sass/_main.scss */
+body main.wide {
+  margin: 80px 40px 55px;
+}
+/* line 88, ../sass/_main.scss */
+body main > h1 {
+  color: #a5a8aa;
+  font-size: 24px;
+  font-weight: 300;
+  display: inline-block;
+  margin: 80px auto 0;
+}
+/* line 95, ../sass/_main.scss */
+body main > h1 span.strong {
+  font-weight: 400;
+}
+/* line 99, ../sass/_main.scss */
+body main > h1 img {
+  height: 150px;
+}
+/* line 104, ../sass/_main.scss */
+body main form {
+  margin: 40px auto 0;
+  width: 100%;
+  height: 40px;
+  background-color: white;
+  border-radius: 30px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  border: 1px solid #D9D9D9;
+}
+/* line 118, ../sass/_main.scss */
+body main form:focus-within {
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+}
+/* line 124, ../sass/_main.scss */
+body main form input {
+  background-color: transparent;
+  border: none;
+  margin-left: 30px;
+  width: 95%;
+  font-size: 12px;
+  font-family: 'Open Sans', sans-serif;
+  color: #717578;
+}
+/* line 134, ../sass/_main.scss */
+body main form input:focus {
+  outline: none;
+}
+/* line 139, ../sass/_main.scss */
+body main form select {
+  background: white;
+  border: none;
+  border-radius: 30px;
+  margin-left: 20px;
+  color: #717578;
+}
+/* line 147, ../sass/_main.scss */
+body main form div {
+  display: flex;
+  flex-flow: row nowrap;
+  width: 100%;
+}
+/* line 153, ../sass/_main.scss */
+body main form button {
+  background-color: transparent;
+  border: none;
+  margin-right: 10px;
+  font-size: 14px;
+  color: #717578;
+  transition: ease .5s;
+  cursor: pointer;
+}
+/* line 164, ../sass/_main.scss */
+body main form button:hover {
+  color: #74C5EB;
+}
+/* line 170, ../sass/_main.scss */
+body main p#error {
+  color: #DC4F5F;
+  padding: 1em 0;
+  font-weight: lighter;
+}
+/* line 174, ../sass/_main.scss */
+body main p#error strong {
+  font-weight: 400;
+  color: #BE1522;
+}
+/* line 180, ../sass/_main.scss */
+body main div.results-form {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: left;
+  align-items: center;
+}
+/* line 186, ../sass/_main.scss */
+body main div.results-form img {
+  height: 75px;
+}
+/* line 189, ../sass/_main.scss */
+body main div.results-form form {
+  margin: 0 10px 0 0;
+  width: 60%;
+}
+/* line 195, ../sass/_main.scss */
+body main div.results {
+  margin: 20px 0 0 10px;
+  font-weight: 300;
+}
+/* line 199, ../sass/_main.scss */
+body main div.results ul {
+  margin: 20px 0;
+}
+/* line 201, ../sass/_main.scss */
+body main div.results ul li {
+  font-family: monospace;
+  margin-bottom: 10px;
+}
