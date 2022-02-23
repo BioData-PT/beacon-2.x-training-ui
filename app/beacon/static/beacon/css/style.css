@@ -69,14 +69,18 @@ body {
   font-family: 'Open Sans', sans-serif;
   color: #717578;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 /* line 12, ../sass/_main.scss */
 body nav {
   width: 100%;
   min-width: 80%;
   height: 55px;
+  background-color: #F5F9FA;
   position: fixed;
   top: 0;
+  z-index: 1;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
@@ -85,7 +89,11 @@ body nav {
   justify-content: space-between;
   transition: 0.5s;
 }
-/* line 31, ../sass/_main.scss */
+/* line 33, ../sass/_main.scss */
+body nav.shadow {
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+}
+/* line 37, ../sass/_main.scss */
 body nav div {
   display: flex;
   flex-flow: row nowrap;
@@ -94,12 +102,12 @@ body nav div {
   box-sizing: border-box;
   justify-content: center;
 }
-/* line 39, ../sass/_main.scss */
+/* line 45, ../sass/_main.scss */
 body nav div img {
   height: 25px;
   padding: 0 10px 0 20px;
 }
-/* line 43, ../sass/_main.scss */
+/* line 49, ../sass/_main.scss */
 body nav div a {
   padding: 5px;
   font-size: 14px;
@@ -108,16 +116,16 @@ body nav div a {
   color: #717578;
   transition: ease .5s;
 }
-/* line 51, ../sass/_main.scss */
+/* line 57, ../sass/_main.scss */
 body nav div a:hover {
   color: #74C5EB;
 }
-/* line 54, ../sass/_main.scss */
+/* line 60, ../sass/_main.scss */
 body nav div a.selected {
   color: #1070B7;
   font-weight: normal;
 }
-/* line 58, ../sass/_main.scss */
+/* line 64, ../sass/_main.scss */
 body nav button {
   background-color: #1070B7;
   padding: 6px 12px;
@@ -131,11 +139,15 @@ body nav button {
   transition: ease .5s;
   cursor: pointer;
 }
-/* line 71, ../sass/_main.scss */
+/* line 77, ../sass/_main.scss */
 body nav button:hover {
   background-color: #74C5EB;
 }
-/* line 77, ../sass/_main.scss */
+/* line 81, ../sass/_main.scss */
+body nav button.hidden {
+  visibility: hidden;
+}
+/* line 87, ../sass/_main.scss */
 body main {
   width: 85%;
   margin: 55px auto 55px;
@@ -143,11 +155,12 @@ body main {
   flex-flow: column nowrap;
   justify-content: center;
 }
-/* line 84, ../sass/_main.scss */
+/* line 94, ../sass/_main.scss */
 body main.wide {
+  width: auto;
   margin: 80px 40px 55px;
 }
-/* line 88, ../sass/_main.scss */
+/* line 99, ../sass/_main.scss */
 body main > h1 {
   color: #a5a8aa;
   font-size: 24px;
@@ -155,15 +168,15 @@ body main > h1 {
   display: inline-block;
   margin: 80px auto 0;
 }
-/* line 95, ../sass/_main.scss */
+/* line 106, ../sass/_main.scss */
 body main > h1 span.strong {
   font-weight: 400;
 }
-/* line 99, ../sass/_main.scss */
+/* line 110, ../sass/_main.scss */
 body main > h1 img {
   height: 150px;
 }
-/* line 104, ../sass/_main.scss */
+/* line 115, ../sass/_main.scss */
 body main form {
   margin: 40px auto 0;
   width: 100%;
@@ -175,11 +188,11 @@ body main form {
   justify-content: space-between;
   border: 1px solid #D9D9D9;
 }
-/* line 118, ../sass/_main.scss */
+/* line 129, ../sass/_main.scss */
 body main form:focus-within {
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
 }
-/* line 124, ../sass/_main.scss */
+/* line 135, ../sass/_main.scss */
 body main form input {
   background-color: transparent;
   border: none;
@@ -189,11 +202,11 @@ body main form input {
   font-family: 'Open Sans', sans-serif;
   color: #717578;
 }
-/* line 134, ../sass/_main.scss */
+/* line 145, ../sass/_main.scss */
 body main form input:focus {
   outline: none;
 }
-/* line 139, ../sass/_main.scss */
+/* line 150, ../sass/_main.scss */
 body main form select {
   background: white;
   border: none;
@@ -201,13 +214,13 @@ body main form select {
   margin-left: 20px;
   color: #717578;
 }
-/* line 147, ../sass/_main.scss */
+/* line 158, ../sass/_main.scss */
 body main form div {
   display: flex;
   flex-flow: row nowrap;
   width: 100%;
 }
-/* line 153, ../sass/_main.scss */
+/* line 164, ../sass/_main.scss */
 body main form button {
   background-color: transparent;
   border: none;
@@ -217,48 +230,184 @@ body main form button {
   transition: ease .5s;
   cursor: pointer;
 }
-/* line 164, ../sass/_main.scss */
+/* line 175, ../sass/_main.scss */
 body main form button:hover {
   color: #74C5EB;
 }
-/* line 170, ../sass/_main.scss */
-body main p#error {
+/* line 202, ../sass/_main.scss */
+body main a#filtering-terms {
+  padding: 1em;
+  font-size: 12px;
+  font-weight: lighter;
+  text-decoration: none;
+  color: #717578;
+  transition: ease .5s;
+  width: 100px;
+}
+/* line 210, ../sass/_main.scss */
+body main a#filtering-terms i {
+  font-size: 10px;
+}
+/* line 211, ../sass/_main.scss */
+body main a#filtering-terms:hover {
+  color: #74C5EB;
+}
+/* line 215, ../sass/_main.scss */
+body main span.error {
+  display: block;
   color: #DC4F5F;
-  padding: 1em 0;
+  padding-bottom: 1em;
   font-weight: lighter;
 }
-/* line 174, ../sass/_main.scss */
-body main p#error strong {
+/* line 220, ../sass/_main.scss */
+body main span.error strong {
   font-weight: 400;
   color: #BE1522;
 }
-/* line 180, ../sass/_main.scss */
+/* line 224, ../sass/_main.scss */
+body main span.error.error-login {
+  display: none;
+  padding-left: 10px;
+}
+/* line 227, ../sass/_main.scss */
+body main span.error.error-login.active {
+  display: block;
+}
+/* line 233, ../sass/_main.scss */
 body main div.results-form {
   display: flex;
   flex-flow: row nowrap;
   justify-content: left;
   align-items: center;
 }
-/* line 186, ../sass/_main.scss */
+/* line 239, ../sass/_main.scss */
 body main div.results-form img {
   height: 75px;
 }
-/* line 189, ../sass/_main.scss */
+/* line 242, ../sass/_main.scss */
 body main div.results-form form {
-  margin: 0 10px 0 0;
+  margin: 0;
   width: 60%;
 }
-/* line 195, ../sass/_main.scss */
+/* line 249, ../sass/_main.scss */
 body main div.results {
-  margin: 20px 0 0 10px;
+  margin: 20px 0 0;
   font-weight: 300;
 }
-/* line 199, ../sass/_main.scss */
-body main div.results ul {
-  margin: 20px 0;
+/* line 253, ../sass/_main.scss */
+body main div.results div#tabs {
+  display: flex;
+  flex-flow: row nowrap;
+  width: 100%;
+  border-bottom: 1px solid #74C5EB;
+  font-size: 14px;
 }
-/* line 201, ../sass/_main.scss */
-body main div.results ul li {
-  font-family: monospace;
-  margin-bottom: 10px;
+/* line 260, ../sass/_main.scss */
+body main div.results div#tabs p {
+  padding: 10px;
+  cursor: pointer;
+}
+/* line 263, ../sass/_main.scss */
+body main div.results div#tabs p.active, body main div.results div#tabs p:hover {
+  border-bottom: 1px solid #1070B7;
+  font-weight: normal;
+}
+/* line 271, ../sass/_main.scss */
+body main div.results section {
+  padding: 1em 0;
+  display: none;
+}
+/* line 275, ../sass/_main.scss */
+body main div.results section h2 {
+  font-weight: normal;
+}
+/* line 278, ../sass/_main.scss */
+body main div.results section p {
+  padding-left: 10px;
+}
+/* line 282, ../sass/_main.scss */
+body main div.results section.active {
+  display: block;
+}
+/* line 293, ../sass/_main.scss */
+body main div.results section#counts p.blurry {
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+}
+/* line 304, ../sass/_main.scss */
+body main div.results section#full div.table-wrapper {
+  margin: 1em 0;
+}
+/* line 307, ../sass/_main.scss */
+body main div.results section#full div.table-wrapper.blurry {
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+}
+/* line 315, ../sass/_main.scss */
+body main div.results section#full div.table-wrapper table {
+  font-size: 14px;
+}
+/* line 324, ../sass/_main.scss */
+body footer {
+  width: 100%;
+  min-height: 55px;
+  margin-top: auto;
+  color: #717578;
+  font-family: 'Open Sans', sans-serif;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+}
+/* line 337, ../sass/_main.scss */
+body footer p {
+  margin-right: 10px;
+  line-height: 15px;
+  font-weight: 300;
+  font-size: 11px;
+  transition: ease all 0.5s;
+}
+@media screen and (max-width: 580px) {
+  /* line 337, ../sass/_main.scss */
+  body footer p {
+    font-size: 9px;
+    line-height: 10px;
+  }
+}
+/* line 351, ../sass/_main.scss */
+body footer section#EGA {
+  margin-left: 30px;
+  font-size: 12px;
+}
+/* line 354, ../sass/_main.scss */
+body footer section#EGA a {
+  color: #74C5EB;
+}
+/* line 356, ../sass/_main.scss */
+body footer section#EGA a:hover {
+  color: #1070B7;
+}
+/* line 359, ../sass/_main.scss */
+body footer section#EU {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: right;
+}
+/* line 366, ../sass/_main.scss */
+body footer section#EU p {
+  max-width: 400px;
+  text-align: right;
+  margin-right: 30px;
+}
+/* line 372, ../sass/_main.scss */
+body footer section#EU img {
+  height: 30px;
+  margin-right: 30px;
 }

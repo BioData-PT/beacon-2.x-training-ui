@@ -7,6 +7,12 @@
         <a href="{% url 'beacon:region' %}" {% if selected == 'region' %} class="selected"{% endif %}>Region</a>
         <a href="{% url 'beacon:phenoclinic' %}" {% if selected == 'phenoclinic' %} class="selected"{% endif %}>Phenoclinic</a>
         <a href="{% url 'beacon:cohorts' %}" {% if selected == 'cohorts' %} class="selected"{% endif %}>Cohorts</a>    
+        {% comment %}
+        {% if filtering_terms == 'true' %}
+        <a href="{% url 'beacon:filtering_terms' %}" {% if selected == 'filtering_terms' %} class="selected"{% endif %}>Filtering Terms</a>    
+        {% endif %}
+        {% endcomment %}
+
     </div>
-    <button>LOG IN</button>
+    <button id="login" {% if hidden == 'true' %} class="hidden"{% endif %}>LOG IN</button>
 </nav>

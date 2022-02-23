@@ -13,42 +13,50 @@
 
         <!-- <link rel="stylesheet" href="../static/css/style.css" /> -->
         <link rel="stylesheet" href="{% static 'beacon/css/style.css' %}" />
+        <link rel="stylesheet" href="{% static 'beacon/css/datatables.css' %}" />
+
     </head>
 <body>
 
 
-    {% with selected='phenoclinic' hidden='true' filtering_terms='true'%}{% include "beacon/nav.html" %}{% endwith %}
-
+    {% with selected='filtering_terms' hidden='true' filtering_terms='true'%}{% include "beacon/nav.html" %}{% endwith %}
     
 
     <main>
         <h1>
             <img src="{% static 'beacon/img/training_ui.png' %}" alt="">
         </h1>
-        <form action="{% url 'beacon:phenoclinic_response' %}" method="post">
-            {% csrf_token %}
-            <div>
-                <select name="target">
-                    <option value="individuals">Individuals</option>
-                    <option value="biosamples">Biosamples</option>
-                </select>
-                <input type="text" 
-                name="query"  
-                placeholder="key=value or key><=value" 
-                title="key=value or key><=value if integer" 
-                value="" 
-                >
+        <div class="results">
+            {% if error_message %}<span class="error"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></strong> {{ error_message }}</span>{% endif %}
+
+
+            {% if results %}
+            <div class="table-wrapper">
+                <table id="table_id" class="display">
+                    <thead>
+                        <tr>
+                            <th>filtering term</th>
+                            <th>target entity</th>
+                            <th>target schema term</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for key, value in results.items %}
+                            <tr>
+                                <td>{{key}}</td>
+                                <td>{{value.0}}</td>
+                                <td>{{value.1}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table> 
             </div>
+           
+            {% else %}
+                <p>No filtering terms found.</p>
+            {% endif %} 
+        </div>
 
-            <button type="submit"><i class="fas fa-search"></i></button>
-            <!-- <span id="filtering-terms-wrapper">
-                <i class="fa fa-filter" aria-hidden="true"></i>
-                <a target="_blank" href="{% url 'beacon:filtering_terms' %}" {% if selected == 'filtering_terms' %} class="selected"{% endif %}> Filtering Terms</a>    
-            </span> -->
-        </form>
-        <a id="filtering-terms" target="_blank" href="{% url 'beacon:filtering_terms' %}" {% if selected == 'filtering_terms' %} class="selected"{% endif %}><i class="fa fa-filter" aria-hidden="true"></i> Filtering Terms</a>    
-
-        {% if error_message %}<p class="error"><strong><i class="fa-solid fa-triangle-exclamation"></i></strong> {{ error_message }}</p>{% endif %}
     </main>
    
     {% include "beacon/footer.html" %}

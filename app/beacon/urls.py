@@ -13,4 +13,5 @@ urlpatterns = [
     path('region_response', views.region_response, name='region_response'),
     path('phenoclinic', views.phenoclinic, name='phenoclinic'),
     path('phenoclinic_response', views.phenoclinic_response, name='phenoclinic_response'),
+    path('filtering_terms', views.filtering_terms, name='filtering_terms'),
 ]

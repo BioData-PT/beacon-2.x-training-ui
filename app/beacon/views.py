@@ -90,19 +90,21 @@ def variant_response(request):
     try:
         query = request.POST['query']
     except KeyError:
-        error_message = "Error"
+        error_message = "Something went wrong with the request, please try again."
         return render(request, 'beacon/variant.html', {
             'error_message': error_message,
+            'query': query
         })
 
     pattern = '^(X|Y|MT|[1-9]|1[0-9]|2[0-2])\s*\:\s*(\d+)\s+([ATCGN]+)\s*\>\s*([ATCGN]+)$'
     m = re.match(pattern, query, re.IGNORECASE)
     if not m:
-        error_message = "The input pattern is incorrect."
+        error_message = "The query pattern is wrong. Please, use 'chr : position reference > alternate' and try again."
         return render(request, 'beacon/variant_results.html', {
             'error_message': error_message,
             'count': 0,
             'results': [],
+            'query': query
         })
     chromosome = m.group(1)
     start = int(m.group(2))
@@ -120,6 +122,7 @@ def variant_response(request):
         'error_message': None,
         'count': count,
         'results': results,
+        'query': query
     }
 
     return render(request, 'beacon/variant_results.html', context)
@@ -138,17 +141,19 @@ def region_response(request):
     try:
         query = request.POST['query']
     except KeyError:
-        error_message = "The input pattern is incorrect."
+        error_message = "Something went wrong with the request, please try again."
         return render(request, 'beacon/region.html', {
             'error_message': error_message,
+            'query': query
         })
 
     pattern = '^(\d+)\s*:\s*(\d+)$'
     m = re.match(pattern, query, re.IGNORECASE)
     if not m:
-        error_message = "Error"
+        error_message = "The query pattern is wrong. Please, use 'start : end' and try again."
         return render(request, 'beacon/region_results.html', {
             'error_message': error_message,
+            'query': query
         })
     start = int(m.group(1))
     end = int(m.group(2))
@@ -164,6 +169,7 @@ def region_response(request):
         'error_message': None,
         'count': count,
         'results': results,
+        'query': query
     }
 
     return render(request, 'beacon/region_results.html', context)
@@ -207,6 +213,12 @@ BIOSAMPLES_DICT = {
     "tumorProgression": "object_id_label",
 }
 
+FILTERING_TERMS_DICT = {
+    "female": ("individuals", "sex"),
+    "male": ("individuals", "sex"),
+    "blood": ("biosamples", "sampleOriginType")
+}
+
 def phenoclinic(request):
     context = {
         'error_message': None,
@@ -215,6 +227,7 @@ def phenoclinic(request):
 
 
 def parse_query(request, schema):
+    error = ""
     # separate key-value pairs
     request_list = request.split(" ")
     # info to identidy each key, operator and value
@@ -224,14 +237,24 @@ def parse_query(request, schema):
         ">": "$gt",
         "<": "$lt"
     }
-    # loop through every key-value pair
+    # loop through every key-value pair and parse it
     query_list_normal_obj = []
     query_list_array_obj = []
     for element in request_list:
-        m = re.match(pattern, element, re.IGNORECASE)
-        key = m.group(1)
-        value = m.group(3)
-        operator = m.group(2)
+        try:
+            m = re.match(pattern, element, re.IGNORECASE)
+            key = m.group(1)
+            value = m.group(3)
+            operator = m.group(2)
+        except:
+            if element in FILTERING_TERMS_DICT.keys():
+                key = FILTERING_TERMS_DICT[element][1]
+                value = element
+                operator = "="
+            else:
+                # this filtering term is not registered
+                error = "Some of the query terms are incorrect/not available. Please, check the schema and the filtering terms and try again."
+                continue
         
         # detect if value if string or ontology
         key_type = ".id" if ":" in value else ".label"  # useful if object_id_label
@@ -251,6 +274,8 @@ def parse_query(request, schema):
             elif key in schema and schema[key] == "simple":
                 query_normal = f"'{key}': '{value}'"   
                 query_list_normal_obj.append(query_normal)
+            else:
+                error = "Some of the query terms are incorrect/not available. Please, check the schema and the filtering terms and try again."
                 
     # prepare query string            
     query_string_array_obj = ""
@@ -267,34 +292,56 @@ def parse_query(request, schema):
     query_string = query_string.replace("'", '"')
     query_json = json.loads(query_string)
 
-    return query_json  
+    return query_json, error  
 
 def phenoclinic_response(request):
     try:
         target_collection = request.POST['target']
         query_request = request.POST['query']
     except KeyError:
-        error_message = "Something went wrong, please try again."
+        error_message = "Something went wrong with the request, please try again."
         return render(request, 'beacon/phenoclinic_results.html', {
             'error_message': error_message,
+            'target_collection': target_collection,
+            'query': query_request
         })
 
     collection_handle = get_collection_handle(db_handle, target_collection)
 
     schema = INDIVIDUALS_DICT if target_collection == "individuals" else BIOSAMPLES_DICT
-    query_json = parse_query(query_request, schema)
+    query_json, error_message = parse_query(query_request, schema)
     if not query_json:
-        error_message = "Something went wrong, please try again."
+        error_message = "The query string could not be prepared, please check the schema and try again."
         return render(request, 'beacon/phenoclinic_results.html', {
             'error_message': error_message,
+            'target_collection': target_collection,
+            'query': query_request
         })
     print(f"Query: {target_collection} {query_json} ")
     results = list(collection_handle.find(query_json))
     count = len(results)
+    keys = set([k for result in results for k in result.keys()])
+    print("HEY", keys)
+    context = {
+        'error_message': error_message,
+        'count': count,
+        'results': results,
+        'target_collection': target_collection,
+        'query': query_request,
+        'keys': keys
+    }
+    return render(request, 'beacon/phenoclinic_results.html', context)
+
+
+##################################################
+### FILTERING TERMS
+##################################################
+
+def filtering_terms(request):
 
     context = {
         'error_message': None,
-        'count': count,
-        'results': results,
+        'results': FILTERING_TERMS_DICT,
     }
-    return render(request, 'beacon/phenoclinic_results.html', context)
+
+    return render(request, 'beacon/filtering_terms.html', context)
