@@ -28,25 +28,6 @@ def index(request):
     }
     return render(request, 'beacon/index.html', context)
 
-# def display(request):
-#     try:
-#         choice = int(request.POST['choice'])
-#     except KeyError:
-#         display_options = [3,5,10]
-#         return render(request, 'beacon/index.html', {
-#             'display_options': display_options,
-#             'error_message': "You didn't select a choice.",
-#         })
-
-
-#     collection_handle = get_collection_handle(db_handle, "individuals")
-
-#     results = list(collection_handle.find({}).limit(choice))
-
-#     context = {
-#         'results': results,
-#     }
-#     return render(request, 'beacon/results.html', context)
 
 ##################################################
 ### COHORTS
@@ -58,6 +39,8 @@ def cohorts(request):
     try:
         results = list(collection_handle.find({}))
         count = len(results)
+        keys = set([k for result in results for k in result.keys()])
+
     except:
         error_message = "Something went wrong, please try again."
         context = {
@@ -71,6 +54,7 @@ def cohorts(request):
         'error_message': None,
         'count': count,
         'results': results,
+        'keys': keys
     }
 
     return render(request, 'beacon/cohorts_results.html', context)
@@ -83,6 +67,7 @@ def cohorts(request):
 def variant(request):
     context = {
         'error_message': None,
+        'cookies': request.COOKIES,
     }
     return render(request, 'beacon/variant.html', context)
 
@@ -93,6 +78,7 @@ def variant_response(request):
         error_message = "Something went wrong with the request, please try again."
         return render(request, 'beacon/variant.html', {
             'error_message': error_message,
+            'cookies': request.COOKIES,
             'query': query
         })
 
@@ -102,6 +88,7 @@ def variant_response(request):
         error_message = "The query pattern is wrong. Please, use 'chr : position reference > alternate' and try again."
         return render(request, 'beacon/variant_results.html', {
             'error_message': error_message,
+            'cookies': request.COOKIES,
             'count': 0,
             'results': [],
             'query': query
@@ -117,12 +104,15 @@ def variant_response(request):
 
     results = list(collection_handle.find({"position.refseqId": chromosome, "position.start": start, "referenceBases": reference, "alternateBases": alternate}))
     count = len(results)
+    keys = set([k for result in results for k in result.keys()])
 
     context = {
         'error_message': None,
+        'cookies': request.COOKIES,
         'count': count,
         'results': results,
-        'query': query
+        'query': query,
+        'keys': keys
     }
 
     return render(request, 'beacon/variant_results.html', context)
@@ -133,6 +123,7 @@ def variant_response(request):
 
 def region(request):
     context = {
+        'cookies': request.COOKIES,
         'error_message': None,
     }
     return render(request, 'beacon/region.html', context)
@@ -143,6 +134,7 @@ def region_response(request):
     except KeyError:
         error_message = "Something went wrong with the request, please try again."
         return render(request, 'beacon/region.html', {
+            'cookies': request.COOKIES,
             'error_message': error_message,
             'query': query
         })
@@ -152,6 +144,7 @@ def region_response(request):
     if not m:
         error_message = "The query pattern is wrong. Please, use 'start : end' and try again."
         return render(request, 'beacon/region_results.html', {
+            'cookies': request.COOKIES,
             'error_message': error_message,
             'query': query
         })
@@ -164,12 +157,15 @@ def region_response(request):
 
     results = list(collection_handle.find({"position.start": {"$gte": start}, "position.end": {"$lte":end }}))
     count = len(results)
+    keys = set([k for result in results for k in result.keys()])
 
     context = {
+        'cookies': request.COOKIES,
         'error_message': None,
         'count': count,
         'results': results,
-        'query': query
+        'query': query,
+        'keys': keys
     }
 
     return render(request, 'beacon/region_results.html', context)
@@ -221,6 +217,7 @@ FILTERING_TERMS_DICT = {
 
 def phenoclinic(request):
     context = {
+        'cookies': request.COOKIES,
         'error_message': None,
     }
     return render(request, 'beacon/phenoclinic.html', context)
@@ -301,6 +298,7 @@ def phenoclinic_response(request):
     except KeyError:
         error_message = "Something went wrong with the request, please try again."
         return render(request, 'beacon/phenoclinic_results.html', {
+            'cookies': request.COOKIES,
             'error_message': error_message,
             'target_collection': target_collection,
             'query': query_request
@@ -313,6 +311,7 @@ def phenoclinic_response(request):
     if not query_json:
         error_message = "The query string could not be prepared, please check the schema and try again."
         return render(request, 'beacon/phenoclinic_results.html', {
+            'cookies': request.COOKIES,
             'error_message': error_message,
             'target_collection': target_collection,
             'query': query_request
@@ -321,8 +320,8 @@ def phenoclinic_response(request):
     results = list(collection_handle.find(query_json))
     count = len(results)
     keys = set([k for result in results for k in result.keys()])
-    print("HEY", keys)
     context = {
+        'cookies': request.COOKIES,
         'error_message': error_message,
         'count': count,
         'results': results,
@@ -340,6 +339,7 @@ def phenoclinic_response(request):
 def filtering_terms(request):
 
     context = {
+        'cookies': request.COOKIES,
         'error_message': None,
         'results': FILTERING_TERMS_DICT,
     }

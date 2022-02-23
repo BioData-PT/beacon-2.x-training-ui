@@ -5,7 +5,6 @@ from . import views
 app_name = 'beacon'
 urlpatterns = [
     path('', views.index, name='index'),
-    # path('display', views.display, name='display'),
     path('cohorts', views.cohorts, name='cohorts'),
     path('variant', views.variant, name='variant'),
     path('variant_response', views.variant_response, name='variant_response'),

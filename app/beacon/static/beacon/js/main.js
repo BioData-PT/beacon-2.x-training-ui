@@ -1,5 +1,18 @@
 (function(){ // scoping
 
+    
+    // Cookie Functions
+    function setCookie(name,value,minutes) {
+        if (minutes) {
+            var date = new Date();
+            date.setTime(date.getTime()+(minutes*60*1000));
+            var expires = "; expires="+date.toGMTString();
+        } else {
+            var expires = "";
+        }
+        document.cookie = name+"="+value+expires+"; path=/";
+    }
+
     // Datatables
     $(document).ready( function () {
         $('#table_id').DataTable({
@@ -13,14 +26,20 @@
     var tableWrapper = $(".table-wrapper.controlled");
     var countsResult = $("section#counts p");
     var errorLogin = $("span.error-login");
+    var cookieValue = "";
 
     loginButton.on("click", function(){
         tableWrapper.toggleClass("blurry");
         countsResult.toggleClass("blurry");
         errorLogin.toggleClass("active");
         $(this).text(function(i, text){
-        return text === "LOG IN" ? "LOG OUT" : "LOG IN";
-    })
+            // cookie
+            text === "LOG IN" ? cookieValue = "true" : cookieValue = "false";
+            setCookie("loggedIn", cookieValue, 5);
+            console.log(cookieValue);
+            // toggle text
+            return text === "LOG IN" ? "LOG OUT" : "LOG IN";
+        })
     });
 
 
@@ -55,6 +74,5 @@
         $("#" + targetResult).addClass("active");
 
     });
-
 
 })();
