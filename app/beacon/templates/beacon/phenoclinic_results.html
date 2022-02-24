@@ -65,13 +65,13 @@
             </section>
 
             <section id="counts">
-                <span class="error error-login {% if cookies.loggedIn == 'false' %}active{% endif %}"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></strong> You have to be logged in to see this result.</span>
-                <p class="{% if cookies.loggedIn == 'false' %}blurry{% endif %}">{{count}} result(s)</p>
+                <span class="error error-login {% if cookies.loggedIn == 'false'  or not cookies.loggedIn %}active{% endif %}"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></strong> You have to be logged in to see this result.</span>
+                <p class="{% if cookies.loggedIn == 'false'  or not cookies.loggedIn %}blurry{% endif %}">{{count}} result(s)</p>
             </section>
 
             <section id="full">
-                <span class="error error-login {% if cookies.loggedIn == 'false' %}active{% endif %}"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></strong> You have to be logged in to see this result.</span>
-                <div class="table-wrapper controlled {% if cookies.loggedIn == 'false' %}blurry{% endif %}">
+                <span class="error error-login {% if cookies.loggedIn == 'false'  or not cookies.loggedIn %}active{% endif %}"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></strong> You have to be logged in to see this result.</span>
+                <div class="table-wrapper controlled {% if cookies.loggedIn == 'false'  or not cookies.loggedIn %}blurry{% endif %}">
                     <table id="table_id" class="display">
                         <thead>
                             <tr>
