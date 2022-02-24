@@ -4,6 +4,7 @@ from django.http import Http404
 from django.shortcuts import render
 import re
 import json
+import os
 
 from app.utils import get_db_handle, get_collection_handle
 
@@ -12,7 +13,12 @@ from app.utils import get_db_handle, get_collection_handle
 ### DATABASE CONFIG
 ##################################################
 
-DATABASE_NAME, DATABASE_HOST, DATABASE_PORT, USERNAME, PASSWORD = "beacon", "localhost", "27017", "root", "example"
+# Get environment variables or use default
+DATABASE_NAME = os.getenv('DATABASE_NAME', 'beacon')
+DATABASE_HOST = os.getenv('DATABASE_HOST', 'localhost')
+DATABASE_PORT = os.getenv('DATABASE_PORT', '27017')
+USERNAME = os.getenv('USERNAME', 'root')
+PASSWORD = os.getenv('PASSWORD', 'example')
 
 db_handle, mongo_client = get_db_handle(DATABASE_NAME, DATABASE_HOST, DATABASE_PORT, USERNAME, PASSWORD)
 
