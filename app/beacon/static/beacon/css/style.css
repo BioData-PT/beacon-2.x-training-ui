@@ -340,8 +340,9 @@ body main div.results section#counts p.blurry {
 /* line 304, ../sass/_main.scss */
 body main div.results section#full div.table-wrapper {
   margin: 1em 0;
+  font-size: 12px;
 }
-/* line 307, ../sass/_main.scss */
+/* line 308, ../sass/_main.scss */
 body main div.results section#full div.table-wrapper.blurry {
   -webkit-filter: blur(5px);
   -moz-filter: blur(5px);
@@ -349,11 +350,11 @@ body main div.results section#full div.table-wrapper.blurry {
   -ms-filter: blur(5px);
   filter: blur(5px);
 }
-/* line 315, ../sass/_main.scss */
+/* line 316, ../sass/_main.scss */
 body main div.results section#full div.table-wrapper table {
   font-size: 14px;
 }
-/* line 324, ../sass/_main.scss */
+/* line 325, ../sass/_main.scss */
 body footer {
   width: 100%;
   min-height: 55px;
@@ -365,7 +366,7 @@ body footer {
   align-items: center;
   justify-content: space-between;
 }
-/* line 337, ../sass/_main.scss */
+/* line 338, ../sass/_main.scss */
 body footer p {
   margin-right: 10px;
   line-height: 15px;
@@ -374,39 +375,39 @@ body footer p {
   transition: ease all 0.5s;
 }
 @media screen and (max-width: 580px) {
-  /* line 337, ../sass/_main.scss */
+  /* line 338, ../sass/_main.scss */
   body footer p {
     font-size: 9px;
     line-height: 10px;
   }
 }
-/* line 351, ../sass/_main.scss */
+/* line 352, ../sass/_main.scss */
 body footer section#EGA {
   margin-left: 30px;
   font-size: 12px;
 }
-/* line 354, ../sass/_main.scss */
+/* line 355, ../sass/_main.scss */
 body footer section#EGA a {
   color: #74C5EB;
 }
-/* line 356, ../sass/_main.scss */
+/* line 357, ../sass/_main.scss */
 body footer section#EGA a:hover {
   color: #1070B7;
 }
-/* line 359, ../sass/_main.scss */
+/* line 360, ../sass/_main.scss */
 body footer section#EU {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
   justify-content: right;
 }
-/* line 366, ../sass/_main.scss */
+/* line 367, ../sass/_main.scss */
 body footer section#EU p {
   max-width: 400px;
   text-align: right;
   margin-right: 30px;
 }
-/* line 372, ../sass/_main.scss */
+/* line 373, ../sass/_main.scss */
 body footer section#EU img {
   height: 30px;
   margin-right: 30px;
