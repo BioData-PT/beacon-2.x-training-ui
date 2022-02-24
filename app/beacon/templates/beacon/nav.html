@@ -2,14 +2,14 @@
 <nav>
     <div>
         <img src="{% static 'beacon/img/beacon_logo.png' %}" alt="">
-        <!-- <a href="{% url 'beacon:index' %}" {% if selected == 'home' %} class="selected"{% endif %}>Home</a> -->
         <a href="{% url 'beacon:variant' %}" {% if selected == 'variant' %} class="selected"{% endif %}>Variant</a>
         <a href="{% url 'beacon:region' %}" {% if selected == 'region' %} class="selected"{% endif %}>Region</a>
         <a href="{% url 'beacon:phenoclinic' %}" {% if selected == 'phenoclinic' %} class="selected"{% endif %}>Phenoclinic</a>
         <a href="{% url 'beacon:cohorts' %}" {% if selected == 'cohorts' %} class="selected"{% endif %}>Cohorts</a>    
         {% comment %}
         {% if filtering_terms == 'true' %}
-        <a href="{% url 'beacon:filtering_terms' %}" {% if selected == 'filtering_terms' %} class="selected"{% endif %}>Filtering Terms</a>    
+        <a href="{% url 'beacon:filtering_terms' %}" {% if selected == 'filtering_terms' %} class="selected"{% endif %}>Filtering Terms</a>
+        <a href="{% url 'beacon:index' %}" {% if selected == 'home' %} class="selected"{% endif %}>Home</a>
         {% endif %}
         {% endcomment %}
 

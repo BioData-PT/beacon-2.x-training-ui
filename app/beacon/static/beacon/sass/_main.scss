@@ -250,6 +250,13 @@ body {
             margin: 20px 0 0;
             font-weight: 300;
 
+            p#filtering-terms {
+                padding-bottom: 1em;
+                span {
+                    font-family: monospace;
+                }
+            }
+
             div#tabs {
                 display: flex;
                 flex-flow: row nowrap;
@@ -300,11 +307,18 @@ body {
                 }
             }
             
+            div.table-wrapper {
+                margin: 1em 0;
+                font-size: 12px;
+                overflow-x: auto;
+
+                table {
+                    font-size: 14px;
+                }
+               
+            }
             section#full {
                 div.table-wrapper {
-                    margin: 1em 0;
-                    font-size: 12px;
-    
                     &.blurry {
                         -webkit-filter: blur(5px);
                         -moz-filter: blur(5px);
@@ -312,11 +326,6 @@ body {
                         -ms-filter: blur(5px);
                         filter: blur(5px);
                     }
-    
-                    table {
-                        font-size: 14px;
-                    }
-                   
                 }
             }
         }
