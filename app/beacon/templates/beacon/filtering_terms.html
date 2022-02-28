@@ -11,7 +11,6 @@
         <link rel="stylesheet"
 	      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" />
 
-        <!-- <link rel="stylesheet" href="../static/css/style.css" /> -->
         <link rel="stylesheet" href="{% static 'beacon/css/style.css' %}" />
         <link rel="stylesheet" href="{% static 'beacon/css/datatables.css' %}" />
 
@@ -46,9 +45,9 @@
                     <tbody>
                         {% for key, value in results.items %}
                             <tr>
-                                <td>{{key}}</td>
-                                <td>{{value.0}}</td>
-                                <td>{{value.1}}</td>
+                                <td class="raw">{{key}}</td>
+                                <td class="raw">{{value.0}}</td>
+                                <td class="raw">{{value.1}}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -63,19 +62,6 @@
     </main>
    
     {% include "beacon/footer.html" %}
-
-    <!-- JQuery -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
-    <!-- End Jquery -->
-
-    <!-- Datatables -->
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.js"></script>
-    <!-- End Datatables -->
-
-    <!-- Custom -->
-    <script type="text/javascript" charset="utf8" src="{% static 'beacon/js/main.js' %}"></script>
-    <!-- End Custom -->
 
     </body>
 </html>

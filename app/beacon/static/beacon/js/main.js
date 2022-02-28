@@ -36,7 +36,7 @@
             // cookie
             text === "LOG IN" ? cookieValue = "true" : cookieValue = "false";
             setCookie("loggedIn", cookieValue, 5);
-            console.log(cookieValue);
+            // console.log(cookieValue);
             // toggle text
             return text === "LOG IN" ? "LOG OUT" : "LOG IN";
         })
@@ -74,5 +74,39 @@
         $("#" + targetResult).addClass("active");
 
     });
+
+    // Format JSON
+    // https://www.cssscript.com/minimal-json-data-formatter-jsonviewer/ 
+
+    // Example
+    // Add <div id="json"></div> somewhere to test it
+    // var jsonObj = {};
+    // var jsonViewer = new JSONViewer();
+    // document.querySelector("#json").appendChild(jsonViewer.getContainer());
+
+    // testString = JSON.stringify([{'assayCode': {'id': 'LOINC:35925-4', 'label': 'BMI'}, 'date': '2021-09-24', 'measurementValue': {'units': {'id': 'NCIT:C49671', 'label': 'Kilogram per Square Meter'}, 'value': 28.17336761}}, {'assayCode': {'id': 'LOINC:3141-9', 'label': 'Weight'}, 'date': '2021-09-24', 'measurementValue': {'units': {'id': 'NCIT:C28252', 'label': 'Kilogram'}, 'value': 94.9065}}, {'assayCode': {'id': 'LOINC:8308-9', 'label': 'Height-standing'}, 'date': '2021-09-24', 'measurementValue': {'units': {'id': 'NCIT:C49668', 'label': 'Centimeter'}, 'value': 183.5391}}]);
+    // jsonObj = JSON.parse(testString);
+    // console.log(testString);
+    // console.log(jsonObj)
+    // jsonViewer.showJSON(jsonObj, null, 1);
+    // End Example
+
+  
+    $("td div.json").each(function() {
+        var jsonObj = {};
+        var jsonViewer = new JSONViewer();
+        this.appendChild(jsonViewer.getContainer());
+        
+        data = $( this ).attr("attr-data").replace(/'/g, '"');;
+        
+        try {
+            jsonObj = JSON.parse(data);
+            jsonViewer.showJSON(jsonObj, null, 2);
+        }
+        catch (err) {
+            // console.log(err);
+            $(this).text(data);
+        }
+      });
 
 })();

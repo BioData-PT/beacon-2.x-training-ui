@@ -314,6 +314,17 @@ body {
 
                 table {
                     font-size: 14px;
+
+                    tbody {
+                        tr {
+                            td {
+                                &.raw {
+                                    font-family: monospace;
+                                    font-size: 12px;
+                                }
+                            }
+                        }
+                    }
                 }
                
             }

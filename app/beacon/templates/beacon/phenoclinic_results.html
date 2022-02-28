@@ -14,9 +14,9 @@
 
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.css">
   
-        <!-- <link rel="stylesheet" href="../static/css/style.css" /> -->
         <link rel="stylesheet" href="{% static 'beacon/css/style.css' %}" />
         <link rel="stylesheet" href="{% static 'beacon/css/datatables.css' %}" />
+        <link rel="stylesheet" href="{% static 'beacon/css/json-viewer.css' %}" />
     </head>
 <body>
 
@@ -84,7 +84,10 @@
                             {%for result in results%}
                                 <tr>
                                 {% for key in keys %}
-                                    <td>{{result|lookup:key}}</td>
+                                    <td class="raw">
+                                        <div class="json" attr-data="{{result|lookup:key}}">
+                                        </div>
+                                    </td>
                                 {% endfor %}
                                 </tr>
                             {% endfor %}
@@ -101,19 +104,6 @@
     </main>
    
     {% include "beacon/footer.html" %}
-
-    <!-- JQuery -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
-    <!-- End Jquery -->
-
-    <!-- Datatables -->
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.js"></script>
-    <!-- End Datatables -->
-
-    <!-- Custom -->
-    <script type="text/javascript" charset="utf8" src="{% static 'beacon/js/main.js' %}"></script>
-    <!-- End Custom -->
 
     </body>
 </html>
