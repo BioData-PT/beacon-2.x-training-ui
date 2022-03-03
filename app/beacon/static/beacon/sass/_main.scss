@@ -340,6 +340,139 @@ body {
                 }
             }
         }
+
+        p.main-error {
+            margin: auto;
+            padding: 1em;
+            font-size: 20px;
+        }
+        pre {
+            margin: auto;
+            padding: 1em;
+            font-family: monospace;
+        }
+
+        div.cohort-card {
+            width: 100%;
+            min-width: 650px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+
+            box-sizing: border-box;
+            margin: 2em auto 1em;
+
+            padding: 2em;
+            h1 {
+                font-size: 110%;
+                font-weight: bold;
+                font-family: 'Roboto', sans-serif;
+                span.light { font-weight: 300;}
+                margin-bottom: 2em;
+                &.cohort-name {
+                    color: white;
+                    margin-bottom: 0;
+                    background-color:$blue;
+                    padding: 4px 8px;
+                    border-radius: 30px;
+                    font-weight: 400;
+                    display:inline-block; 
+                }
+                &.error {
+                    color: white;
+                    margin-bottom: 0;
+                    background-color:$softred;
+                    padding: 4px 8px;
+                    border-radius: 30px;
+                    font-weight: 400;
+                    display:inline-block; 
+                }
+            }
+            h2 {
+                font-size: 90%;
+                font-weight: 300;
+                margin: 1em 0 8px;
+            }
+            h2.error {
+                color: white;
+                margin-bottom: 0;
+                background-color:$softred;
+                padding: 4px 8px;
+                border-radius: 30px;
+                font-weight: 400;
+                display: inline-block; 
+                margin-top: 0;
+            }
+            ul {
+                margin: 0 1em;
+                li {
+                    margin: 6px;
+                    font-size: 90%;
+                    span.strong { font-weight: bold;}
+                    span.strong2 { font-weight: 600;}
+                    span.content { color: $darkgrey;}
+                    span.duo {
+                        font-weight: 600;
+                        background-color: $duo;
+                        border-radius: 10px;
+                        padding: 0 4px;
+                        color: white;
+                        font-size: 90%;
+                    }
+                }
+            }
+            hr {
+                margin: 2em auto;
+            border: none;
+            border-top: 1px solid $darkgrey;
+            width: 60%;
+            }
+            form {
+                margin: 0;
+                width: auto;
+                height: auto;
+                background-color: none;
+                border-radius: 0;
+                display: inline;
+                box-shadow: none;
+                button {
+                    cursor: pointer;
+                    color: $blue;
+                    &:hover {color: $darkblue;}
+                }
+            }
+            svg.bar-plot {
+                padding-left: 1.5em;
+                .bar {
+                    fill: $grey;
+                    height: 21px;
+                    transition: fill .3s ease;
+                    
+                    text {
+                      fill: $darkgrey;
+                      font-size: 11px;
+                    }
+                  }
+                  
+                  .chart:hover,
+                  .chart:focus {
+                    .bar {
+                      fill: $grey;
+                    }
+                  }
+                  
+                  .bar:hover,
+                  .bar:focus {
+                    fill: $blue !important;
+                    
+                    text {
+                      fill: $darkblue;
+                      font-size: 11px;
+                    }
+                  }
+            }
+
+        }
     }
 
     footer {

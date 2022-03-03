@@ -32,6 +32,7 @@
 
             
             {% if results %}
+            {% comment %}
             <!-- <p>{{count}} result(s).</p> -->
             <div class="table-wrapper">
                 <table id="table_id" class="display">
@@ -56,7 +57,467 @@
                     </tbody>
                 </table> 
             </div>
-           
+            {% endcomment %}
+            {%for cohort in results%}
+            <div class="cohort-card">
+
+                    <h1 class="cohort-name">{{cohort.cohortName}}</h1>
+    
+                    <h2>Basic attributes</h2>
+                    <ul>
+                        {% if cohort.cohortType %}
+                        <li>
+                            <span class="strong">type</span>
+                            <span class="content">{{cohort.cohortType}}</span>
+                        </li>
+                        {% endif %}
+                        {% if cohort.cohortDesign %}
+                        <li>
+                            <span class="strong">design</span>
+                            <ul>
+                                <li>
+                                    <span class="duo">{{cohort.cohortDesign.id}}</span>
+                                    <span class="content">{{cohort.cohortDesign.label}}</span>
+                                </li>
+                            </ul>
+                            
+                        </li>
+                        {% endif %}
+                        {% if cohort.cohortInclusionCriteria %}
+                        <li>
+                            <span class="strong">inclusion criteria</span>
+                            <ul>
+                                {% if  cohort.cohortInclusionCriteria.ageRange %}
+                                <li>
+                                    <span class="strong">ageRange</span>
+                                    <span class="content">{{cohort.cohortInclusionCriteria.ageRange.start.iso8601duration}}-{{cohort.cohortInclusionCriteria.ageRange.end.iso8601duration}}</span>        
+                                </li>
+                                {% endif %}
+                                {% if  cohort.cohortInclusionCriteria.genders %}
+                                <li>
+                                    <span class="strong">genders</span>
+                                    <ul>
+                                        {% for gender in cohort.cohortInclusionCriteria.genders%}
+                                        <li>
+                                            <span class="duo">{{gender.id}}</span>
+                                            <span class="content">{{gender.label}}</span>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                                {% endif %}
+                                {% if  cohort.cohortInclusionCriteria.locations %}
+                                <li>
+                                    <span class="strong">locations</span>
+                                    <ul>
+                                        {% for location in cohort.cohortInclusionCriteria.locations%}
+                                        <li>
+                                            <span class="duo">{{location.id}}</span>
+                                            <span class="content">{{location.label}}</span>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                                {% endif %}
+                                {% if  cohort.cohortInclusionCriteria.diseaseConditions %}
+                                <li>
+                                    <span class="strong">diseaseConditions</span>
+                                    <ul>
+                                        {% for disease in cohort.cohortInclusionCriteria.diseaseConditions%}
+                                        <li>
+                                            {% for key, value in disease.items %}
+                                            <span class="strong">{{key}}</span>
+                                            <span class="content">{{value}}</span>
+                                            {% endfor %}
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                                {% endif %}
+                                {% if  cohort.cohortInclusionCriteria.ethnicities %}
+                                <li>
+                                    <span class="strong">ethnicities</span>
+                                    <ul>
+                                        {% for ethnicity in cohort.cohortInclusionCriteria.ethnicities%}
+                                        <li>
+                                            <span class="duo">{{ethnicity.id}}</span>
+                                            <span class="content">{{ethnicity.label}}</span>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                                {% endif %}
+                                {% if  cohort.cohortInclusionCriteria.phenotypicConditions %}
+                                <li>
+                                    <span class="strong">phenotypicConditions</span>
+                                    <ul>
+                                        {% for condition in cohort.cohortInclusionCriteria.phenotypicConditions%}
+                                        <li>
+                                            {% for key, value in condition.items %}
+                                            <span class="strong">{{key}}</span>
+                                            <span class="content">{{value}}</span>
+                                            {% endfor %}
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                        {% endif %}
+                        {% if cohort.cohortExclusionCriteria %}
+                        <li>
+                            <span class="strong">exclusion criteria</span>
+                            <ul>
+                                {% if  cohort.cohortExclusionCriteria.ageRange %}
+                                <li>
+                                    <span class="strong">ageRange</span>
+                                    <span class="content">{{cohort.cohortExclusionCriteria.ageRange.start.iso8601duration}}-{{cohort.cohortInclusionCriteria.ageRange.end.iso8601duration}}</span>        
+                                </li>
+                                {% endif %}
+                                {% if  cohort.cohortExclusionCriteria.genders %}
+                                <li>
+                                    <span class="strong">genders</span>
+                                    <ul>
+                                        {% for gender in cohort.cohortExclusionCriteria.genders%}
+                                        <li>
+                                            <span class="strong">{{gender.id}}</span>
+                                            <span class="content">{{gender.label}}</span>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                                {% endif %}
+                                {% if  cohort.cohortExclusionCriteria.locations %}
+                                <li>
+                                    <span class="strong">locations</span>
+                                    <ul>
+                                        {% for location in cohort.cohortExclusionCriteria.locations%}
+                                        <li>
+                                            <span class="strong">{{location.id}}</span>
+                                            <span class="content">{{location.label}}</span>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                                {% endif %}
+                                {% if  cohort.cohortExclusionCriteria.diseaseConditions %}
+                                <li>
+                                    <span class="strong">diseaseConditions</span>
+                                    <ul>
+                                        {% for disease in cohort.cohortExclusionCriteria.diseaseConditions%}
+                                        <li>
+                                            {% for key, value in disease.items %}
+                                            <span class="strong">{{key}}</span>
+                                            <span class="content">{{value}}</span>
+                                            {% endfor %}
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                                {% endif %}
+                                {% if  cohort.cohortExclusionCriteria.ethnicities %}
+                                <li>
+                                    <span class="strong">ethnicities</span>
+                                    <ul>
+                                        {% for ethnicity in cohort.cohortExclusionCriteria.ethnicities%}
+                                        <li>
+                                            <span class="strong">{{ethnicity.id}}</span>
+                                            <span class="content">{{ethnicity.label}}</span>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                                {% endif %}
+                                {% if  cohort.cohortExclusionCriteria.phenotypicConditions %}
+                                <li>
+                                    <span class="strong">phenotypicConditions</span>
+                                    <ul>
+                                        {% for condition in cohort.cohortExclusionCriteria.phenotypicConditions%}
+                                        <li>
+                                            {% for key, value in condition.items %}
+                                            <span class="strong">{{key}}</span>
+                                            <span class="content">{{value}}</span>
+                                            {% endfor %}
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                        {% endif %}
+                        {% if cohort.cohortSize %}
+                        <li>
+                            <span class="strong">size</span>
+                            <span class="content">{{cohort.cohortSize}}</span>
+                        </li>
+                        {% endif %}
+                        {% if cohort.cohortDataTypes %}
+                        <li>
+                            <span class="strong">data types</span>
+                            <ul>
+                                {% for dataType in cohort.cohortDataTypes %}
+                                <li>
+                                    <span class="strong">{{dataType.id}}</span>
+                                    <span class="content">{{dataType.label}}</span>    
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        {% endif %}
+                    </ul>
+                    {%comment%}
+                    {% if cohort.collectionEvents %}
+                    <h2>Collection Events</h2>
+                    {% with collectionEvent=cohort.collectionEvents[-1] %}
+                    <ul>
+                        {% if collectionEvent.eventTimeline %}
+                            <li>
+                                <span class="strong">timeline</span>
+                                <span class="content">{{collectionEvent.eventTimeline.start}}-{{collectionEvent.eventTimeline.end}}</span>
+                            </li>
+                        {% endif %}
+                        {% if collectionEvent.eventCases and collectionEvent.eventControls %}
+                            <li>
+                                <span class="strong">cases and controls</span>
+                                <span class="content">{{collectionEvent.eventCases}} and {{collectionEvent.eventControls}}</span>
+                            </li>
+                        {% endif %}
+                        {% if collectionEvent.eventLocations %}
+                            {% if collectionEvent.eventLocations.availability %}
+                            
+                            <li>
+                                <span class="strong">locations</span>
+                                {#
+                                <span class="content">
+                                    <ul>
+                                        {% for item in collectionEvent.eventLocations.distribution %}
+                                        <li>
+                                            <span class="strong2">{{item.type.label}}</span>
+                                            <span class="content">{{item.count}}</span>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </span>
+                                #}
+                            </li>
+                            
+                            <!-- plot -->
+                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventLocations.distribution|length*21+10}}" aria-labelledby="title" role="img">
+                                
+                                {% for item in collectionEvent.eventLocations.distribution %}
+                                <g class="bar" transform="translate(0,{{ (loop.index-1)*20 }})">
+                                    <rect width="{{ (item.count / collectionEvent.eventLocations.availabilityCount)*350 }}" height="19"></rect>
+                                    <text x="{{ (item.count / collectionEvent.eventLocations.availabilityCount)*350 +5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ ((item.count/collectionEvent.eventLocations.availabilityCount)*100)|round(2,'floor') }}%)</text>
+                                </g>
+                                {% endfor %}
+                                </svg>
+                                <!-- end plot -->
+                            {% endif %}
+                        {% endif %}
+                        {% if collectionEvent.eventGenders %}
+                            {% if collectionEvent.eventGenders.availability %}
+                            
+                            <li>
+                                <span class="strong">genders</span>
+                                {#
+                                <span class="content">
+                                    <ul>
+                                        {% for item in collectionEvent.eventGenders.distribution %}
+                                        <li>
+                                            <span class="strong2">{{item.type.label}}</span>
+                                            <span class="content">{{item.count}}</span>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </span>
+                                #}
+                            </li>
+                            
+                            <!-- plot -->
+                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventGenders.distribution|length*21+10}}" aria-labelledby="title" role="img">
+                                
+                                {% for item in collectionEvent.eventGenders.distribution %}
+                                <g class="bar" transform="translate(0,{{ (loop.index-1)*20 }})">
+                                  <rect width="{{ (item.count / collectionEvent.eventGenders.availabilityCount)*350 }}" height="19"></rect>
+                                  <text x="{{ (item.count / collectionEvent.eventGenders.availabilityCount)*350 +5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ ((item.count/collectionEvent.eventGenders.availabilityCount)*100)|round(2,'floor') }}%)</text>
+                                </g>
+                                {% endfor %}
+                              </svg>
+                              <!-- end plot -->
+                            {% endif %}
+                        {% endif %}
+                        {% if collectionEvent.eventEthnicities %}
+                            {% if collectionEvent.eventEthnicities.availability %}
+                            
+                            <li>
+                                <span class="strong">ethnicities</span>
+                                {#
+                                <span class="content">
+                                    <ul>
+                                        {% for item in collectionEvent.eventEthnicities.distribution %}
+                                        <li>
+                                            <span class="strong2">{{item.type.label}}</span>
+                                            <span class="content">{{item.count}}</span>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </span>
+                                #}
+                            </li>
+                           
+                            <!-- plot -->
+                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventEthnicities.distribution|length*21+10}}" aria-labelledby="title" role="img">
+                                
+                                {% for item in collectionEvent.eventEthnicities.distribution %}
+                                <g class="bar" transform="translate(0,{{ (loop.index-1)*20 }})">
+                                    <rect width="{{ (item.count / collectionEvent.eventEthnicities.availabilityCount)*350 }}" height="19"></rect>
+                                    <text x="{{ (item.count / collectionEvent.eventEthnicities.availabilityCount)*350 +5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ ((item.count/collectionEvent.eventEthnicities.availabilityCount)*100)|round(2,'floor') }}%)</text>
+                                </g>
+                                {% endfor %}
+                                </svg>
+                                <!-- end plot -->
+                            {% endif %}
+                        {% endif %}
+                        {% if collectionEvent.eventAgeRange %}
+                            {% if collectionEvent.eventAgeRange.availability %}
+                            
+                            <li>
+                                <span class="strong">age range</span>
+                                {#
+                                <span class="content">
+                                    <ul>
+                                        {% for item in collectionEvent.eventAgeRange.distribution %}
+                                        <li>
+                                            <span class="strong2">{{item.type.label}}</span>
+                                            <span class="content">{{item.count}}</span>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </span>
+                                #}
+                            </li>
+                            
+                            <!-- plot -->
+                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventAgeRange.distribution|length*21+10}}" aria-labelledby="title" role="img">
+                                
+                                {% for item in collectionEvent.eventAgeRange.distribution %}
+                                <g class="bar" transform="translate(0,{{ (loop.index-1)*20 }})">
+                                    <rect width="{{ (item.count / collectionEvent.eventAgeRange.availabilityCount)*350 }}" height="19"></rect>
+                                    <text x="{{ (item.count / collectionEvent.eventAgeRange.availabilityCount)*350 +5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ ((item.count/collectionEvent.eventAgeRange.availabilityCount)*100)|round(2,'floor') }}%)</text>
+                                </g>
+                                {% endfor %}
+                            </svg>
+                            <!-- end plot -->
+                            {% endif %}
+                        {% endif %}
+                        {% if collectionEvent.eventDiseases %}
+                            {% if collectionEvent.eventDiseases.availability %}
+                            
+                            <li>
+                                <span class="strong">diseases</span>
+                                {#
+                                <span class="content">
+                                    <ul>
+                                        {% for item in collectionEvent.eventDiseases.distribution %}
+                                        <li>
+                                            <span class="strong2">{{item.type.label}}</span>
+                                            <span class="content">{{item.count}}</span>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </span>
+                                #}
+                            </li>
+                            
+                            <!-- plot -->
+                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventDiseases.distribution|length*21+10}}" aria-labelledby="title" role="img">
+                                
+                                {% for item in collectionEvent.eventDiseases.distribution %}
+                                <g class="bar" transform="translate(0,{{ (loop.index-1)*20 }})">
+                                    <rect width="{{ (item.count / collectionEvent.eventDiseases.availabilityCount)*350 }}" height="19"></rect>
+                                    <text x="{{ (item.count / collectionEvent.eventDiseases.availabilityCount)*350 +5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ ((item.count/collectionEvent.eventDiseases.availabilityCount)*100)|round(2,'floor') }}%)</text>
+                                </g>
+                                {% endfor %}
+                            </svg>
+                            <!-- end plot -->
+                            {% endif %}
+                        {% endif %}
+                        {% if collectionEvent.eventPhenotypes %}
+                            {% if collectionEvent.eventPhenotypes.availability %}
+                            <li>
+                                <span class="strong">phenotypes</span>
+                                {#
+                                <span class="content">
+                                    <ul>
+                                        {% for item in collectionEvent.eventPhenotypes.distribution %}
+                                        <li>
+                                            <span class="strong2">{{item.type.label}}</span>
+                                            <span class="content">{{item.count}}</span>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </span>
+                                #}
+                            </li>
+                            
+                            <!-- plot -->
+                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventPhenotypes.distribution|length*21+10}}" aria-labelledby="title" role="img">
+                                
+                                {% for item in collectionEvent.eventPhenotypes.distribution %}
+                                <g class="bar" transform="translate(0,{{ (loop.index-1)*20 }})">
+                                    <rect width="{{ (item.count / collectionEvent.eventPhenotypes.availabilityCount)*350 }}" height="19"></rect>
+                                    <text x="{{ (item.count / collectionEvent.eventPhenotypes.availabilityCount)*350 +5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ ((item.count/collectionEvent.eventPhenotypes.availabilityCount)*100)|round(2,'floor') }}%)</text>
+                                </g>
+                                {% endfor %}
+                            </svg>
+                            <!-- end plot -->
+                            {% endif %}
+                        {% endif %}
+                        {% if collectionEvent.eventDataTypes %}
+                            {% if collectionEvent.eventDataTypes.availability %}
+                            
+                            <li>
+                                <span class="strong">data types</span>
+                                {#
+                                <span class="content">
+                                    <ul>
+                                        {% for item in collectionEvent.eventDataTypes.distribution %}
+                                        <li>
+                                            <span class="strong2">{{item.type.label}}</span>
+                                            <span class="content">{{item.count}}</span>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </span>
+                                #}
+                            </li>
+                            
+                            <!-- plot -->
+                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventDataTypes.distribution|length*21+10}}" aria-labelledby="title" role="img">
+                                
+                                {% for item in collectionEvent.eventDataTypes.distribution %}
+                                <g class="bar" transform="translate(0,{{ (loop.index-1)*20 }})">
+                                    <rect width="{{ (item.count / collectionEvent.eventDataTypes.availabilityCount)*350 }}" height="19"></rect>
+                                    <text x="{{ (item.count / collectionEvent.eventDataTypes.availabilityCount)*350 +5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ ((item.count/collectionEvent.eventDataTypes.availabilityCount)*100)|round(2,'floor') }}%)</text>
+                                </g>
+                                {% endfor %}
+                            </svg>
+                            <!-- end plot -->
+                            {% endif %}
+                        {% endif %}
+                    </ul>
+                    {% endwith %}
+                    {% endif %}
+                    {% endcomment %}
+    
+            </div>
+
+            {% endfor %}
+            <!-- end result per service -->
+    
+
             {% else %}
                 <p>No results found.</p>
             {% endif %} 
