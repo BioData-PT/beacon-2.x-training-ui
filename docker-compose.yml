@@ -18,10 +18,18 @@ services:
       - ./db/CINECA_synthetic_cohort_EUROPE_UK1/bff:/data  
       - ./db/bff2mongodb_container.sh:/bff2mongodb.sh  
     command: bash bff2mongodb.sh
+    depends_on:
+      - db-beacon
 
   web:
     build: .
-    command: python app/manage.py runserver 0.0.0.0:8080
+    command:
+      - /bin/sh
+      - -c
+      - |
+          echo "sleep for 60sec"
+          sleep 60 
+          python app/manage.py runserver 0.0.0.0:8080
     volumes:
       - .:/app
     ports:

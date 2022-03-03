@@ -12,18 +12,32 @@ To be able to light this beacon, we provide instructions to create a MongoDB ins
 
 
 ## Deploying the beacon
-For deploying we need Docker and Docker Compose , so make sure you have them installed. 
+For deploying we need Docker and Docker Compose, so make sure you have them installed. 
+
+The beacon is based on three containers:  
+- The DB
+- The DB data loader
+- The Django app
+
+For the beacon to properly work, the DB container has to be up and running. Then the loading container has to be up and load the data (which should last less than 1 minute), when the loading is completed, this container will exit. Finally, the web container has to be up and running.  
+
 In the root of the repository do:
 ```
 docker-compose up -d
 ```
-This will trigger the build of the DB, the load of the data and the build of the Beacon app, each of them on their own Docker container. The container that loads the data will exit once the loading is completed, so when you do `docker-compose ps` and see this container's status as `Exit 0`, everything should be ready:
+This will trigger the build of the DB, the load of the data and the build of the Beacon web app, the latter with a sleeping time of 60s to give time to the loading step.  
+As said above, the container that loads the data will exit once the loading is completed, so when you do `docker-compose ps` and see this container's status as `Exit`, it is expected:
 ```
                  Name                               Command               State             Ports          
 -----------------------------------------------------------------------------------------------------------
 b2ri_mongodb_training_db-beacon-load_1   docker-entrypoint.sh bash  ...   Exit 0                           
 b2ri_mongodb_training_db-beacon_1        docker-entrypoint.sh mongod      Up       0.0.0.0:27018->27017/tcp
 b2ri_mongodb_training_web_1              python app/manage.py runse ...   Up       0.0.0.0:8080->8080/tcp  
+```
+
+If the web container has also an `Exit` as status, it could be that the waiting time of 60s has not been enough and the web started before the DB was loaded. If this is the case, make sure the DB container is up and the loading container has exitted, then run (and wait 60s):
+```
+docker-compose restart web
 ```
 
 Then, just go to `localhost:8080/` on your browser. 
@@ -42,3 +56,15 @@ Every query displays the __results__ in three different ways:
 
 
 It also has a dummy log in system that depics the controlled/private visualization of the results.  
+
+### Example queries
+- Variant
+  - `22 : 16050677 C > T`
+- Region
+  - `16050855 : 16050880`
+- Phenoclinic
+  - `Individuals` and `ethnicity=NCIT:C16352 geographicOrigin=England Weight>50 Height-standing>150`
+  - `Individuals` and `Weight=98.7828 Height-standing=187.4031`
+  - `Individuals` and `ethnicity=NCIT:C16352 female`
+  - `Biosamples` and `blood`
+  - `Biosamples` and `individualId=HG00096`
