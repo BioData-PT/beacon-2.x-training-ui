@@ -366,3 +366,19 @@ def filtering_terms(request):
     }
 
     return render(request, 'beacon/filtering_terms.html', context)
+    
+
+##################################################
+### ERRORS
+##################################################
+
+
+def handle_page_not_found(request, exception):
+
+    context = {
+        'cookies': request.COOKIES,
+        'error_message': "Page not found.",
+        'results': '',
+    }
+
+    return render(request, 'beacon/error.html', context)

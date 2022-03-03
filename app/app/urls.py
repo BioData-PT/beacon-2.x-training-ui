@@ -20,3 +20,5 @@ urlpatterns = [
     path('', include('beacon.urls')),
     path('admin/', admin.site.urls),
 ]
+
+handler404 = 'beacon.views.handle_page_not_found'
