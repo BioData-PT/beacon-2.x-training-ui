@@ -12,8 +12,10 @@
         <link rel="stylesheet"
 	      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" />
         
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.css">        
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.css"> 
+
         <link rel="stylesheet" href="{% static 'beacon/css/style.css' %}" />
+        <link rel="stylesheet" href="{% static 'beacon/css/datatables.css' %}" />
         <link rel="stylesheet" href="{% static 'beacon/css/json-viewer.css' %}" />
 
     </head>
@@ -56,8 +58,14 @@
 
             <section id="full">
                 <span class="error error-login {% if cookies.loggedIn == 'false'  or not cookies.loggedIn %}active{% endif %}"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></strong> You have to be logged in to see this result.</span>
-                <div class="table-wrapper controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
-                    <table id="table_id" class="display">
+                
+                <div id="table-type" class="controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
+                    <div><input type="radio" id="raw" name="table-type" value="raw" checked="checked"><label for="raw">Raw</label></div>
+                    <div><input type="radio" id="tidy" name="table-type" value="tidy"><label for="tidy">Tidy</label></div>
+                </div>
+
+                <div class="table-wrapper raw active controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
+                    <table class="results-table display">
                         <thead>
                             <tr>
                                 {% for key in keys %}
@@ -78,6 +86,54 @@
                             {% endfor %}
                         </tbody>
                     </table> 
+                </div>
+
+                <div class="table-wrapper tidy controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
+                    <table class="results-table display">
+                        <thead>
+                            <tr>
+                                <th>variantInternalId</th>
+                                <th>identifiers</th>
+                                <th>variantType</th>
+                                <th>position</th>
+                                <th>referenceBases</th>
+                                <th>alternateBases</th>
+                                <th>molecularAttributes</th>
+                                <th>caseLevelData</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for result in results %}
+                            <tr>
+                                <td>{{result.variantInternalId|default_if_none:'-' }}</td>
+                                <td>
+                                    {% for key, value in result.identifiers.items %}
+                                    <p><span class="strong">{{key}}:</span> {{value}}</p>
+                                    {% endfor %}
+                                </td>
+                                <td>{{result.variantType|default_if_none:'-' }}</td>
+                                <td>
+                                    <p>{{result.position.assemblyId|default_if_none:'-' }} {{result.position.refseqId|default_if_none:'-' }} : {{result.position.start|default_if_none:'-'|join:', '}} - {{result.position.end|default_if_none:'-'|join:', '}}</p>
+                                    
+                                </td>
+                                <td>{{result.referenceBases|default_if_none:'-' }}</td>
+                                <td>{{result.alternateBases|default_if_none:'-' }}</td>
+                                <td> <p></p>
+                                    <p><span class="strong">molecularAttributes:</span> {{result.molecularAttributes.aminoacidChanges|join:', ' }}</p>
+                                    <p><span class="strong">geneIds:</span> {{result.molecularAttributes.aminoacidChanges|join:', ' }}</p>
+                                    <p><span class="strong">molecularEffects:</span> {% for i in result.molecularAttributes.molecularEffects%} {{i.label}} {% endfor %}</p>
+                                    <p><span class="strong">annotationImpact:</span> {{result.molecularAttributes.aminoacidChanges|join:', ' }}</p>
+                                </td>
+                                <td>{% for item in result.caseLevelData %}
+                                    {{item.biosampleId}}
+                                    {{item.zygosity.label}}
+                                    <br>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </section>
 

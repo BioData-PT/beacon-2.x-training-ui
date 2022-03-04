@@ -15,21 +15,34 @@
 
     // Datatables
     $(document).ready( function () {
-        $('#table_id').DataTable({
+        $('.results-table').DataTable({
             "searching": false
         });
     } );
 
+    // Table type selection
+    var radioButtons = $("div#table-type div input");
+    var tables = $("div.table-wrapper");
+
+    radioButtons.on("click", function(){
+        // radioButtons.prop('checked', false);
+        me = $(this);
+        // me.prop('checked', true);
+        var tableType = me.val();
+        tables.removeClass("active");
+        $("div.table-wrapper." + tableType).addClass("active");
+    });
+
 
     // Login/logout mock up
     var loginButton = $("#login");
-    var tableWrapper = $(".table-wrapper.controlled");
+    var controlledItem = $(".controlled");
     var countsResult = $("section#counts p");
     var errorLogin = $("span.error-login");
     var cookieValue = "";
 
     loginButton.on("click", function(){
-        tableWrapper.toggleClass("blurry");
+        controlledItem.toggleClass("blurry");
         countsResult.toggleClass("blurry");
         errorLogin.toggleClass("active");
         $(this).text(function(i, text){
@@ -91,7 +104,6 @@
     // jsonViewer.showJSON(jsonObj, null, 1);
     // End Example
 
-  
     $("td div.json").each(function() {
         var jsonObj = {};
         var jsonViewer = new JSONViewer();
