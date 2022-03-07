@@ -330,10 +330,20 @@ body {
             }
             section#full {
                 div#table-type {
-                    margin-bottom: 1em;
                     display: flex;
                     font-size: 13px;
-                    input {
+                    align-items: center;
+                    padding: 0.5em 0 1em;
+                    // padding: 5px 10px;
+                    // border: 1px solid $blue;
+                    // border-radius: 5px;
+                    // background-color: white;
+                    // width: 165px;
+                    p {
+                        padding-left: 0;
+                        font-weight: 400;
+                    }
+                    input,label {
                         cursor: pointer;
                     }
                     div:first-child {

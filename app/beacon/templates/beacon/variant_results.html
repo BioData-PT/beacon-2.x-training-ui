@@ -60,6 +60,7 @@
                 <span class="error error-login {% if cookies.loggedIn == 'false'  or not cookies.loggedIn %}active{% endif %}"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></strong> You have to be logged in to see this result.</span>
                 
                 <div id="table-type" class="controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
+                    <p>Result type:</p>
                     <div><input type="radio" id="raw" name="table-type" value="raw" checked="checked" autocomplete="off" ><label for="raw">Raw</label></div>
                     <div><input type="radio" id="tidy" name="table-type" value="tidy" autocomplete="off" ><label for="tidy">Tidy</label></div>
                 </div>
