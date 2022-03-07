@@ -1,5 +1,6 @@
 {% load static %}
 {% load beacon_extras %}
+{% load mathfilters %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -268,10 +269,9 @@
                         {% endif %}
                     </ul>
                     <!-- collectionEvents -->
-                    {%comment%}
                     {% if cohort.collectionEvents %}
                     <h2>Collection Events</h2>
-                    {% with collectionEvent=cohort.collectionEvents[-1] %}
+                    {% with collectionEvent=cohort.collectionEvents|first %}
                     <ul>
                         {% if collectionEvent.eventTimeline %}
                             <li>
@@ -290,7 +290,7 @@
                             
                             <li>
                                 <span class="strong">locations</span>
-                                {#
+                                {% comment %}
                                 <span class="content">
                                     <ul>
                                         {% for item in collectionEvent.eventLocations.distribution %}
@@ -301,16 +301,18 @@
                                         {% endfor %}
                                     </ul>
                                 </span>
-                                #}
+                                {% endcomment %}
                             </li>
                             
                             <!-- plot -->
-                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventLocations.distribution|length*21+10}}" aria-labelledby="title" role="img">
+                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventLocations.distribution|length|mul:21|add:10}}" aria-labelledby="title" role="img">
                                 
                                 {% for item in collectionEvent.eventLocations.distribution %}
-                                <g class="bar" transform="translate(0,{{ (loop.index-1)*20 }})">
-                                    <rect width="{{ (item.count / collectionEvent.eventLocations.availabilityCount)*350 }}" height="19"></rect>
-                                    <text x="{{ (item.count / collectionEvent.eventLocations.availabilityCount)*350 +5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ ((item.count/collectionEvent.eventLocations.availabilityCount)*100)|round(2,'floor') }}%)</text>
+                                <g class="bar" transform="translate(0,{{ forloop.counter|sub:1|mul:20 }})">
+                                    {% with availabilityCount=collectionEvent.eventLocations.availabilityCount%}
+                                    <rect width="{{ item.count|div:availabilityCount|mul:350 }}" height="19"></rect>
+                                    <text x="{{ item.count|div:availabilityCount|mul:350|add:5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ item.count|div:availabilityCount|mul:100|floatformat:2 }}%)</text>
+                                    {% endwith %}
                                 </g>
                                 {% endfor %}
                                 </svg>
@@ -322,7 +324,7 @@
                             
                             <li>
                                 <span class="strong">genders</span>
-                                {#
+                                {% comment %}
                                 <span class="content">
                                     <ul>
                                         {% for item in collectionEvent.eventGenders.distribution %}
@@ -333,17 +335,18 @@
                                         {% endfor %}
                                     </ul>
                                 </span>
-                                #}
+                                {% endcomment %}
                             </li>
                             
                             <!-- plot -->
-                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventGenders.distribution|length*21+10}}" aria-labelledby="title" role="img">
+                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventGenders.distribution|length|mul:21|add:10}}" aria-labelledby="title" role="img">
                                 
                                 {% for item in collectionEvent.eventGenders.distribution %}
-                                <g class="bar" transform="translate(0,{{ (loop.index-1)*20 }})">
-                                  <rect width="{{ (item.count / collectionEvent.eventGenders.availabilityCount)*350 }}" height="19"></rect>
-                                  <text x="{{ (item.count / collectionEvent.eventGenders.availabilityCount)*350 +5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ ((item.count/collectionEvent.eventGenders.availabilityCount)*100)|round(2,'floor') }}%)</text>
-                                </g>
+                                <g class="bar" transform="translate(0,{{ forloop.counter|sub:1|mul:20 }})">
+                                    {% with availabilityCount=collectionEvent.eventGenders.availabilityCount%}
+                                    <rect width="{{ item.count|div:availabilityCount|mul:350 }}" height="19"></rect>
+                                    <text x="{{ item.count|div:availabilityCount|mul:350|add:5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ item.count|div:availabilityCount|mul:100|floatformat:2 }}%)</text>
+                                    {% endwith %}                                </g>
                                 {% endfor %}
                               </svg>
                               <!-- end plot -->
@@ -354,7 +357,7 @@
                             
                             <li>
                                 <span class="strong">ethnicities</span>
-                                {#
+                                {% comment %}
                                 <span class="content">
                                     <ul>
                                         {% for item in collectionEvent.eventEthnicities.distribution %}
@@ -365,17 +368,18 @@
                                         {% endfor %}
                                     </ul>
                                 </span>
-                                #}
+                                {% endcomment %}
                             </li>
                            
                             <!-- plot -->
-                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventEthnicities.distribution|length*21+10}}" aria-labelledby="title" role="img">
+                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventEthnicities.distribution|length|mul:21|add:10}}" aria-labelledby="title" role="img">
                                 
                                 {% for item in collectionEvent.eventEthnicities.distribution %}
-                                <g class="bar" transform="translate(0,{{ (loop.index-1)*20 }})">
-                                    <rect width="{{ (item.count / collectionEvent.eventEthnicities.availabilityCount)*350 }}" height="19"></rect>
-                                    <text x="{{ (item.count / collectionEvent.eventEthnicities.availabilityCount)*350 +5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ ((item.count/collectionEvent.eventEthnicities.availabilityCount)*100)|round(2,'floor') }}%)</text>
-                                </g>
+                                <g class="bar" transform="translate(0,{{ forloop.counter|sub:1|mul:20 }})">
+                                    {% with availabilityCount=collectionEvent.eventEthnicities.availabilityCount%}
+                                    <rect width="{{ item.count|div:availabilityCount|mul:350 }}" height="19"></rect>
+                                    <text x="{{ item.count|div:availabilityCount|mul:350|add:5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ item.count|div:availabilityCount|mul:100|floatformat:2 }}%)</text>
+                                    {% endwith %}                                </g>
                                 {% endfor %}
                                 </svg>
                                 <!-- end plot -->
@@ -386,7 +390,7 @@
                             
                             <li>
                                 <span class="strong">age range</span>
-                                {#
+                                {% comment %}
                                 <span class="content">
                                     <ul>
                                         {% for item in collectionEvent.eventAgeRange.distribution %}
@@ -397,17 +401,18 @@
                                         {% endfor %}
                                     </ul>
                                 </span>
-                                #}
+                                {% endcomment %}
                             </li>
                             
                             <!-- plot -->
-                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventAgeRange.distribution|length*21+10}}" aria-labelledby="title" role="img">
+                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventAgeRange.distribution|length|mul:21|add:10}}" aria-labelledby="title" role="img">
                                 
                                 {% for item in collectionEvent.eventAgeRange.distribution %}
-                                <g class="bar" transform="translate(0,{{ (loop.index-1)*20 }})">
-                                    <rect width="{{ (item.count / collectionEvent.eventAgeRange.availabilityCount)*350 }}" height="19"></rect>
-                                    <text x="{{ (item.count / collectionEvent.eventAgeRange.availabilityCount)*350 +5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ ((item.count/collectionEvent.eventAgeRange.availabilityCount)*100)|round(2,'floor') }}%)</text>
-                                </g>
+                                <g class="bar" transform="translate(0,{{ forloop.counter|sub:1|mul:20 }})">
+                                    {% with availabilityCount=collectionEvent.eventAgeRange.availabilityCount%}
+                                    <rect width="{{ item.count|div:availabilityCount|mul:350 }}" height="19"></rect>
+                                    <text x="{{ item.count|div:availabilityCount|mul:350|add:5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ item.count|div:availabilityCount|mul:100|floatformat:2 }}%)</text>
+                                    {% endwith %}                                </g>
                                 {% endfor %}
                             </svg>
                             <!-- end plot -->
@@ -418,7 +423,7 @@
                             
                             <li>
                                 <span class="strong">diseases</span>
-                                {#
+                                {% comment %}
                                 <span class="content">
                                     <ul>
                                         {% for item in collectionEvent.eventDiseases.distribution %}
@@ -429,17 +434,18 @@
                                         {% endfor %}
                                     </ul>
                                 </span>
-                                #}
+                                {% endcomment %}
                             </li>
                             
                             <!-- plot -->
-                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventDiseases.distribution|length*21+10}}" aria-labelledby="title" role="img">
+                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventDiseases.distribution|length|mul:21|add:10}}" aria-labelledby="title" role="img">
                                 
                                 {% for item in collectionEvent.eventDiseases.distribution %}
-                                <g class="bar" transform="translate(0,{{ (loop.index-1)*20 }})">
-                                    <rect width="{{ (item.count / collectionEvent.eventDiseases.availabilityCount)*350 }}" height="19"></rect>
-                                    <text x="{{ (item.count / collectionEvent.eventDiseases.availabilityCount)*350 +5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ ((item.count/collectionEvent.eventDiseases.availabilityCount)*100)|round(2,'floor') }}%)</text>
-                                </g>
+                                <g class="bar" transform="translate(0,{{ forloop.counter|sub:1|mul:20 }})">
+                                    {% with availabilityCount=collectionEvent.eventDiseases.availabilityCount%}
+                                    <rect width="{{ item.count|div:availabilityCount|mul:350 }}" height="19"></rect>
+                                    <text x="{{ item.count|div:availabilityCount|mul:350|add:5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ item.count|div:availabilityCount|mul:100|floatformat:2 }}%)</text>
+                                    {% endwith %}                                </g>
                                 {% endfor %}
                             </svg>
                             <!-- end plot -->
@@ -449,7 +455,7 @@
                             {% if collectionEvent.eventPhenotypes.availability %}
                             <li>
                                 <span class="strong">phenotypes</span>
-                                {#
+                                {% comment %}
                                 <span class="content">
                                     <ul>
                                         {% for item in collectionEvent.eventPhenotypes.distribution %}
@@ -460,17 +466,18 @@
                                         {% endfor %}
                                     </ul>
                                 </span>
-                                #}
+                                {% endcomment %}
                             </li>
                             
                             <!-- plot -->
-                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventPhenotypes.distribution|length*21+10}}" aria-labelledby="title" role="img">
+                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventPhenotypes.distribution|length|mul:21|add:10}}" aria-labelledby="title" role="img">
                                 
                                 {% for item in collectionEvent.eventPhenotypes.distribution %}
-                                <g class="bar" transform="translate(0,{{ (loop.index-1)*20 }})">
-                                    <rect width="{{ (item.count / collectionEvent.eventPhenotypes.availabilityCount)*350 }}" height="19"></rect>
-                                    <text x="{{ (item.count / collectionEvent.eventPhenotypes.availabilityCount)*350 +5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ ((item.count/collectionEvent.eventPhenotypes.availabilityCount)*100)|round(2,'floor') }}%)</text>
-                                </g>
+                                <g class="bar" transform="translate(0,{{ forloop.counter|sub:1|mul:20 }})">
+                                    {% with availabilityCount=collectionEvent.eventPhenotypes.availabilityCount%}
+                                    <rect width="{{ item.count|div:availabilityCount|mul:350 }}" height="19"></rect>
+                                    <text x="{{ item.count|div:availabilityCount|mul:350|add:5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ item.count|div:availabilityCount|mul:100|floatformat:2 }}%)</text>
+                                    {% endwith %}                                </g>
                                 {% endfor %}
                             </svg>
                             <!-- end plot -->
@@ -481,7 +488,7 @@
                             
                             <li>
                                 <span class="strong">data types</span>
-                                {#
+                                {% comment %}
                                 <span class="content">
                                     <ul>
                                         {% for item in collectionEvent.eventDataTypes.distribution %}
@@ -492,16 +499,18 @@
                                         {% endfor %}
                                     </ul>
                                 </span>
-                                #}
+                                {% endcomment %}
                             </li>
                             
                             <!-- plot -->
-                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventDataTypes.distribution|length*21+10}}" aria-labelledby="title" role="img">
+                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventDataTypes.distribution|length|mul:21|add:10}}" aria-labelledby="title" role="img">
                                 
                                 {% for item in collectionEvent.eventDataTypes.distribution %}
-                                <g class="bar" transform="translate(0,{{ (loop.index-1)*20 }})">
-                                    <rect width="{{ (item.count / collectionEvent.eventDataTypes.availabilityCount)*350 }}" height="19"></rect>
-                                    <text x="{{ (item.count / collectionEvent.eventDataTypes.availabilityCount)*350 +5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ ((item.count/collectionEvent.eventDataTypes.availabilityCount)*100)|round(2,'floor') }}%)</text>
+                                <g class="bar" transform="translate(0,{{ forloop.counter|sub:1|mul:20 }})">
+                                    {% with availabilityCount=collectionEvent.eventDataTypes.availabilityCount%}
+                                    <rect width="{{ item.count|div:availabilityCount|mul:350 }}" height="19"></rect>
+                                    <text x="{{ item.count|div:availabilityCount|mul:350|add:5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ item.count|div:availabilityCount|mul:100|floatformat:2 }}%)</text>
+                                    {% endwith %}                                
                                 </g>
                                 {% endfor %}
                             </svg>
@@ -511,7 +520,6 @@
                     </ul>
                     {% endwith %}
                     {% endif %}
-                    {% endcomment %}
                     <!-- end collectionEvents -->
     
             </div>

@@ -33,6 +33,74 @@
        },
        "cohortName" : "CINECA synthetic cohort UK1",
        "cohortSize" : 2504,
-       "cohortType" : "study-defined"
+       "cohortType" : "study-defined",
+       "collectionEvents" : [
+         {
+            "eventGenders" : {
+              "availability" : true,
+              "availabilityCount" : 2504,
+              "distribution": [
+                    {
+                        "count": 1271,
+                        "type": {
+                            "id": "NCIT:C16576",
+                            "label": "female"
+                        }
+                    },
+                    {
+                        "count": 1233,
+                        "type": {
+                            "id": "NCIT:C20197",
+                            "label": "male"
+                        }
+                    }
+                ]
+            },
+            "eventEthnicities" : {
+              "availability" : true,
+              "availabilityCount" : 2287,
+              "distribution" : [
+                    {"count": 104,
+                        "type": {"id": "NCIT:C67109", "label": "Any other Black background"}},
+                    {"count": 131,
+                        "type": {"id": "NCIT:C16352", "label": "Black or Black British"}},
+                    {"count": 110, 
+                        "type": {"id": "NCIT:C67109", "label": "Indian"}},
+                    {"count": 114, 
+                        "type": {"id": "NCIT:C41261", "label": "British"}},
+                    {"count": 127, 
+                        "type": {"id": "NCIT:C67109", "label": "Mixed"}},
+                    {"count": 100, 
+                        "type": {"id": "NCIT:C41260", "label": "Chinese"}},
+                    {"count": 125,
+                        "type": {"id": "NCIT:C41260", "label": "Asian or Asian British"}},
+                    {"count": 96, 
+                        "type": {"id": "NCIT:C41260", "label": "Bangladeshi"}},
+                    {"count": 119, 
+                        "type": {"id": "NCIT:C42331", "label": "African"}},
+                    {"count": 111, 
+                        "type": {"id": "NCIT:C43856", "label": "Irish"}},
+                    {"count": 115, 
+                        "type": {"id": "NCIT:C41260", "label": "Pakistani"}},
+                    {"count": 127, 
+                        "type": {"id": "NCIT:C77810", "label": "Caribbean"}},
+                    {"count": 116, 
+                        "type": {"id": "NCIT:C67109", "label": "Other ethnic group"}},
+                    {"count": 114,
+                        "type": {"id": "NCIT:C67109", "label": "Any other white background"}},
+                    {"count": 115,
+                        "type": {"id": "NCIT:C67109", "label": "White and Black African"}},
+                    {"count": 92,
+                        "type": {"id": "NCIT:C67109", "label": "Any other mixed background"}},
+                    {"count": 105, 
+                        "type": {"id": "NCIT:C41261", "label": "White"}},
+                    {"count": 120,
+                        "type": {"id": "NCIT:C67109", "label": "Any other Asian background"}},
+                    {"count": 114, 
+                        "type": {"id": "NCIT:C67109", "label": "White and Asian"}}
+                ]
+            }
+         }
+       ]
     }
  ]
