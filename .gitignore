@@ -1,4 +1,5 @@
 .DS_Store
 **/.DS_Store
 **/*.scssc
-app/*/__pycache__/*
+**/*.sassc
+**/*.pyc
