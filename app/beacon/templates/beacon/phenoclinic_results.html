@@ -36,8 +36,8 @@
                     </select>
                     <input type="text" 
                     name="query"  
-                    placeholder="key=value or key><=value" 
-                    title="key=value or key><=value if integer" 
+                    placeholder="key=value or key><=value comma-separated" 
+                    title="key=value or key><=value if integer comma-separated" 
                     value="{% if query %}{{query}}{% endif %}">
                 </div>
     
@@ -179,7 +179,10 @@
             </section>
 
             {% else %}
+            {% if not error_message %}
                 <p>No results found.</p>
+                <p class="no-results-help">Please, check if the syntax of the query is OK and try again or make another query.</p>
+            {% endif %}
             {% endif %} 
         </div>
 

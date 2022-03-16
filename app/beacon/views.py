@@ -247,7 +247,7 @@ def phenoclinic(request):
 def parse_query(request, schema):
     error = ""
     # separate key-value pairs
-    request_list = request.split(" ")
+    request_list = request.split(",")
     # info to identidy each key, operator and value
     pattern = '(.+)([=|<|>])(.+)'
     operator_dict = {
@@ -259,6 +259,7 @@ def parse_query(request, schema):
     query_list_normal_obj = []
     query_list_array_obj = []
     for element in request_list:
+        element = element.strip()
         try:
             m = re.match(pattern, element, re.IGNORECASE)
             key = m.group(1)
@@ -271,7 +272,7 @@ def parse_query(request, schema):
                 operator = "="
             else:
                 # this filtering term is not registered
-                error = "Some of the query terms are incorrect/not available. Please, check the schema and the filtering terms and try again."
+                error = "Some of the query terms are incorrect/not available. Please, check the schema, the filtering terms and the query syntax and try again."
                 continue
         
         # detect if value if string or ontology
@@ -281,8 +282,12 @@ def parse_query(request, schema):
         try:
             value= float(value)
             str_operator = operator_dict[operator]
-            query_measure = f"{{'measures': {{'$elemMatch': {{'assayCode{key_type}': '{key}',  'measurementValue.value': {{'{str_operator}': {value}}}}}}} }}"
-            query_list_array_obj.append(query_measure)
+            # control cases where the user didn't put commas in the query
+            if not key.startswith(tuple(schema.keys())):
+                query_measure = f"{{'measures': {{'$elemMatch': {{'assayCode{key_type}': '{key}',  'measurementValue.value': {{'{str_operator}': {value}}}}}}} }}"
+                query_list_array_obj.append(query_measure)
+            else:
+                error = "Some of the query terms are incorrect/not available. Please, check the schema, the filtering terms and the query syntax and try again."
         # if not, we can have object_id_label or simple 
         # NOTICE we ignore array_object_complex or array_object_id_label
         except ValueError:
@@ -293,7 +298,7 @@ def parse_query(request, schema):
                 query_normal = f"'{key}': '{value}'"   
                 query_list_normal_obj.append(query_normal)
             else:
-                error = "Some of the query terms are incorrect/not available. Please, check the schema and the filtering terms and try again."
+                error = "Some of the query terms are incorrect/not available. Please, check the schema, the filtering terms and the query syntax and try again."
                 
     # prepare query string            
     query_string_array_obj = ""
@@ -330,7 +335,7 @@ def phenoclinic_response(request):
     schema = INDIVIDUALS_DICT if target_collection == "individuals" else BIOSAMPLES_DICT
     query_json, error_message = parse_query(query_request, schema)
     if not query_json:
-        error_message = "The query string could not be prepared, please check the schema and try again."
+        error_message = "The query string could not be prepared, please check the schema and try again. Remember to separate the key-value pairs with comma."
         return render(request, 'beacon/phenoclinic_results.html', {
             'cookies': request.COOKIES,
             'error_message': error_message,

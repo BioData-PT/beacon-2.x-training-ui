@@ -40,7 +40,22 @@ If the web container has also an `Exit` as status, it could be that the waiting 
 docker-compose restart web
 ```
 
-Then, just go to `localhost:8080/` on your browser. 
+Checkout the web logs with `docker-compose logs -f web`. 
+
+```
+Attaching to b2ri_mongodb_training_web_1
+web_1             | sleep for 60sec
+web_1             | Watching for file changes with StatReloader
+web_1             | Performing system checks...
+web_1             | 
+web_1             | System check identified no issues (0 silenced).
+web_1             | March 15, 2022 - 17:34:11
+web_1             | Django version 3.2.12, using settings 'app.settings'
+web_1             | Starting development server at http://0.0.0.0:8080/
+web_1             | Quit the server with CONTROL-C.
+```
+
+After the 60s of sleep time, the web app will boot, then just go to `localhost:8080/` on your browser.  
 
 ## Using the beacon
 This Beacon has four main __query pages__:  
@@ -63,8 +78,10 @@ It also has a dummy log in system that depics the controlled/private visualizati
 - Region
   - `16050855 : 16050880`
 - Phenoclinic
-  - `Individuals` and `ethnicity=NCIT:C16352 geographicOrigin=England Weight>50 Height-standing>150`
-  - `Individuals` and `Weight=98.7828 Height-standing=187.4031`
-  - `Individuals` and `ethnicity=NCIT:C16352 female`
+  - `Individuals` and `ethnicity=NCIT:C16352, geographicOrigin=England, Weight>50 Height-standing>150`
+  - `Individuals` and `Weight=98.7828, Height-standing=187.4031`
+  - `Individuals` and `ethnicity=NCIT:C16352, female`
   - `Biosamples` and `blood`
   - `Biosamples` and `individualId=HG00096`
+
+\*_Notice multiple key-value pairs need to be comma-separated._
