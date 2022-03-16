@@ -199,17 +199,24 @@ body {
             // }
         }
 
-        a#filtering-terms {
+        div#help-wrapper {
             padding: 1em;
-            font-size: 12px;
-            font-weight: lighter;
-            text-decoration: none;
-            color: $darkgrey;
-            transition: ease .5s;
-            width: 100px;
-            i { font-size: 10px;}
-            &:hover {color: $blue;}
+            display: flex;
+            flex-flow: row wrap;
+            column-gap: 10px;
+            row-gap: 5px;
 
+            a {
+                font-size: 12px;
+                font-weight: lighter;
+                text-decoration: none;
+                color: $darkgrey;
+                transition: ease .5s;
+                width: 100px;
+                i { font-size: 10px;}
+                &:hover {color: $blue;}
+                &:first-of-type{width: 72px;}
+            }
         }
 
         span.error {
@@ -250,11 +257,23 @@ body {
             margin: 20px 0 0;
             font-weight: 300;
 
-            p#filtering-terms {
-                padding-bottom: 1em;
-                span {
-                    font-family: monospace;
-                }
+            p {padding-bottom: 1em;}
+            h3 {
+                font-size: 18px;
+                padding-top: 2em;
+            }
+
+            a {
+                text-decoration: none;
+                color: $blue;
+                transition: ease .5s;
+                text-decoration: underline;
+
+                &:hover {color: $darkblue;}
+            }
+
+            span.mono {
+                font-family: monospace;
             }
 
             div#tabs {
@@ -311,6 +330,8 @@ body {
                 margin: 1em 0;
                 font-size: 12px;
                 overflow-x: auto;
+                
+                &.query-help {overflow-x: unset;}
 
                 table {
                     font-size: 14px;

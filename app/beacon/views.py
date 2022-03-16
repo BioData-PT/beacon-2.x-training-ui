@@ -362,6 +362,21 @@ def phenoclinic_response(request):
 ### FILTERING TERMS
 ##################################################
 
+def query_help(request):
+
+    context = {
+        'cookies': request.COOKIES,
+        'error_message': None,
+        'results': None,
+    }
+
+    return render(request, 'beacon/query_help.html', context)
+
+
+##################################################
+### FILTERING TERMS
+##################################################
+
 def filtering_terms(request):
 
     context = {

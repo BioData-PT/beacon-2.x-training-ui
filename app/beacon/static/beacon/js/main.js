@@ -20,6 +20,13 @@
         });
     } );
 
+    $(document).ready( function () {
+        $('.query-help-table').DataTable({
+            "searching": false,
+            "paging": false
+        });
+    } );
+
     // Table type selection
     var radioButtons = $("div#table-type div input");
     var tables = $("div.table-wrapper");

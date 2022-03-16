@@ -1,0 +1,221 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Beacon Training UI</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width, shrink-to-fit=no"/>
+
+        <script src="https://kit.fontawesome.com/b023714a8f.js" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet"
+	      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" />
+
+        <link rel="stylesheet" href="{% static 'beacon/css/style.css' %}" />
+        <link rel="stylesheet" href="{% static 'beacon/css/datatables.css' %}" />
+
+    </head>
+<body>
+
+
+    {% with selected='filtering_terms' hidden='true' filtering_terms='true'%}{% include "beacon/nav.html" %}{% endwith %}
+    
+
+    <main>
+        <h1>
+            <img src="{% static 'beacon/img/training_ui.png' %}" alt="">
+        </h1>
+        <div class="results">
+            <p>The phenoclinic query allows the user to search individuals or biosamples filtering by their phonoclinic information.</p>
+            <p>This information is structured as specified in the Beacon schemas: 
+                <a target="_blank" href="http://docs.genomebeacons.org/schemas-md/individuals_defaultSchema/">Individuals</a> and 
+                <a target="_blank" href="http://docs.genomebeacons.org/schemas-md/biosamples_defaultSchema/">Biosamples</a>.</p>
+            <p>For the purpose of simplicity, in this training Beacon the more complex and nested fields won't be available for use in the query.</p>
+            <p>The available fields and how to use them are specified in the tables below.</p>
+            <p>In multiple filters queries, the key-value pairs need to be comma-separated. Also, remember the possibility of using <a target="_blank" href="{% url 'beacon:filtering_terms' %}">Filtering Terms</a>.</p>
+            <h3>Individuals</h3>
+            <div class="table-wrapper query-help">
+                <table class="query-help-table display">
+                    <thead>
+                        <tr>
+                            <th>field</th>
+                            <th>how to use</th>
+                            <th>example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <td><span class="mono">id</span></td>
+                                <td>id=&ltid value&gt</td>
+                                <td>id=HG02315</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">ethnicity.id</span></td>
+                                <td>ethnicity=&ltethnicity.id value&gt</td>
+                                <td>ethnicity=NCIT:C16352</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">ethnicity.label</span></td>
+                                <td>ethnicity=&ltethnicity.label value&gt</td>
+                                <td>ethnicity=Black or Black British</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">geographicOrigin.id</span></td>
+                                <td>geographicOrigin=&ltgeographicOrigin.id value&gt</td>
+                                <td>geographicOrigin=GAZ:00002641</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">geographicOrigin.label</span></td>
+                                <td>geographicOrigin=&ltgeographicOrigin.label value&gt</td>
+                                <td>geographicOrigin=England</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">sex.id</span></td>
+                                <td>sex=&ltsex.id value&gt</td>
+                                <td>sex=NCIT:C16576</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">sex.label</span></td>
+                                <td>sex=&ltsex.label value&gt</td>
+                                <td>sex=female</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">measurements.assayCode</span> with <span class="mono">measurements.measurement&ltfield value&gt</span></td>
+                                <td>&ltmeasurements.assayCode value&gt &gt&lt= &ltmeasurements.measurement value&gt</td>
+                                <td>Weight>90</td>
+                            </tr>
+                    </tbody>
+                </table> 
+            </div>
+            <h3>Biosamples</h3>
+            <div class="table-wrapper query-help">
+                <table class="query-help-table display">
+                    <thead>
+                        <tr>
+                            <th>field</th>
+                            <th>how to use</th>
+                            <th>example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <td><span class="mono">id</span></td>
+                                <td>id=&ltid value&gt</td>
+                                <td>id=synthetic_sample_4</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">individualId</span></td>
+                                <td>individualId=&ltindividualId value&gt</td>
+                                <td>individualId=HG00100</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">collectionDate</span></td>
+                                <td>collectionDate=&ltcollectionDate value&gt</td>
+                                <td>collectionDate=2020-09-11</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">collectionMoment</span></td>
+                                <td>collectionMoment=&ltcollectionMoment value&gt</td>
+                                <td>collectionMoment=P40Y1M1D</td>
+                            </tr>
+
+
+                            <tr>
+                                <td><span class="mono">biosampleStatus.id</span></td>
+                                <td>biosampleStatus=&ltbiosampleStatus.id value&gt</td>
+                                <td>biosampleStatus=EFO:0009654</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">biosampleStatus.label</span></td>
+                                <td>biosampleStatus=&ltbiosampleStatus.label value&gt</td>
+                                <td>biosampleStatus=reference sample</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">histologicalDiagnosis.id</span></td>
+                                <td>histologicalDiagnosis=&lthistologicalDiagnosis.id value&gt</td>
+                                <td>histologicalDiagnosis=example</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">histologicalDiagnosis.label</span></td>
+                                <td>histologicalDiagnosis=&lthistologicalDiagnosis.label value&gt</td>
+                                <td>histologicalDiagnosis=example</td>
+                            </tr>
+
+                            <tr>
+                                <td><span class="mono">sampleOriginDetail.id</span></td>
+                                <td>sampleOriginDetail=&ltsampleOriginDetail.id value&gt</td>
+                                <td>sampleOriginDetail=example</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">sampleOriginDetail.label</span></td>
+                                <td>sampleOriginDetail=&ltsampleOriginDetail.label value&gt</td>
+                                <td>sampleOriginDetail=example</td>
+                            </tr>
+
+                            <tr>
+                                <td><span class="mono">sampleOriginType.id</span></td>
+                                <td>sampleOriginType=&ltsampleOriginType.id value&gt</td>
+                                <td>sampleOriginType=example</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">sampleOriginType.label</span></td>
+                                <td>sampleOriginType=&ltsampleOriginType.label value&gt</td>
+                                <td>sampleOriginType=example</td>
+                            </tr>
+
+                            <tr>
+                                <td><span class="mono">sampleProcessing.id</span></td>
+                                <td>sampleProcessing=&ltsampleProcessing.id value&gt</td>
+                                <td>sampleProcessing=example</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">sampleProcessing.label</span></td>
+                                <td>sampleProcessing=&ltsampleProcessing.label value&gt</td>
+                                <td>sampleProcessing=example</td>
+                            </tr>
+
+                            <tr>
+                                <td><span class="mono">sampleStorage.id</span></td>
+                                <td>sampleStorage=&ltsampleStorage.id value&gt</td>
+                                <td>sampleStorage=example</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">sampleStorage.label</span></td>
+                                <td>sampleStorage=&ltsampleStorage.label value&gt</td>
+                                <td>sampleStorage=example</td>
+                            </tr>
+
+                            <tr>
+                                <td><span class="mono">tumorGrade.id</span></td>
+                                <td>tumorGrade=&lttumorGrade.id value&gt</td>
+                                <td>tumorGrade=example</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">tumorGrade.label</span></td>
+                                <td>tumorGrade=&lttumorGrade.label value&gt</td>
+                                <td>tumorGrade=example</td>
+                            </tr>
+
+                            <tr>
+                                <td><span class="mono">tumorProgression.id</span></td>
+                                <td>tumorProgression=&lttumorProgression.id value&gt</td>
+                                <td>tumorProgression=example</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">tumorProgression.label</span></td>
+                                <td>tumorProgression=&lttumorProgression.label value&gt</td>
+                                <td>tumorProgression=example</td>
+                            </tr>
+
+
+                    </tbody>
+                </table> 
+            </div>
+        </div>
+
+    </main>
+   
+    {% include "beacon/footer.html" %}
+
+    </body>
+</html>

@@ -36,8 +36,8 @@
                     </select>
                     <input type="text" 
                     name="query"  
-                    placeholder="key=value or key><=value comma-separated" 
-                    title="key=value or key><=value if integer comma-separated" 
+                    placeholder="key=value, key><=value, or filtering term comma-separated" 
+                    title="Search key=value, key><=value if integer, or filtering term. Use comma to separate the filters." 
                     value="{% if query %}{{query}}{% endif %}">
                 </div>
     
@@ -47,8 +47,11 @@
                     <a target="_blank" href="{% url 'beacon:filtering_terms' %}" {% if selected == 'filtering_terms' %} class="selected"{% endif %}> Filtering Terms</a>    
                 </span> -->
             </form>
-            <a id="filtering-terms" target="_blank" href="{% url 'beacon:filtering_terms' %}" {% if selected == 'filtering_terms' %} class="selected"{% endif %}><i class="fa fa-filter" aria-hidden="true"></i> Filtering Terms</a>    
-
+            <div id="help-wrapper">
+                <a target="_blank" href="{% url 'beacon:query_help' %}"><i class="fa fa-question" aria-hidden="true"></i> Query Help</a>        
+                <a target="_blank" href="{% url 'beacon:filtering_terms' %}"><i class="fa fa-filter" aria-hidden="true"></i> Filtering Terms</a>        
+            </div>
+    
         </div>
 
         <div class="results">
