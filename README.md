@@ -61,7 +61,7 @@ After the 60s of sleep time, the web app will boot, then just go to `localhost:8
 This Beacon has four main __query pages__:  
 - __Variants__: perform SNP queries.
 - __Region__: perform range queries by start position.
-- __Phenoclinic__: perform queries on the biosamples and individuals collections based on the [schema terms](https://beacon-schema-2.readthedocs.io/en/latest/schemas-md/individuals_defaultSchema/), leveraging them together with the filtering terms (values that are understood by that Beacon). 
+- __Phenoclinic__: perform queries on the biosamples and individuals collections based on the [schema terms](http://docs.genomebeacons.org/schemas-md/individuals_defaultSchema/), leveraging them together with the filtering terms (values that are understood by that Beacon). 
 - __Cohorts__: explore the information about the cohorts that are in this Beacon.
 
 Every query displays the __results__ in three different ways:  
