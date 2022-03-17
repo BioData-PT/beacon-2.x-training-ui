@@ -21,7 +21,7 @@
     } );
 
     $(document).ready( function () {
-        $('.query-help-table').DataTable({
+        $('.basic-table').DataTable({
             "searching": false,
             "paging": false
         });

@@ -233,7 +233,12 @@ BIOSAMPLES_DICT = {
 FILTERING_TERMS_DICT = {
     "female": ("individuals", "sex"),
     "male": ("individuals", "sex"),
-    "blood": ("biosamples", "sampleOriginType")
+    "England": ("individuals", "geographicOrigin"),
+    "Northern Ireland": ("individuals", "geographicOrigin"),
+    "Chinese": ("individuals", "ethnicity"),
+    "Asian or Asian British": ("individuals", "ethnicity"),
+    "blood": ("biosamples", "sampleOriginType"),
+    "reference sample": ("biosamples", "biosampleStatus")
 }
 
 def phenoclinic(request):

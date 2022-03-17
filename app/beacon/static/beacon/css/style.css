@@ -379,7 +379,7 @@ body main div.results div.table-wrapper {
   overflow-x: auto;
 }
 /* line 334, ../sass/_main.scss */
-body main div.results div.table-wrapper.query-help {
+body main div.results div.table-wrapper.basic {
   overflow-x: unset;
 }
 /* line 336, ../sass/_main.scss */
