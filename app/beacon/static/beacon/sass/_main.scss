@@ -153,12 +153,17 @@ body {
                 border-radius: 30px;
                 margin-left: 20px;
                 color: $darkgrey;
+                appearance: unset;
             }
 
             div {
                 display: flex;
                 flex-flow: row nowrap;
                 width: 100%;
+                align-items: center;
+
+                i {font-size: 12px;margin-left: 5px;}
+
             }
 
             button {

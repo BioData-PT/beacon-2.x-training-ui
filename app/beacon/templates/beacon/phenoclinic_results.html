@@ -34,6 +34,7 @@
                         <option value="individuals" {% if target_collection == 'individuals' %}selected{% endif %}>Individuals</option>
                         <option value="biosamples" {% if target_collection == 'biosamples' %}selected{% endif %}>Biosamples</option>
                     </select>
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
                     <input type="text" 
                     name="query"  
                     placeholder="key=value, key><=value, or filtering term comma-separated" 
