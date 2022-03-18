@@ -126,12 +126,24 @@
                                     <p><span class="strong">molecularEffects:</span> {% for i in result.molecularAttributes.molecularEffects%} {{i.label}} {% endfor %}</p>
                                     <p><span class="strong">annotationImpact:</span> {{result.molecularAttributes.aminoacidChanges|join:', ' }}</p>
                                 </td>
+                                {% if result.caseLevelData|length < 10 %}
                                 <td>{% for item in result.caseLevelData %}
                                     {{item.biosampleId}}
                                     {{item.zygosity.label}}
                                     <br>
                                     {% endfor %}
                                 </td>
+                                {% else %}
+                                <td>
+                                    <div id="long-content-wrapper">
+                                    {% for item in result.caseLevelData %}
+                                    {{item.biosampleId}}
+                                    {{item.zygosity.label}}
+                                    <br>
+                                    {% endfor %}
+                                    </div>
+                                </td>
+                                {% endif %}
                             </tr>
                             {% endfor %}
                         </tbody>

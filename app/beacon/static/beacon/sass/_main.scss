@@ -154,6 +154,7 @@ body {
                 margin-left: 20px;
                 color: $darkgrey;
                 appearance: unset;
+                cursor: pointer;
             }
 
             div {
@@ -347,6 +348,10 @@ body {
                                 &.raw {
                                     font-family: monospace;
                                     font-size: 12px;
+                                }
+                                div#long-content-wrapper {
+                                    max-height: 100px;
+                                    overflow-y: scroll;
                                 }
                             }
                         }
