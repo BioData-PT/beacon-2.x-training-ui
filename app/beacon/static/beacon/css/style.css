@@ -414,17 +414,18 @@ body main div.results section#full div#table-type {
 /* line 373, ../sass/_main.scss */
 body main div.results section#full div#table-type p {
   padding-left: 0;
+  padding-bottom: 0;
   font-weight: 400;
 }
-/* line 377, ../sass/_main.scss */
+/* line 378, ../sass/_main.scss */
 body main div.results section#full div#table-type input, body main div.results section#full div#table-type label {
   cursor: pointer;
 }
-/* line 380, ../sass/_main.scss */
+/* line 381, ../sass/_main.scss */
 body main div.results section#full div#table-type div:first-child {
   margin-right: 5px;
 }
-/* line 383, ../sass/_main.scss */
+/* line 384, ../sass/_main.scss */
 body main div.results section#full div#table-type.blurry {
   -webkit-filter: blur(5px);
   -moz-filter: blur(5px);
@@ -432,11 +433,11 @@ body main div.results section#full div#table-type.blurry {
   -ms-filter: blur(5px);
   filter: blur(5px);
 }
-/* line 391, ../sass/_main.scss */
+/* line 392, ../sass/_main.scss */
 body main div.results section#full div.table-wrapper {
   display: none;
 }
-/* line 392, ../sass/_main.scss */
+/* line 393, ../sass/_main.scss */
 body main div.results section#full div.table-wrapper.blurry {
   -webkit-filter: blur(5px);
   -moz-filter: blur(5px);
@@ -444,22 +445,22 @@ body main div.results section#full div.table-wrapper.blurry {
   -ms-filter: blur(5px);
   filter: blur(5px);
 }
-/* line 400, ../sass/_main.scss */
+/* line 401, ../sass/_main.scss */
 body main div.results section#full div.table-wrapper.active {
   display: block;
 }
-/* line 405, ../sass/_main.scss */
+/* line 406, ../sass/_main.scss */
 body main div.results section#full div.table-wrapper.tidy table td {
   font-family: monospace;
   font-size: 13px;
 }
-/* line 409, ../sass/_main.scss */
+/* line 410, ../sass/_main.scss */
 body main div.results section#full div.table-wrapper.tidy table td span.strong {
   font-family: 'Open Sans', sans-serif;
   font-size: 12px;
   color: #74C5EB;
 }
-/* line 414, ../sass/_main.scss */
+/* line 415, ../sass/_main.scss */
 body main div.results section#full div.table-wrapper.tidy table td span.duo {
   background-color: #74C5EB;
   border-radius: 10px;
@@ -469,24 +470,24 @@ body main div.results section#full div.table-wrapper.tidy table td span.duo {
   display: inline-block;
   margin: 1px 0;
 }
-/* line 430, ../sass/_main.scss */
+/* line 431, ../sass/_main.scss */
 body main div.results p.no-results-help {
   font-style: italic;
   margin-top: 10px;
 }
-/* line 436, ../sass/_main.scss */
+/* line 437, ../sass/_main.scss */
 body main p.main-error {
   margin: auto;
   padding: 1em;
   font-size: 20px;
 }
-/* line 441, ../sass/_main.scss */
+/* line 442, ../sass/_main.scss */
 body main pre {
   margin: auto;
   padding: 1em;
   font-family: monospace;
 }
-/* line 447, ../sass/_main.scss */
+/* line 448, ../sass/_main.scss */
 body main div.cohort-card {
   width: 100%;
   min-width: 650px;
@@ -497,18 +498,18 @@ body main div.cohort-card {
   margin: 2em auto 1em;
   padding: 2em;
 }
-/* line 458, ../sass/_main.scss */
+/* line 459, ../sass/_main.scss */
 body main div.cohort-card h1 {
   font-size: 110%;
   font-weight: bold;
   font-family: 'Roboto', sans-serif;
   margin-bottom: 2em;
 }
-/* line 462, ../sass/_main.scss */
+/* line 463, ../sass/_main.scss */
 body main div.cohort-card h1 span.light {
   font-weight: 300;
 }
-/* line 464, ../sass/_main.scss */
+/* line 465, ../sass/_main.scss */
 body main div.cohort-card h1.cohort-name {
   color: white;
   margin-bottom: 0;
@@ -518,7 +519,7 @@ body main div.cohort-card h1.cohort-name {
   font-weight: 400;
   display: inline-block;
 }
-/* line 473, ../sass/_main.scss */
+/* line 474, ../sass/_main.scss */
 body main div.cohort-card h1.error {
   color: white;
   margin-bottom: 0;
@@ -528,13 +529,13 @@ body main div.cohort-card h1.error {
   font-weight: 400;
   display: inline-block;
 }
-/* line 483, ../sass/_main.scss */
+/* line 484, ../sass/_main.scss */
 body main div.cohort-card h2 {
   font-size: 90%;
   font-weight: 300;
   margin: 1em 0 8px;
 }
-/* line 488, ../sass/_main.scss */
+/* line 489, ../sass/_main.scss */
 body main div.cohort-card h2.error {
   color: white;
   margin-bottom: 0;
@@ -545,28 +546,28 @@ body main div.cohort-card h2.error {
   display: inline-block;
   margin-top: 0;
 }
-/* line 498, ../sass/_main.scss */
+/* line 499, ../sass/_main.scss */
 body main div.cohort-card ul {
   margin: 0 1em;
 }
-/* line 500, ../sass/_main.scss */
+/* line 501, ../sass/_main.scss */
 body main div.cohort-card ul li {
   margin: 6px;
   font-size: 90%;
 }
-/* line 503, ../sass/_main.scss */
+/* line 504, ../sass/_main.scss */
 body main div.cohort-card ul li span.strong {
   font-weight: bold;
 }
-/* line 504, ../sass/_main.scss */
+/* line 505, ../sass/_main.scss */
 body main div.cohort-card ul li span.strong2 {
   font-weight: 600;
 }
-/* line 505, ../sass/_main.scss */
+/* line 506, ../sass/_main.scss */
 body main div.cohort-card ul li span.content {
   color: #717578;
 }
-/* line 506, ../sass/_main.scss */
+/* line 507, ../sass/_main.scss */
 body main div.cohort-card ul li span.duo {
   font-weight: 600;
   background-color: #EB9661;
@@ -575,14 +576,14 @@ body main div.cohort-card ul li span.duo {
   color: white;
   font-size: 90%;
 }
-/* line 516, ../sass/_main.scss */
+/* line 517, ../sass/_main.scss */
 body main div.cohort-card hr {
   margin: 2em auto;
   border: none;
   border-top: 1px solid #717578;
   width: 60%;
 }
-/* line 522, ../sass/_main.scss */
+/* line 523, ../sass/_main.scss */
 body main div.cohort-card form {
   margin: 0;
   width: auto;
@@ -592,47 +593,47 @@ body main div.cohort-card form {
   display: inline;
   box-shadow: none;
 }
-/* line 530, ../sass/_main.scss */
+/* line 531, ../sass/_main.scss */
 body main div.cohort-card form button {
   cursor: pointer;
   color: #74C5EB;
 }
-/* line 533, ../sass/_main.scss */
+/* line 534, ../sass/_main.scss */
 body main div.cohort-card form button:hover {
   color: #1070B7;
 }
-/* line 536, ../sass/_main.scss */
+/* line 537, ../sass/_main.scss */
 body main div.cohort-card svg.bar-plot {
   padding-left: 1.5em;
 }
-/* line 538, ../sass/_main.scss */
+/* line 539, ../sass/_main.scss */
 body main div.cohort-card svg.bar-plot .bar {
   fill: #D9D9D9;
   height: 21px;
   transition: fill .3s ease;
 }
-/* line 543, ../sass/_main.scss */
+/* line 544, ../sass/_main.scss */
 body main div.cohort-card svg.bar-plot .bar text {
   fill: #717578;
   font-size: 11px;
 }
-/* line 551, ../sass/_main.scss */
+/* line 552, ../sass/_main.scss */
 body main div.cohort-card svg.bar-plot .chart:hover .bar,
 body main div.cohort-card svg.bar-plot .chart:focus .bar {
   fill: #D9D9D9;
 }
-/* line 556, ../sass/_main.scss */
+/* line 557, ../sass/_main.scss */
 body main div.cohort-card svg.bar-plot .bar:hover,
 body main div.cohort-card svg.bar-plot .bar:focus {
   fill: #74C5EB !important;
 }
-/* line 560, ../sass/_main.scss */
+/* line 561, ../sass/_main.scss */
 body main div.cohort-card svg.bar-plot .bar:hover text,
 body main div.cohort-card svg.bar-plot .bar:focus text {
   fill: #1070B7;
   font-size: 11px;
 }
-/* line 570, ../sass/_main.scss */
+/* line 571, ../sass/_main.scss */
 body footer {
   width: 100%;
   min-height: 55px;
@@ -644,7 +645,7 @@ body footer {
   align-items: center;
   justify-content: space-between;
 }
-/* line 583, ../sass/_main.scss */
+/* line 584, ../sass/_main.scss */
 body footer p {
   margin-right: 10px;
   line-height: 15px;
@@ -653,39 +654,39 @@ body footer p {
   transition: ease all 0.5s;
 }
 @media screen and (max-width: 580px) {
-  /* line 583, ../sass/_main.scss */
+  /* line 584, ../sass/_main.scss */
   body footer p {
     font-size: 9px;
     line-height: 10px;
   }
 }
-/* line 597, ../sass/_main.scss */
+/* line 598, ../sass/_main.scss */
 body footer section#EGA {
   margin-left: 30px;
   font-size: 12px;
 }
-/* line 600, ../sass/_main.scss */
+/* line 601, ../sass/_main.scss */
 body footer section#EGA a {
   color: #74C5EB;
 }
-/* line 602, ../sass/_main.scss */
+/* line 603, ../sass/_main.scss */
 body footer section#EGA a:hover {
   color: #1070B7;
 }
-/* line 605, ../sass/_main.scss */
+/* line 606, ../sass/_main.scss */
 body footer section#EU {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
   justify-content: right;
 }
-/* line 612, ../sass/_main.scss */
+/* line 613, ../sass/_main.scss */
 body footer section#EU p {
   max-width: 400px;
   text-align: right;
   margin-right: 30px;
 }
-/* line 618, ../sass/_main.scss */
+/* line 619, ../sass/_main.scss */
 body footer section#EU img {
   height: 30px;
   margin-right: 30px;
