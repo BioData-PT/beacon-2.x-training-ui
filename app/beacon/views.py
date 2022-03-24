@@ -121,6 +121,19 @@ def variant_response(request):
 
     print(f"Query: {chromosome} : {start} {reference} > {alternate}")
 
+    # our test DB only contains one chromosome (22)
+    # raise error if another chr is used
+    if chromosome != "22":
+        error_message = "This Beacon only contains chromosome 22 data. Please, use this chromosome in the query."
+        return render(request, 'beacon/variant_results.html', {
+            'error_message': error_message,
+            'cookies': request.COOKIES,
+            'count': 0,
+            'results': [],
+            'query': query
+        })
+
+    # notice chr is not used in the query
     collection_handle = get_collection_handle(db_handle, "genomicVariations")
 
     results = list(collection_handle.find({"position.refseqId": chromosome, "position.start": start, "referenceBases": reference, "alternateBases": alternate}))
