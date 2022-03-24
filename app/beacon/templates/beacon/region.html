@@ -25,10 +25,10 @@
         <form action="{% url 'beacon:region_response' %}" method="post">
             {% csrf_token %}
             <input type="text" 
-            name="query" 
-            pattern='^\d+\s*:\s*\d+$' 
-            placeholder="start : end" 
-            title="start : end" 
+            name="query"
+            pattern='^\s*(X|Y|MT|[1-9]|1[0-9]|2[0-2])\s*:\s*(\d+)\s*-\s*(\d+)$' 
+            placeholder="chr : start - end" 
+            title="chr : start - end" 
             value="">
             <button type="submit"><i class="fas fa-search"></i></button>
         </form>

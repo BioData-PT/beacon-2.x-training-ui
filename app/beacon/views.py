@@ -160,22 +160,33 @@ def region_response(request):
             'query': query
         })
 
-    pattern = '^(\d+)\s*:\s*(\d+)$'
+    pattern = '^(X|Y|MT|[1-9]|1[0-9]|2[0-2])\s*\:\s*(\d+)\s*-\s*(\d+)$'
     m = re.match(pattern, query, re.IGNORECASE)
     if not m:
-        error_message = "The query pattern is wrong. Please, use 'start : end' and try again."
+        error_message = "The query pattern is wrong. Please, use 'chr : start - end' and try again."
         return render(request, 'beacon/region_results.html', {
             'cookies': request.COOKIES,
             'error_message': error_message,
             'query': query
         })
-    start = int(m.group(1))
-    end = int(m.group(2))
+    chr = m.group(1)
+    start = int(m.group(2))
+    end = int(m.group(3))
 
-    print(f"Query: {start} : {end} ")
+    print(f"Query: {chr} : {start} - {end} ")
 
+    # our test DB only contains one chromosome (22)
+    # raise error if another chr is used
+    if chr != "22":
+        error_message = "This Beacon only contains chromosome 22 data. Please, use this chromosome in the query."
+        return render(request, 'beacon/region_results.html', {
+            'cookies': request.COOKIES,
+            'error_message': error_message,
+            'query': query
+        })
+
+    # notice chr is not used in the query
     collection_handle = get_collection_handle(db_handle, "genomicVariations")
-
     results = list(collection_handle.find({"position.start": {"$gte": start}, "position.end": {"$lte":end }}))
     count = len(results)
     keys = set([k for result in results for k in result.keys()])

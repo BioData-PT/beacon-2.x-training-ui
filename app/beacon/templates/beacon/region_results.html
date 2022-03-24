@@ -32,9 +32,9 @@
                 {% csrf_token %}
                 <input type="text" 
                 name="query" 
-                pattern='^\d+\s*:\s*\d+$' 
-                placeholder="start : end" 
-                title="start : end" 
+                pattern='^(X|Y|MT|[1-9]|1[0-9]|2[0-2])\s*:\s*(\d+)\s*-\s*(\d+)$' 
+                placeholder="chr : start - end" 
+                title="chr : start - end" 
                 value="{% if query %}{{query}}{% endif %}">
                 <button type="submit"><i class="fas fa-search"></i></button>
             </form>    
