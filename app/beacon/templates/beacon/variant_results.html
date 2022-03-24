@@ -61,11 +61,11 @@
                 
                 <div id="table-type" class="controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
                     <p>Result type:</p>
-                    <div><input type="radio" id="raw" name="table-type" value="raw" checked="checked" autocomplete="off" ><label for="raw">Raw</label></div>
-                    <div><input type="radio" id="tidy" name="table-type" value="tidy" autocomplete="off" ><label for="tidy">Tidy</label></div>
+                    <div><input type="radio" id="tidy" name="table-type" value="tidy" autocomplete="off" checked="checked"><label for="tidy">Tidy</label></div>
+                    <div><input type="radio" id="raw" name="table-type" value="raw" autocomplete="off" ><label for="raw">Raw</label></div>
                 </div>
 
-                <div class="table-wrapper raw active controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
+                <div class="table-wrapper raw controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
                     <table class="results-table display">
                         <thead>
                             <tr>
@@ -89,7 +89,7 @@
                     </table> 
                 </div>
 
-                <div class="table-wrapper tidy controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
+                <div class="table-wrapper tidy active controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
                     <table class="results-table display">
                         <thead>
                             <tr>
