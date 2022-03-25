@@ -68,6 +68,7 @@ def cohorts(request):
             'error_message': error_message,
             'count': 0,
             'results': [],
+            'cookies': request.COOKIES
         }
         return render(request, 'beacon/cohorts_results.html', context)
 
@@ -75,7 +76,8 @@ def cohorts(request):
         'error_message': None,
         'count': count,
         'results': results,
-        'keys': keys
+        'keys': keys,
+        'cookies': request.COOKIES
     }
 
     return render(request, 'beacon/cohorts_results.html', context)
