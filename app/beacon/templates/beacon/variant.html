@@ -33,6 +33,17 @@
                     value="">
             <button type="submit"><i class="fas fa-search"></i></button>
         </form>
+        <div id="help-wrapper">
+            <span>
+                <p><i class="fa fa-lightbulb-o" aria-hidden="true"></i> Query Examples</p>
+                <div>
+                    <p class="example">22 : 16050677 C > T</p>
+                    <p class="example">22 : 16050074 A > G</p>
+                    <p class="example">22 : 16050606 G > A</p>
+                    <p class="example">22 : 16050839 C > G</p>
+                </div>
+            </span>
+        </div>
         {% if error_message %}<p class="error"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></strong> {{ error_message }}</p>{% endif %}
     </main>
    

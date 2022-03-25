@@ -37,7 +37,16 @@
                 title="chr : start - end" 
                 value="{% if query %}{{query}}{% endif %}">
                 <button type="submit"><i class="fas fa-search"></i></button>
-            </form>    
+            </form>
+            <div id="help-wrapper">
+                <span class="results">
+                    <p><i class="fa fa-lightbulb-o" aria-hidden="true"></i> Query Examples</p>
+                    <div>
+                        <p class="example">22 : 16050855 - 16050880</p>
+                        <p class="example">22 : 16050000 - 16051000</p>
+                    </div>
+                </span>
+            </div>
         </div>
         <div class="results">
             {% if error_message %}<span class="error"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></strong> {{ error_message }}</span>{% endif %}

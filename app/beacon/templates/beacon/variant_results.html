@@ -38,6 +38,17 @@
                         value="{% if query %}{{query}}{% endif %}">
                 <button type="submit"><i class="fas fa-search"></i></button>
             </form>
+            <div id="help-wrapper">
+                <span class="results">
+                    <p><i class="fa fa-lightbulb-o" aria-hidden="true"></i> Query Examples</p>
+                    <div>
+                        <p class="example">22 : 16050677 C > T</p>
+                        <p class="example">22 : 16050074 A > G</p>
+                        <p class="example">22 : 16050606 G > A</p>
+                        <p class="example">22 : 16050839 C > G</p>
+                    </div>
+                </span>
+            </div>
         </div>
         <div class="results">
             {% if error_message %}<span class="error"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></strong> {{ error_message }}</span>{% endif %}

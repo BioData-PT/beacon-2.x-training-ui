@@ -43,6 +43,15 @@
             <button type="submit"><i class="fas fa-search"></i></button>
         </form>
         <div id="help-wrapper">
+            <span>
+                <p><i class="fa fa-lightbulb-o" aria-hidden="true"></i> Query Examples</p>
+                <div>
+                    <p class="example phenoclinic">individuals and ethnicity=NCIT:C16352, <br> geographicOrigin=England, Weight>50, Height-standing>150</p>
+                    <p class="example phenoclinic">individuals and Chinese, male, Height-standing>180</p>
+                    <p class="example phenoclinic">individuals and ethnicity=NCIT:C16352, female</p>
+                    <p class="example phenoclinic">biosamples and blood</p>
+                </div>
+            </span>
             <a target="_blank" href="{% url 'beacon:query_help' %}"><i class="fa fa-question" aria-hidden="true"></i> Query Help</a>        
             <a target="_blank" href="{% url 'beacon:filtering_terms' %}"><i class="fa fa-filter" aria-hidden="true"></i> Filtering Terms</a>        
         </div>

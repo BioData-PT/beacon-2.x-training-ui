@@ -208,7 +208,7 @@ body {
         div#help-wrapper {
             padding: 1em;
             display: flex;
-            flex-flow: row wrap;
+            flex-flow: row nowrap;
             column-gap: 10px;
             row-gap: 5px;
 
@@ -222,6 +222,67 @@ body {
                 i { font-size: 10px;}
                 &:hover {color: $blue;}
                 &:first-of-type{width: 72px;}
+            }
+
+            span {
+                position: relative;
+
+                p {
+                    font-size: 12px;
+                    font-weight: lighter;
+                    color: $darkgrey;
+                    transition: ease .5s;
+                    width: 100px;
+                    cursor: pointer;
+                    i { font-size: 12px;}
+                    &:hover {color: $blue;}
+                    padding-bottom: 25px;
+                    &.results-help {padding: 0;}
+                }
+                div {
+                    display: none;
+                    background-color: white;
+                    position: absolute;
+                    top: 25px;
+                    left: 0px;
+                    padding: 5px 1em;
+                    border-radius: 10px;
+                    p.example {
+                        font-size: 12px;
+                        white-space: nowrap;
+                        margin: 6px 0;
+                        width: auto;
+                        padding: 0;
+                    }
+                    &::after {
+                        content: " ";
+                        position: absolute;
+                        top: -10px;
+                        left: 45px;
+                        margin-left: -5px;
+                        border-width: 5px;
+                        border-style: solid;
+                        border-color: transparent transparent white transparent;
+                      
+                    }
+                }
+                p:hover + div, div:hover {
+                    display: block;
+                }
+
+                &.results {
+                    p { padding: 25px 0;}
+                    div { top: 50px;}
+                }
+            }
+
+            div.help-group {
+                display: flex;
+                flex-flow: row wrap;
+                column-gap: 10px;
+                row-gap: 5px;
+                align-items: center;
+                padding: 15px 0;
             }
         }
 
@@ -256,6 +317,7 @@ body {
                 // margin: 0 10px 0 0;
                 margin: 0;
                 width: 60%;
+                min-width: 400px;
             }
         }
 

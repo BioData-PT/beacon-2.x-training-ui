@@ -128,4 +128,30 @@
         }
       });
 
+
+      // Examples
+      // put example on query box when clicking it
+      var example = $("p.example");
+      var query = $("form input[type='text']");
+      var select = $("form select");
+
+      example.on("click", function(){
+        if ($(this).hasClass("phenoclinic")) {
+            console.log("phenoclinic");
+            text = $(this).text().split(" and ");
+            target = text[0];
+            queryValue = text[1];
+            console.log(target)
+            console.log(queryValue)
+            select.val(target).change();
+            query.val(queryValue);
+            $('form select option').removeAttr('selected').filter('[value='+target+']').attr('selected', true)
+
+        } else {
+            console.log("basic");
+            query.val($(this).text());
+        }
+
+      });
+
 })();
