@@ -401,6 +401,8 @@ body {
                 
                 &.basic {overflow-x: unset;}
 
+                .dataTables_filter {display: none !important;}
+                
                 table {
                     font-size: 14px;
 

@@ -26,6 +26,61 @@
             "paging": false
         });
     } );
+    // $(document).ready( function () {
+    //     $('.searchable-table').DataTable({
+    //         "paging": false
+    //     });
+    // } );
+
+    // Setup - add a text input to each footer cell    
+    // $('.searchable-table tfoot th').each( function () {
+    //     var title = $(this).text();
+    //     $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    // } );
+
+    // var table = $('.searchable-table').DataTable({
+    //     initComplete: function () {
+    //         // Apply the search
+    //         this.api().columns().every( function () {
+    //             var that = this;
+    //             console.log(this);
+    //             console.log(this.footer());
+    //             $( 'input', this.footer() ).on( 'keyup change clear', function () {
+    //                 if ( that.search() !== this.value ) {
+    //                     that
+    //                         .search( this.value )
+    //                         .draw();
+    //                 }
+    //             } );
+    //         } );
+    //     }
+    // });
+ 
+    $('.searchable-table thead tr.search-tr th').each( function () {
+        var title = $(this).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    } );
+
+    // Searchable DataTable config
+    $('.searchable-table').DataTable({
+        // "searching": false,
+        "paging": false,
+        initComplete: function () {
+            // Apply the search
+            this.api().columns().every( function () {
+                var that = this;
+ 
+                $( 'input', this.header() ).on( 'keyup change clear', function () {
+                    if ( that.search() !== this.value ) {
+                        that
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
+        }
+    });
+
 
     // Table type selection
     var radioButtons = $("div#table-type div input");

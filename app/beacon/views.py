@@ -257,14 +257,22 @@ BIOSAMPLES_DICT = {
 }
 
 FILTERING_TERMS_DICT = {
-    "female": ("individuals", "sex"),
-    "male": ("individuals", "sex"),
-    "England": ("individuals", "geographicOrigin"),
-    "Northern Ireland": ("individuals", "geographicOrigin"),
-    "Chinese": ("individuals", "ethnicity"),
-    "Asian or Asian British": ("individuals", "ethnicity"),
-    "blood": ("biosamples", "sampleOriginType"),
-    "reference sample": ("biosamples", "biosampleStatus")
+    "female": ("individuals", "sex", None),
+    "NCIT:C16576": ("individuals", "sex", "female"),
+    "male": ("individuals", "sex", None),
+    "NCIT:C20197": ("individuals", "sex", "male"),
+    "England": ("individuals", "geographicOrigin", None),
+    "GAZ:00002641": ("individuals", "geographicOrigin", "England"),
+    "Northern Ireland": ("individuals", "geographicOrigin", None),
+    "GAZ:00002638": ("individuals", "geographicOrigin", "Northern Ireland"),
+    "Chinese": ("individuals", "ethnicity", None),
+    "NCIT:C41260": ("individuals", "ethnicity", "Chinese"),
+    "Black or Black British": ("individuals", "ethnicity", None),
+    "NCIT:C16352": ("individuals", "ethnicity", "Black or Black British"),
+    "blood": ("biosamples", "sampleOriginType", None),
+    "UBERON:0000178": ("biosamples", "sampleOriginType", "blood"),
+    "reference sample": ("biosamples", "biosampleStatus", None),
+    "EFO:0009654": ("biosamples", "biosampleStatus", "reference sample"),
 }
 
 def phenoclinic(request):
@@ -390,7 +398,7 @@ def phenoclinic_response(request):
 
 
 ##################################################
-### FILTERING TERMS
+### QUERY HELP
 ##################################################
 
 def query_help(request):

@@ -34,10 +34,19 @@
             {% if results %}
             
             <div class="table-wrapper basic">
-                <table class="basic-table display">
+                <table class="searchable-table display">
+                    <thead>
+                        <tr class="search-tr">
+                            <th>filtering term</th>
+                            <th>label</th>
+                            <th>target entity</th>
+                            <th>target schema term</th>
+                        </tr>
+                    </thead>
                     <thead>
                         <tr>
                             <th>filtering term</th>
+                            <th>label</th>
                             <th>target entity</th>
                             <th>target schema term</th>
                         </tr>
@@ -46,6 +55,7 @@
                         {% for key, value in results.items %}
                             <tr>
                                 <td class="raw">{{key}}</td>
+                                <td class="raw">{{value.2|default_if_none:'-'}}</td>
                                 <td class="raw">{{value.0}}</td>
                                 <td class="raw">{{value.1}}</td>
                             </tr>
