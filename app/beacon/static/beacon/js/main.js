@@ -26,42 +26,14 @@
             "paging": false
         });
     } );
-    // $(document).ready( function () {
-    //     $('.searchable-table').DataTable({
-    //         "paging": false
-    //     });
-    // } );
 
-    // Setup - add a text input to each footer cell    
-    // $('.searchable-table tfoot th').each( function () {
-    //     var title = $(this).text();
-    //     $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-    // } );
 
-    // var table = $('.searchable-table').DataTable({
-    //     initComplete: function () {
-    //         // Apply the search
-    //         this.api().columns().every( function () {
-    //             var that = this;
-    //             console.log(this);
-    //             console.log(this.footer());
-    //             $( 'input', this.footer() ).on( 'keyup change clear', function () {
-    //                 if ( that.search() !== this.value ) {
-    //                     that
-    //                         .search( this.value )
-    //                         .draw();
-    //                 }
-    //             } );
-    //         } );
-    //     }
-    // });
- 
-    $('.searchable-table thead tr.search-tr th').each( function () {
+    // Searchable DataTable config
+    $('.searchable-table thead tr.search-tr th.search-box').each( function () {
         var title = $(this).text();
         $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
     } );
 
-    // Searchable DataTable config
     $('.searchable-table').DataTable({
         // "searching": false,
         "paging": false,
@@ -181,32 +153,73 @@
             // console.log(err);
             $(this).text(data);
         }
-      });
+    });
 
 
-      // Examples
-      // put example on query box when clicking it
-      var example = $("p.example");
-      var query = $("form input[type='text']");
-      var select = $("form select");
+    // Examples
+    // put example on query box when clicking it
+    var example = $("p.example");
+    var query = $("form input[type='text']");
+    var select = $("form select");
 
-      example.on("click", function(){
-        if ($(this).hasClass("phenoclinic")) {
-            console.log("phenoclinic");
-            text = $(this).text().split(" and ");
-            target = text[0];
-            queryValue = text[1];
-            console.log(target)
-            console.log(queryValue)
-            select.val(target).change();
-            query.val(queryValue);
-            $('form select option').removeAttr('selected').filter('[value='+target+']').attr('selected', true)
+    example.on("click", function(){
+    if ($(this).hasClass("phenoclinic")) {
+        console.log("phenoclinic");
+        text = $(this).text().split(" and ");
+        target = text[0];
+        queryValue = text[1];
+        console.log(target)
+        console.log(queryValue)
+        select.val(target).change();
+        query.val(queryValue);
+        $('form select option').removeAttr('selected').filter('[value='+target+']').attr('selected', true)
 
+    } else {
+        console.log("basic");
+        query.val($(this).text());
+    }
+
+    });
+
+    // Filtering terms selection
+    var checkboxTd = $("table.searchable-table td.checkbox");
+    var clipboardButton = $("#clipboard-terms i");
+    var clipboardText = $("#clipboard-terms input");
+    var selectedTerms = [];
+
+    checkboxTd.on("click", function(){
+        me = $(this);
+        var checkboxIcon = me.find("i");
+        var term = me.next("td").text();
+        if (checkboxIcon.hasClass("fa-square-o")) { // aka not selected
+            checkboxIcon.removeClass("fa-square-o");
+            checkboxIcon.addClass("fa-check-square-o");
+            // add to selectedTerms
+            selectedTerms.push(term);
         } else {
-            console.log("basic");
-            query.val($(this).text());
-        }
+            checkboxIcon.removeClass("fa-check-square-o");
+            checkboxIcon.addClass("fa-square-o");
+            // remove from selectedTerms
+            selectedTerms.splice($.inArray(term, selectedTerms), 1);
+        };
+        clipboardText.val(selectedTerms.join(", "));
+    });
 
-      });
+    // clipboard https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Interact_with_the_clipboard
+    function copy() {
+        clipboardText.select();
+        document.execCommand("copy");
+    };
+    clipboardButton.on("click", copy);
+    
+    // clean all
+    var checkboxTh = $("table.searchable-table th.checkbox");
+    var checkboxTdIcons = $("table.searchable-table td.checkbox i");
+    checkboxTh.on("click", function(){
+        checkboxTdIcons.removeClass("fa-check-square-o");
+        checkboxTdIcons.addClass("fa-square-o");
+        selectedTerms = [];
+        clipboardText.val("");
+    });
 
 })();

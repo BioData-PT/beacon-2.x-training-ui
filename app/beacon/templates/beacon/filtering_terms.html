@@ -29,22 +29,29 @@
             {% if error_message %}<span class="error"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></strong> {{ error_message }}</span>{% endif %}
 
             <p id="filtering-terms">The filtering terms are a collection of values that the beacon is able to understand without specifying the key. 
-                Thus, they can be used in the query box by themselves, i.e. <span class="mono">blood</span> instead of <span class="mono">sampleOriginType=blood</span>.
+                Thus, they can be used in the query box by themselves, i.e. <span class="mono">blood</span> instead of <span class="mono">sampleOriginType=blood</span> or <span class="mono">GAZ:00002641</span> instead of <span class="mono">geographicOrigin=GAZ:00002641</span>.
             </p>
+            <p>The table below shows the available filtering terms. You can select the ones you find interesting and copy them, so you can add them to the query box of the Phenoclinc page.</p>
             {% if results %}
-            
+            <div id="clipboard-terms">
+                <i class="fa fa-clone" aria-hidden="true"></i>
+                <input id="input" type="text" placeholder="Start selecting the checkboxes..."/>
+            </div>
+
             <div class="table-wrapper basic">
                 <table class="searchable-table display">
                     <thead>
                         <tr class="search-tr">
-                            <th>filtering term</th>
-                            <th>label</th>
-                            <th>target entity</th>
-                            <th>target schema term</th>
+                            <th></th>
+                            <th class="search-box">filtering term</th>
+                            <th class="search-box">label</th>
+                            <th class="search-box">target entity</th>
+                            <th class="search-box">target schema term</th>
                         </tr>
                     </thead>
                     <thead>
                         <tr>
+                            <th class="checkbox"><i class="fa fa-minus-square-o" aria-hidden="true"></i></th>
                             <th>filtering term</th>
                             <th>label</th>
                             <th>target entity</th>
@@ -54,6 +61,7 @@
                     <tbody>
                         {% for key, value in results.items %}
                             <tr>
+                                <td class="checkbox"><i class="fa fa-square-o" aria-hidden="true"></i></td>
                                 <td class="raw">{{key}}</td>
                                 <td class="raw">{{value.2|default_if_none:'-'}}</td>
                                 <td class="raw">{{value.0}}</td>

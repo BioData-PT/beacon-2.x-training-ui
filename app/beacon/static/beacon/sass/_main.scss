@@ -402,10 +402,23 @@ body {
                 &.basic {overflow-x: unset;}
 
                 .dataTables_filter {display: none !important;}
-                
                 table {
                     font-size: 14px;
-
+                    thead {
+                        tr {
+                            th {
+                                &.checkbox {
+                                    cursor: pointer;
+                                    padding-left: 10px;
+                                    &:active {
+                                        position: relative;
+                                        top: 1px;
+                                        // right: 1px;
+                                    }
+                                }
+                            }
+                        }
+                    }
                     tbody {
                         tr {
                             td {
@@ -417,6 +430,7 @@ body {
                                     max-height: 100px;
                                     overflow-y: scroll;
                                 }
+                                &.checkbox { cursor: pointer;}
                             }
                         }
                     }
@@ -495,6 +509,36 @@ body {
             p.no-results-help {
                 font-style: italic;
                 margin-top: 10px;
+            }
+
+            div#clipboard-terms {
+                display: flex;
+                flex-flow: row nowrap;
+                background: white;
+                width: auto;
+                border-radius: 10px;
+                border: 1px solid $grey;
+                align-items: center;
+                padding: 5px 10px;
+                margin-top: 1em;
+
+                i { 
+                    cursor: pointer;
+                    &:active {
+                        position: relative;
+                        top: 1px;
+                        // right: 1px;
+                    }
+                }
+                input {
+                    font-size: 13px;
+                    margin: 0 0 0 8px; padding: 0;
+                    width: 100%;
+                    border: none;
+                    &:focus {
+                        outline: none;
+                    }
+                }
             }
         }
 
