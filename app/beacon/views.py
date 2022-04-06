@@ -38,17 +38,6 @@ except:
     print("\nThe DB does not contain the Beacon test data. Please, check the DB and the loading step and try to initiate the Beacon app again.")
     exit(0)
 
-##################################################
-### INDEX
-##################################################
-
-def index(request):
-    display_options = [3,5,10]
-    context = {
-        'display_options': display_options,
-    }
-    return render(request, 'beacon/index.html', context)
-
 
 ##################################################
 ### COHORTS
@@ -135,9 +124,7 @@ def variant_response(request):
             'query': query
         })
 
-    # notice chr is not used in the query
     collection_handle = get_collection_handle(db_handle, "genomicVariations")
-
     results = list(collection_handle.find({"position.refseqId": chromosome, "position.start": start, "referenceBases": reference, "alternateBases": alternate}))
     count = len(results)
     keys = set([k for result in results for k in result.keys()])
@@ -221,6 +208,7 @@ def region_response(request):
 ### PHENOCLINIC
 ##################################################
 
+# Custom dicts to define the 'type' of object, in this beacon for simplicity we will only use 'simple', 'object_id_label' and 'array_object_measures' (see L320)
 INDIVIDUALS_DICT = {
     "diseases": "array_object_complex",
     "ethnicity": "object_id_label",
@@ -256,6 +244,7 @@ BIOSAMPLES_DICT = {
     "tumorProgression": "object_id_label",
 }
 
+# Filtering terms dict as 'filtering term: (target entity, target schema term, label)'
 FILTERING_TERMS_DICT = {
     "female": ("individuals", "sex", None),
     "NCIT:C16576": ("individuals", "sex", "female"),
@@ -317,7 +306,7 @@ def parse_query(request, schema):
         # detect if value if string or ontology
         key_type = ".id" if ":" in value else ".label"  # useful if object_id_label
         
-        # for this UI we assume if the value is float, the key is measurements
+        # for this UI we assume if the value is float, the key is measurements ('array_object_measures')
         try:
             value= float(value)
             str_operator = operator_dict[operator]
@@ -327,8 +316,8 @@ def parse_query(request, schema):
                 query_list_array_obj.append(query_measure)
             else:
                 error = "Some of the query terms are incorrect/not available. Please, check the schema, the filtering terms and the query syntax and try again."
-        # if not, we can have object_id_label or simple 
-        # NOTICE we ignore array_object_complex or array_object_id_label
+        # if not, we can have 'object_id_label' or 'simple' 
+        # NOTICE we ignore 'array_object_complex' or 'array_object_id_label'
         except ValueError:
             if key in schema and schema[key] == "object_id_label":
                 query_normal = f"'{key}{key_type}': '{value}'"   

@@ -91,7 +91,7 @@
 
 
     // Navbar
-    // When the user scrolls down 80px from the top of the document, resize the navbar's padding and the logo's font size
+    //// When the user scrolls down 80px from the top of the document, resize the navbar's padding and the logo's font size
     var navbar = $("nav");
     window.onscroll = function() {scrollFunction()};
 
@@ -123,21 +123,7 @@
     });
 
     // Format JSON
-    // https://www.cssscript.com/minimal-json-data-formatter-jsonviewer/ 
-
-    // Example
-    // Add <div id="json"></div> somewhere to test it
-    // var jsonObj = {};
-    // var jsonViewer = new JSONViewer();
-    // document.querySelector("#json").appendChild(jsonViewer.getContainer());
-
-    // testString = JSON.stringify([{'assayCode': {'id': 'LOINC:35925-4', 'label': 'BMI'}, 'date': '2021-09-24', 'measurementValue': {'units': {'id': 'NCIT:C49671', 'label': 'Kilogram per Square Meter'}, 'value': 28.17336761}}, {'assayCode': {'id': 'LOINC:3141-9', 'label': 'Weight'}, 'date': '2021-09-24', 'measurementValue': {'units': {'id': 'NCIT:C28252', 'label': 'Kilogram'}, 'value': 94.9065}}, {'assayCode': {'id': 'LOINC:8308-9', 'label': 'Height-standing'}, 'date': '2021-09-24', 'measurementValue': {'units': {'id': 'NCIT:C49668', 'label': 'Centimeter'}, 'value': 183.5391}}]);
-    // jsonObj = JSON.parse(testString);
-    // console.log(testString);
-    // console.log(jsonObj)
-    // jsonViewer.showJSON(jsonObj, null, 1);
-    // End Example
-
+    //// https://www.cssscript.com/minimal-json-data-formatter-jsonviewer/ 
     $("td div.json").each(function() {
         var jsonObj = {};
         var jsonViewer = new JSONViewer();
@@ -157,7 +143,7 @@
 
 
     // Examples
-    // put example on query box when clicking it
+    //// put example on query box when clicking it
     var example = $("p.example");
     var query = $("form input[type='text']");
     var select = $("form select");
@@ -173,12 +159,10 @@
         select.val(target).change();
         query.val(queryValue);
         $('form select option').removeAttr('selected').filter('[value='+target+']').attr('selected', true)
-
     } else {
         console.log("basic");
         query.val($(this).text());
-    }
-
+        }
     });
 
     // Filtering terms selection
@@ -205,14 +189,14 @@
         clipboardText.val(selectedTerms.join(", "));
     });
 
-    // clipboard https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Interact_with_the_clipboard
+    //// clipboard https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Interact_with_the_clipboard
     function copy() {
         clipboardText.select();
         document.execCommand("copy");
     };
     clipboardButton.on("click", copy);
     
-    // clean all
+    //// clean all selections
     var checkboxTh = $("table.searchable-table th.checkbox");
     var checkboxTdIcons = $("table.searchable-table td.checkbox i");
     checkboxTh.on("click", function(){
