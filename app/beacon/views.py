@@ -246,22 +246,22 @@ BIOSAMPLES_DICT = {
 
 # Filtering terms dict as 'filtering term: (target entity, target schema term, label)'
 FILTERING_TERMS_DICT = {
-    "female": ("individuals", "sex", None),
-    "NCIT:C16576": ("individuals", "sex", "female"),
-    "male": ("individuals", "sex", None),
-    "NCIT:C20197": ("individuals", "sex", "male"),
-    "England": ("individuals", "geographicOrigin", None),
-    "GAZ:00002641": ("individuals", "geographicOrigin", "England"),
-    "Northern Ireland": ("individuals", "geographicOrigin", None),
-    "GAZ:00002638": ("individuals", "geographicOrigin", "Northern Ireland"),
-    "Chinese": ("individuals", "ethnicity", None),
-    "NCIT:C41260": ("individuals", "ethnicity", "Chinese"),
-    "Black or Black British": ("individuals", "ethnicity", None),
-    "NCIT:C16352": ("individuals", "ethnicity", "Black or Black British"),
-    "blood": ("biosamples", "sampleOriginType", None),
-    "UBERON:0000178": ("biosamples", "sampleOriginType", "blood"),
-    "reference sample": ("biosamples", "biosampleStatus", None),
-    "EFO:0009654": ("biosamples", "biosampleStatus", "reference sample"),
+    "female": ("individuals", "sex.label", None),
+    "NCIT:C16576": ("individuals", "sex.id", "female"),
+    "male": ("individuals", "sex.label", None),
+    "NCIT:C20197": ("individuals", "sex.id", "male"),
+    "England": ("individuals", "geographicOrigin.label", None),
+    "GAZ:00002641": ("individuals", "geographicOrigin.id", "England"),
+    "Northern Ireland": ("individuals", "geographicOrigin.label", None),
+    "GAZ:00002638": ("individuals", "geographicOrigin.id", "Northern Ireland"),
+    "Chinese": ("individuals", "ethnicity.label", None),
+    "NCIT:C41260": ("individuals", "ethnicity.id", "Chinese"),
+    "Black or Black British": ("individuals", "ethnicity.label", None),
+    "NCIT:C16352": ("individuals", "ethnicity.id", "Black or Black British"),
+    "blood": ("biosamples", "sampleOriginType.label", None),
+    "UBERON:0000178": ("biosamples", "sampleOriginType.id", "blood"),
+    "reference sample": ("biosamples", "biosampleStatus.label", None),
+    "EFO:0009654": ("biosamples", "biosampleStatus.id", "reference sample"),
 }
 
 def phenoclinic(request):
@@ -284,18 +284,22 @@ def parse_query(request, schema):
         "<": "$lt"
     }
     # loop through every key-value pair and parse it
-    query_list_normal_obj = []
+    query_list_normal_obj = [] 
     query_list_array_obj = []
     for element in request_list:
         element = element.strip()
         try:
             m = re.match(pattern, element, re.IGNORECASE)
-            key = m.group(1)
+            key_full = m.group(1)
+            key_list = key_full.split(".")
+            key = key_list[0]
             value = m.group(3)
             operator = m.group(2)
         except:
             if element in FILTERING_TERMS_DICT.keys():
-                key = FILTERING_TERMS_DICT[element][1]
+                key_full = FILTERING_TERMS_DICT[element][1]
+                key_list = key_full.split(".")
+                key = key_list[0]
                 value = element
                 operator = "="
             else:
@@ -325,6 +329,14 @@ def parse_query(request, schema):
             elif key in schema and schema[key] == "simple":
                 query_normal = f"'{key}': '{value}'"   
                 query_list_normal_obj.append(query_normal)
+            elif key in schema and schema[key] == "array_object_id_label":
+                key_sub = ".".join(key_list[1:])
+                query_array = f"{{'{key}': {{'$elemMatch': {{'{key_sub}{key_type}': '{value}'}}}}}}"
+                query_list_array_obj.append(query_array)
+            elif key in schema and schema[key] == "array_object_complex":
+                key_sub = ".".join(key_list[1:])
+                query_array = f"{{'{key}': {{'$elemMatch': {{'{key_sub}': '{value}'}}}}}}"
+                query_list_array_obj.append(query_array)
             else:
                 error = "Some of the query terms are incorrect/not available. Please, check the schema, the filtering terms and the query syntax and try again."
                 
@@ -343,7 +355,7 @@ def parse_query(request, schema):
     query_string = query_string.replace("'", '"')
     query_json = json.loads(query_string)
 
-    return query_json, error  
+    return query_json, error 
 
 def phenoclinic_response(request):
     try:

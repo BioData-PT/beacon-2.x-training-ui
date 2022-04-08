@@ -30,8 +30,9 @@
             <p>This information is structured as specified in the Beacon schemas: 
                 <a target="_blank" href="http://docs.genomebeacons.org/schemas-md/individuals_defaultSchema/">Individuals</a> and 
                 <a target="_blank" href="http://docs.genomebeacons.org/schemas-md/biosamples_defaultSchema/">Biosamples</a>.</p>
-            <p>For the purpose of simplicity, in this training Beacon the more complex and nested fields won't be available for use in the query.</p>
-            <p>The available fields and how to use them are specified in the tables below.</p>
+            <!-- <p>For the purpose of simplicity, in this training Beacon the more complex and nested fields won't be available for use in the query.</p> -->
+            <p>For the purpose of simplicity, the "simple" fileds (i.e. the ones only nested with the terms "id" and "label") can be used without specifying these terms. For example, <span class="mono">ethnicity=NCIT:C16352</span> instead of <span class="mono">ethnicity.id=NCIT:C16352</span> or <span class="mono">ethnicity=England</span> instead of <span class="mono">ethnicity.label=England</span></p>
+            <p>Some of the available fields and how to use them are specified in the tables below.</p>
             <p>In multiple filters queries, the key-value pairs need to be comma-separated. Also, remember the possibility of using <a target="_blank" href="{% url 'beacon:filtering_terms' %}">Filtering Terms</a>.</p>
             <h3>Individuals</h3>
             <div class="table-wrapper basic">
@@ -84,6 +85,27 @@
                                 <td>&ltmeasurements.assayCode value&gt &gt&lt= &ltmeasurements.measurementValue value&gt</td>
                                 <td>Weight>90</td>
                             </tr>
+                            <tr>
+                                <td><span class="mono">diseases.diseaseCode.label</span></td>
+                                <td>diseases.diseaseCode.label=&ltdiseases.diseaseCode.label value&gt</td>
+                                <td>diseases.diseaseCode.label=asthma</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">diseases.diseaseCode.id</span></td>
+                                <td>diseases.diseaseCode.id=&ltdiseases.diseaseCode.id value&gt</td>
+                                <td>diseases.diseaseCode.id=ICD10:J45</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">interventionsOrProcedures.procedureCode.label</span></td>
+                                <td>interventionsOrProcedures.procedureCode.label=&ltinterventionsOrProcedures.procedureCode.label value&gt</td>
+                                <td>interventionsOrProcedures.procedureCode.label=OPCS(v4-0.0):Radiocarpal joint</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">interventionsOrProcedures.procedureCode.id</span></td>
+                                <td>interventionsOrProcedures.procedureCode.id=&ltinterventionsOrProcedures.procedureCode.label value&gt</td>
+                                <td>interventionsOrProcedures.procedureCode.id=OPCS4:Z82.1</td>
+                            </tr>
+
                     </tbody>
                 </table> 
             </div>
@@ -130,6 +152,7 @@
                                 <td>biosampleStatus=&ltbiosampleStatus.label value&gt</td>
                                 <td>biosampleStatus=reference sample</td>
                             </tr>
+                            {% comment %}
                             <tr>
                                 <td><span class="mono">histologicalDiagnosis.id</span></td>
                                 <td>histologicalDiagnosis=&lthistologicalDiagnosis.id value&gt</td>
@@ -206,7 +229,7 @@
                                 <td>tumorProgression=&lttumorProgression.label value&gt</td>
                                 <td>tumorProgression=example</td>
                             </tr>
-
+                            {% endcomment %}
 
                     </tbody>
                 </table> 
