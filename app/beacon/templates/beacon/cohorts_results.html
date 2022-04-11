@@ -62,7 +62,7 @@
             {%for cohort in results%}
             <div class="cohort-card">
 
-                    <h1 class="cohort-name">{{cohort.cohortName}}</h1>
+                    <h1 class="cohort-name">{{cohort.name}}</h1>
     
                     <h2>Basic attributes</h2>
                     <ul>
@@ -84,21 +84,21 @@
                             
                         </li>
                         {% endif %}
-                        {% if cohort.cohortInclusionCriteria %}
+                        {% if cohort.inclusionCriteria %}
                         <li>
                             <span class="strong">inclusion criteria</span>
                             <ul>
-                                {% if  cohort.cohortInclusionCriteria.ageRange %}
+                                {% if  cohort.inclusionCriteria.ageRange %}
                                 <li>
                                     <span class="strong">ageRange</span>
-                                    <span class="content">{{cohort.cohortInclusionCriteria.ageRange.start.iso8601duration}}-{{cohort.cohortInclusionCriteria.ageRange.end.iso8601duration}}</span>        
+                                    <span class="content">{{cohort.inclusionCriteria.ageRange.start.iso8601duration}}-{{cohort.inclusionCriteria.ageRange.end.iso8601duration}}</span>        
                                 </li>
                                 {% endif %}
-                                {% if  cohort.cohortInclusionCriteria.genders %}
+                                {% if  cohort.inclusionCriteria.genders %}
                                 <li>
                                     <span class="strong">genders</span>
                                     <ul>
-                                        {% for gender in cohort.cohortInclusionCriteria.genders%}
+                                        {% for gender in cohort.inclusionCriteria.genders%}
                                         <li>
                                             <span class="duo">{{gender.id}}</span>
                                             <span class="content">{{gender.label}}</span>
@@ -107,11 +107,11 @@
                                     </ul>
                                 </li>
                                 {% endif %}
-                                {% if  cohort.cohortInclusionCriteria.locations %}
+                                {% if  cohort.inclusionCriteria.locations %}
                                 <li>
                                     <span class="strong">locations</span>
                                     <ul>
-                                        {% for location in cohort.cohortInclusionCriteria.locations%}
+                                        {% for location in cohort.inclusionCriteria.locations%}
                                         <li>
                                             <span class="duo">{{location.id}}</span>
                                             <span class="content">{{location.label}}</span>
@@ -120,11 +120,11 @@
                                     </ul>
                                 </li>
                                 {% endif %}
-                                {% if  cohort.cohortInclusionCriteria.diseaseConditions %}
+                                {% if  cohort.inclusionCriteria.diseaseConditions %}
                                 <li>
                                     <span class="strong">diseaseConditions</span>
                                     <ul>
-                                        {% for disease in cohort.cohortInclusionCriteria.diseaseConditions%}
+                                        {% for disease in cohort.inclusionCriteria.diseaseConditions%}
                                         <li>
                                             {% for key, value in disease.items %}
                                             <span class="strong">{{key}}</span>
@@ -135,11 +135,11 @@
                                     </ul>
                                 </li>
                                 {% endif %}
-                                {% if  cohort.cohortInclusionCriteria.ethnicities %}
+                                {% if  cohort.inclusionCriteria.ethnicities %}
                                 <li>
                                     <span class="strong">ethnicities</span>
                                     <ul>
-                                        {% for ethnicity in cohort.cohortInclusionCriteria.ethnicities%}
+                                        {% for ethnicity in cohort.inclusionCriteria.ethnicities%}
                                         <li>
                                             <span class="duo">{{ethnicity.id}}</span>
                                             <span class="content">{{ethnicity.label}}</span>
@@ -148,11 +148,11 @@
                                     </ul>
                                 </li>
                                 {% endif %}
-                                {% if  cohort.cohortInclusionCriteria.phenotypicConditions %}
+                                {% if  cohort.inclusionCriteria.phenotypicConditions %}
                                 <li>
                                     <span class="strong">phenotypicConditions</span>
                                     <ul>
-                                        {% for condition in cohort.cohortInclusionCriteria.phenotypicConditions%}
+                                        {% for condition in cohort.inclusionCriteria.phenotypicConditions%}
                                         <li>
                                             {% for key, value in condition.items %}
                                             <span class="strong">{{key}}</span>
@@ -166,21 +166,21 @@
                             </ul>
                         </li>
                         {% endif %}
-                        {% if cohort.cohortExclusionCriteria %}
+                        {% if cohort.exclusionCriteria %}
                         <li>
                             <span class="strong">exclusion criteria</span>
                             <ul>
-                                {% if  cohort.cohortExclusionCriteria.ageRange %}
+                                {% if  cohort.exclusionCriteria.ageRange %}
                                 <li>
                                     <span class="strong">ageRange</span>
-                                    <span class="content">{{cohort.cohortExclusionCriteria.ageRange.start.iso8601duration}}-{{cohort.cohortInclusionCriteria.ageRange.end.iso8601duration}}</span>        
+                                    <span class="content">{{cohort.exclusionCriteria.ageRange.start.iso8601duration}}-{{cohort.inclusionCriteria.ageRange.end.iso8601duration}}</span>        
                                 </li>
                                 {% endif %}
-                                {% if  cohort.cohortExclusionCriteria.genders %}
+                                {% if  cohort.exclusionCriteria.genders %}
                                 <li>
                                     <span class="strong">genders</span>
                                     <ul>
-                                        {% for gender in cohort.cohortExclusionCriteria.genders%}
+                                        {% for gender in cohort.exclusionCriteria.genders%}
                                         <li>
                                             <span class="strong">{{gender.id}}</span>
                                             <span class="content">{{gender.label}}</span>
@@ -189,11 +189,11 @@
                                     </ul>
                                 </li>
                                 {% endif %}
-                                {% if  cohort.cohortExclusionCriteria.locations %}
+                                {% if  cohort.exclusionCriteria.locations %}
                                 <li>
                                     <span class="strong">locations</span>
                                     <ul>
-                                        {% for location in cohort.cohortExclusionCriteria.locations%}
+                                        {% for location in cohort.exclusionCriteria.locations%}
                                         <li>
                                             <span class="strong">{{location.id}}</span>
                                             <span class="content">{{location.label}}</span>
@@ -202,11 +202,11 @@
                                     </ul>
                                 </li>
                                 {% endif %}
-                                {% if  cohort.cohortExclusionCriteria.diseaseConditions %}
+                                {% if  cohort.exclusionCriteria.diseaseConditions %}
                                 <li>
                                     <span class="strong">diseaseConditions</span>
                                     <ul>
-                                        {% for disease in cohort.cohortExclusionCriteria.diseaseConditions%}
+                                        {% for disease in cohort.exclusionCriteria.diseaseConditions%}
                                         <li>
                                             {% for key, value in disease.items %}
                                             <span class="strong">{{key}}</span>
@@ -217,11 +217,11 @@
                                     </ul>
                                 </li>
                                 {% endif %}
-                                {% if  cohort.cohortExclusionCriteria.ethnicities %}
+                                {% if  cohort.exclusionCriteria.ethnicities %}
                                 <li>
                                     <span class="strong">ethnicities</span>
                                     <ul>
-                                        {% for ethnicity in cohort.cohortExclusionCriteria.ethnicities%}
+                                        {% for ethnicity in cohort.exclusionCriteria.ethnicities%}
                                         <li>
                                             <span class="strong">{{ethnicity.id}}</span>
                                             <span class="content">{{ethnicity.label}}</span>
@@ -230,11 +230,11 @@
                                     </ul>
                                 </li>
                                 {% endif %}
-                                {% if  cohort.cohortExclusionCriteria.phenotypicConditions %}
+                                {% if  cohort.exclusionCriteria.phenotypicConditions %}
                                 <li>
                                     <span class="strong">phenotypicConditions</span>
                                     <ul>
-                                        {% for condition in cohort.cohortExclusionCriteria.phenotypicConditions%}
+                                        {% for condition in cohort.exclusionCriteria.phenotypicConditions%}
                                         <li>
                                             {% for key, value in condition.items %}
                                             <span class="strong">{{key}}</span>
@@ -293,10 +293,10 @@
                                 {% comment %}
                                 <span class="content">
                                     <ul>
-                                        {% for item in collectionEvent.eventLocations.distribution %}
+                                        {% for key, value in collectionEvent.eventLocations.distribution.locations.items %}
                                         <li>
-                                            <span class="strong2">{{item.type.label}}</span>
-                                            <span class="content">{{item.count}}</span>
+                                            <span class="strong2">{{key}}</span>
+                                            <span class="content">{{value}}</span>
                                         </li>
                                         {% endfor %}
                                     </ul>
@@ -305,13 +305,13 @@
                             </li>
                             
                             <!-- plot -->
-                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventLocations.distribution|length|mul:21|add:10}}" aria-labelledby="title" role="img">
+                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventLocations.distribution.locations.keys|length|mul:21|add:10}}" aria-labelledby="title" role="img">
                                 
-                                {% for item in collectionEvent.eventLocations.distribution %}
+                                {% for key, value in collectionEvent.eventLocations.distribution.locations.items %}
                                 <g class="bar" transform="translate(0,{{ forloop.counter|sub:1|mul:20 }})">
                                     {% with availabilityCount=collectionEvent.eventLocations.availabilityCount%}
-                                    <rect width="{{ item.count|div:availabilityCount|mul:350 }}" height="19"></rect>
-                                    <text x="{{ item.count|div:availabilityCount|mul:350|add:5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ item.count|div:availabilityCount|mul:100|floatformat:2 }}%)</text>
+                                    <rect width="{{ value|div:availabilityCount|mul:350 }}" height="19"></rect>
+                                    <text x="{{ value|div:availabilityCount|mul:350|add:5 }}" y="9.5" dy=".35em">{{value}} {{key}} ({{ value|div:availabilityCount|mul:100|floatformat:2 }}%)</text>
                                     {% endwith %}
                                 </g>
                                 {% endfor %}
@@ -327,25 +327,24 @@
                                 {% comment %}
                                 <span class="content">
                                     <ul>
-                                        {% for item in collectionEvent.eventGenders.distribution %}
+                                        {% for key, value in collectionEvent.eventGenders.distribution.genders.items %}
                                         <li>
-                                            <span class="strong2">{{item.type.label}}</span>
-                                            <span class="content">{{item.count}}</span>
+                                            <span class="strong2">{{key}}</span>
+                                            <span class="content">{{value}}</span>
                                         </li>
                                         {% endfor %}
                                     </ul>
                                 </span>
                                 {% endcomment %}
                             </li>
-                            
                             <!-- plot -->
-                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventGenders.distribution|length|mul:21|add:10}}" aria-labelledby="title" role="img">
+                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventGenders.distribution.genders.keys|length|mul:21|add:10}}" aria-labelledby="title" role="img">
                                 
-                                {% for item in collectionEvent.eventGenders.distribution %}
+                                {% for key, value in collectionEvent.eventGenders.distribution.genders.items %}
                                 <g class="bar" transform="translate(0,{{ forloop.counter|sub:1|mul:20 }})">
                                     {% with availabilityCount=collectionEvent.eventGenders.availabilityCount%}
-                                    <rect width="{{ item.count|div:availabilityCount|mul:350 }}" height="19"></rect>
-                                    <text x="{{ item.count|div:availabilityCount|mul:350|add:5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ item.count|div:availabilityCount|mul:100|floatformat:2 }}%)</text>
+                                    <rect width="{{ value|div:availabilityCount|mul:350 }}" height="19"></rect>
+                                    <text x="{{ value|div:availabilityCount|mul:350|add:5 }}" y="9.5" dy=".35em">{{value}} {{key}} ({{ value|div:availabilityCount|mul:100|floatformat:2 }}%)</text>
                                     {% endwith %}                                </g>
                                 {% endfor %}
                               </svg>
@@ -360,10 +359,10 @@
                                 {% comment %}
                                 <span class="content">
                                     <ul>
-                                        {% for item in collectionEvent.eventEthnicities.distribution %}
+                                        {% for key, value in collectionEvent.eventEthnicities.distribution.ethnicities.items %}
                                         <li>
-                                            <span class="strong2">{{item.type.label}}</span>
-                                            <span class="content">{{item.count}}</span>
+                                            <span class="strong2">{{key}}</span>
+                                            <span class="content">{{value}}</span>
                                         </li>
                                         {% endfor %}
                                     </ul>
@@ -372,13 +371,13 @@
                             </li>
                            
                             <!-- plot -->
-                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventEthnicities.distribution|length|mul:21|add:10}}" aria-labelledby="title" role="img">
+                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventEthnicities.distribution.ethnicities.keys|length|mul:21|add:10}}" aria-labelledby="title" role="img">
                                 
-                                {% for item in collectionEvent.eventEthnicities.distribution %}
+                                {% for key, value in collectionEvent.eventEthnicities.distribution.ethnicities.items %}
                                 <g class="bar" transform="translate(0,{{ forloop.counter|sub:1|mul:20 }})">
                                     {% with availabilityCount=collectionEvent.eventEthnicities.availabilityCount%}
-                                    <rect width="{{ item.count|div:availabilityCount|mul:350 }}" height="19"></rect>
-                                    <text x="{{ item.count|div:availabilityCount|mul:350|add:5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ item.count|div:availabilityCount|mul:100|floatformat:2 }}%)</text>
+                                    <rect width="{{ value|div:availabilityCount|mul:350 }}" height="19"></rect>
+                                    <text x="{{ value|div:availabilityCount|mul:350|add:5 }}" y="9.5" dy=".35em">{{value}} {{key}} ({{ value|div:availabilityCount|mul:100|floatformat:2 }}%)</text>
                                     {% endwith %}                                </g>
                                 {% endfor %}
                                 </svg>
@@ -393,10 +392,10 @@
                                 {% comment %}
                                 <span class="content">
                                     <ul>
-                                        {% for item in collectionEvent.eventAgeRange.distribution %}
+                                        {% for key, value in collectionEvent.eventAgeRange.distribution.ageRange.items %}
                                         <li>
-                                            <span class="strong2">{{item.type.label}}</span>
-                                            <span class="content">{{item.count}}</span>
+                                            <span class="strong2">{{key}}</span>
+                                            <span class="content">{{value}}</span>
                                         </li>
                                         {% endfor %}
                                     </ul>
@@ -405,13 +404,13 @@
                             </li>
                             
                             <!-- plot -->
-                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventAgeRange.distribution|length|mul:21|add:10}}" aria-labelledby="title" role="img">
+                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventAgeRange.distribution.ageRange.keys|length|mul:21|add:10}}" aria-labelledby="title" role="img">
                                 
-                                {% for item in collectionEvent.eventAgeRange.distribution %}
+                                {% for key, value in collectionEvent.eventAgeRange.distribution.ageRange.items %}
                                 <g class="bar" transform="translate(0,{{ forloop.counter|sub:1|mul:20 }})">
                                     {% with availabilityCount=collectionEvent.eventAgeRange.availabilityCount%}
-                                    <rect width="{{ item.count|div:availabilityCount|mul:350 }}" height="19"></rect>
-                                    <text x="{{ item.count|div:availabilityCount|mul:350|add:5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ item.count|div:availabilityCount|mul:100|floatformat:2 }}%)</text>
+                                    <rect width="{{ value|div:availabilityCount|mul:350 }}" height="19"></rect>
+                                    <text x="{{ value|div:availabilityCount|mul:350|add:5 }}" y="9.5" dy=".35em">{{value}} {{key}} ({{ value|div:availabilityCount|mul:100|floatformat:2 }}%)</text>
                                     {% endwith %}                                </g>
                                 {% endfor %}
                             </svg>
@@ -426,10 +425,10 @@
                                 {% comment %}
                                 <span class="content">
                                     <ul>
-                                        {% for item in collectionEvent.eventDiseases.distribution %}
+                                        {% for key, value in collectionEvent.eventDiseases.distribution.diseases.items %}
                                         <li>
-                                            <span class="strong2">{{item.type.label}}</span>
-                                            <span class="content">{{item.count}}</span>
+                                            <span class="strong2">{{key}}</span>
+                                            <span class="content">{{value}}</span>
                                         </li>
                                         {% endfor %}
                                     </ul>
@@ -438,13 +437,13 @@
                             </li>
                             
                             <!-- plot -->
-                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventDiseases.distribution|length|mul:21|add:10}}" aria-labelledby="title" role="img">
+                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventDiseases.distribution.diseases.keys|length|mul:21|add:10}}" aria-labelledby="title" role="img">
                                 
-                                {% for item in collectionEvent.eventDiseases.distribution %}
+                                {% for key, value in collectionEvent.eventDiseases.distribution.diseases.items %}
                                 <g class="bar" transform="translate(0,{{ forloop.counter|sub:1|mul:20 }})">
                                     {% with availabilityCount=collectionEvent.eventDiseases.availabilityCount%}
-                                    <rect width="{{ item.count|div:availabilityCount|mul:350 }}" height="19"></rect>
-                                    <text x="{{ item.count|div:availabilityCount|mul:350|add:5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ item.count|div:availabilityCount|mul:100|floatformat:2 }}%)</text>
+                                    <rect width="{{ value|div:availabilityCount|mul:350 }}" height="19"></rect>
+                                    <text x="{{ value|div:availabilityCount|mul:350|add:5 }}" y="9.5" dy=".35em">{{value}} {{key}} ({{ value|div:availabilityCount|mul:100|floatformat:2 }}%)</text>
                                     {% endwith %}                                </g>
                                 {% endfor %}
                             </svg>
@@ -458,10 +457,10 @@
                                 {% comment %}
                                 <span class="content">
                                     <ul>
-                                        {% for item in collectionEvent.eventPhenotypes.distribution %}
+                                        {% for key, value in collectionEvent.eventPhenotypes.distribution.phenotypes.items %}
                                         <li>
-                                            <span class="strong2">{{item.type.label}}</span>
-                                            <span class="content">{{item.count}}</span>
+                                            <span class="strong2">{{key}}</span>
+                                            <span class="content">{{value}}</span>
                                         </li>
                                         {% endfor %}
                                     </ul>
@@ -470,13 +469,13 @@
                             </li>
                             
                             <!-- plot -->
-                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventPhenotypes.distribution|length|mul:21|add:10}}" aria-labelledby="title" role="img">
+                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventPhenotypes.distribution.phenotypes.keys|length|mul:21|add:10}}" aria-labelledby="title" role="img">
                                 
-                                {% for item in collectionEvent.eventPhenotypes.distribution %}
+                                {% for key, value in collectionEvent.eventPhenotypes.distribution.phenotypes.items %}
                                 <g class="bar" transform="translate(0,{{ forloop.counter|sub:1|mul:20 }})">
                                     {% with availabilityCount=collectionEvent.eventPhenotypes.availabilityCount%}
-                                    <rect width="{{ item.count|div:availabilityCount|mul:350 }}" height="19"></rect>
-                                    <text x="{{ item.count|div:availabilityCount|mul:350|add:5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ item.count|div:availabilityCount|mul:100|floatformat:2 }}%)</text>
+                                    <rect width="{{ value|div:availabilityCount|mul:350 }}" height="19"></rect>
+                                    <text x="{{ value|div:availabilityCount|mul:350|add:5 }}" y="9.5" dy=".35em">{{value}} {{key}} ({{ value|div:availabilityCount|mul:100|floatformat:2 }}%)</text>
                                     {% endwith %}                                </g>
                                 {% endfor %}
                             </svg>
@@ -491,10 +490,10 @@
                                 {% comment %}
                                 <span class="content">
                                     <ul>
-                                        {% for item in collectionEvent.eventDataTypes.distribution %}
+                                        {% for key, value in collectionEvent.eventDataTypes.distribution.dataTypes.items %}
                                         <li>
-                                            <span class="strong2">{{item.type.label}}</span>
-                                            <span class="content">{{item.count}}</span>
+                                            <span class="strong2">{{key}}</span>
+                                            <span class="content">{{value}}</span>
                                         </li>
                                         {% endfor %}
                                     </ul>
@@ -503,13 +502,13 @@
                             </li>
                             
                             <!-- plot -->
-                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventDataTypes.distribution|length|mul:21|add:10}}" aria-labelledby="title" role="img">
+                            <svg class="bar-plot" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="500" height="{{collectionEvent.eventDataTypes.distribution.dataTypes.keys|length|mul:21|add:10}}" aria-labelledby="title" role="img">
                                 
-                                {% for item in collectionEvent.eventDataTypes.distribution %}
+                                {% for key, value in collectionEvent.eventDataTypes.distribution.dataTypes.items %}
                                 <g class="bar" transform="translate(0,{{ forloop.counter|sub:1|mul:20 }})">
                                     {% with availabilityCount=collectionEvent.eventDataTypes.availabilityCount%}
-                                    <rect width="{{ item.count|div:availabilityCount|mul:350 }}" height="19"></rect>
-                                    <text x="{{ item.count|div:availabilityCount|mul:350|add:5 }}" y="9.5" dy=".35em">{{item.count}} {{item.type.label}} ({{ item.count|div:availabilityCount|mul:100|floatformat:2 }}%)</text>
+                                    <rect width="{{ value|div:availabilityCount|mul:350 }}" height="19"></rect>
+                                    <text x="{{ value|div:availabilityCount|mul:350|add:5 }}" y="9.5" dy=".35em">{{value}} {{key}} ({{ value|div:availabilityCount|mul:100|floatformat:2 }}%)</text>
                                     {% endwith %}                                
                                 </g>
                                 {% endfor %}
