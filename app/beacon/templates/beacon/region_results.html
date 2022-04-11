@@ -80,7 +80,9 @@
                         <thead>
                             <tr>
                                 {% for key in keys %}
+                                {% if not key|startswith:'_' %}
                                 <th>{{key}}</th>
+                                {% endif %}
                                 {% endfor %}
                             </tr>
                         </thead>
@@ -88,10 +90,12 @@
                             {%for result in results%}
                                 <tr>
                                 {% for key in keys %}
+                                {% if not key|startswith:'_' %}
                                     <td class="raw">
                                         <div class="json" attr-data="{{result|lookup:key}}">
                                         </div>
                                     </td>
+                                {% endif %}
                                 {% endfor %}
                                 </tr>
                             {% endfor %}
@@ -122,13 +126,12 @@
                                     <p><span class="strong">{{key}}:</span> {{value}}</p>
                                     {% endfor %}
                                 </td>
-                                <td>{{result.variantType|default_if_none:'-' }}</td>
+                                <td>{{result.variation.variantType|default_if_none:'-' }}</td>
                                 <td>
-                                    <p>{{result.position.assemblyId|default_if_none:'-' }} {{result.position.refseqId|default_if_none:'-' }} : {{result.position.start|default_if_none:'-'|join:', '}} - {{result.position.end|default_if_none:'-'|join:', '}}</p>
-                                    
+                                    <p>{{result.variation.location.interval.start.value}} - {{result.variation.location.interval.end.value}}</p>
                                 </td>
-                                <td>{{result.referenceBases|default_if_none:'-' }}</td>
-                                <td>{{result.alternateBases|default_if_none:'-' }}</td>
+                                <td>{{result.variation.referenceBases|default_if_none:'-' }}</td>
+                                <td>{{result.variation.alternateBases|default_if_none:'-' }}</td>
                                 <td> <p></p>
                                     <p><span class="strong">molecularAttributes:</span> {{result.molecularAttributes.aminoacidChanges|join:', ' }}</p>
                                     <p><span class="strong">geneIds:</span> {{result.molecularAttributes.aminoacidChanges|join:', ' }}</p>

@@ -125,7 +125,7 @@ def variant_response(request):
         })
 
     collection_handle = get_collection_handle(db_handle, "genomicVariations")
-    results = list(collection_handle.find({"position.refseqId": chromosome, "position.start": start, "referenceBases": reference, "alternateBases": alternate}))
+    results = list(collection_handle.find({"_position.refseqId": chromosome, "_position.start": start, "variation.referenceBases": reference, "variation.alternateBases": alternate}))
     count = len(results)
     keys = set([k for result in results for k in result.keys()])
 
@@ -189,7 +189,7 @@ def region_response(request):
 
     # notice chr is not used in the query
     collection_handle = get_collection_handle(db_handle, "genomicVariations")
-    results = list(collection_handle.find({"position.start": {"$gte": start}, "position.end": {"$lte":end }}))
+    results = list(collection_handle.find({"_position.start": {"$gte": start}, "_position.end": {"$lte":end }}))
     count = len(results)
     keys = set([k for result in results for k in result.keys()])
 
@@ -208,7 +208,7 @@ def region_response(request):
 ### PHENOCLINIC
 ##################################################
 
-# Custom dicts to define the 'type' of object, in this beacon for simplicity we will only use 'simple', 'object_id_label' and 'array_object_measures' (see L320)
+# Custom dicts to define the 'type' of object
 INDIVIDUALS_DICT = {
     "diseases": "array_object_complex",
     "ethnicity": "object_id_label",
@@ -320,8 +320,7 @@ def parse_query(request, schema):
                 query_list_array_obj.append(query_measure)
             else:
                 error = "Some of the query terms are incorrect/not available. Please, check the schema, the filtering terms and the query syntax and try again."
-        # if not, we can have 'object_id_label' or 'simple' 
-        # NOTICE we ignore 'array_object_complex' or 'array_object_id_label'
+        # if not, we can have 'object_id_label', 'simple', 'array_object_id_label' or 'array_object_complex'
         except ValueError:
             if key in schema and schema[key] == "object_id_label":
                 query_normal = f"'{key}{key_type}': '{value}'"   

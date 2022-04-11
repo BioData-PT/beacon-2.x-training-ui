@@ -9,3 +9,9 @@ def lookup(d, key):
         return value
     except:
         return "-"
+
+@register.filter
+def startswith(string, pattern):
+    if string.startswith(pattern):
+        return True
+    return False
