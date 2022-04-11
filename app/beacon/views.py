@@ -262,6 +262,10 @@ FILTERING_TERMS_DICT = {
     "UBERON:0000178": ("biosamples", "sampleOriginType.id", "blood"),
     "reference sample": ("biosamples", "biosampleStatus.label", None),
     "EFO:0009654": ("biosamples", "biosampleStatus.id", "reference sample"),
+    "asthma": ("individuals", "diseases.diseaseCode.label", None),
+    "ICD10:J45": ("individuals", "diseases.diseaseCode.id", "asthma"),
+    "obesity": ("individuals", "diseases.diseaseCode.label", None),
+    "ICD10:E66": ("individuals", "diseases.diseaseCode.id", "obesity"),
 }
 
 def phenoclinic(request):
