@@ -16,11 +16,14 @@ from app.utils import get_db_handle, get_collection_handle
 # Get environment variables or use default
 DATABASE_NAME = os.getenv('DATABASE_NAME', 'beacon')
 DATABASE_HOST = os.getenv('DATABASE_HOST', 'localhost')
+# DATABASE_HOST = '10.40.129.44'  # Manu's DB
 DATABASE_PORT = os.getenv('DATABASE_PORT', '27017')
 USERNAME = os.getenv('USERNAME', 'root')
 PASSWORD = os.getenv('PASSWORD', 'example')
 
 db_handle, mongo_client = get_db_handle(DATABASE_NAME, DATABASE_HOST, DATABASE_PORT, USERNAME, PASSWORD)
+
+print(f"\nConnecting to {DATABASE_HOST}:{DATABASE_PORT} {DATABASE_NAME} as {USERNAME}")
 
 # Test connection
 try:
