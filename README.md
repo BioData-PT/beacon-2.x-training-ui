@@ -80,6 +80,7 @@ It also has a dummy log in system that depics the controlled/private visualizati
 - Phenoclinic
   - `Individuals` and `ethnicity=NCIT:C16352, geographicOrigin=England, Weight>50, Height-standing>150`
   - `Individuals` and `Weight=98.7828, Height-standing=187.4031`
+  - `Individuals` and `ethnicity=NCIT:C16352, England, diseases.diseaseCode.label=asthma`
   - `Individuals` and `ethnicity=NCIT:C16352, female`
   - `Biosamples` and `blood`
   - `Biosamples` and `individualId=HG00096`
