@@ -419,7 +419,7 @@
                         {% endif %}
                         {% if collectionEvent.eventDiseases %}
                             {% if collectionEvent.eventDiseases.availability %}
-                            
+
                             <li>
                                 <span class="strong">diseases</span>
                                 {% comment %}
@@ -441,7 +441,8 @@
                                 
                                 {% for key, value in collectionEvent.eventDiseases.distribution.diseases.items %}
                                 <g class="bar" transform="translate(0,{{ forloop.counter|sub:1|mul:20 }})">
-                                    {% with availabilityCount=collectionEvent.eventDiseases.availabilityCount%}
+                                    <!-- Notice the availabilityCount for calculating percentages is different because in the diseases case, one individual can have more than one -->
+                                    {% with availabilityCount=collectionEvent.eventDiseases.distribution.diseases|sum_dict_values%}
                                     <rect width="{{ value|div:availabilityCount|mul:350 }}" height="19"></rect>
                                     <text x="{{ value|div:availabilityCount|mul:350|add:5 }}" y="9.5" dy=".35em">{{value}} {{key}} ({{ value|div:availabilityCount|mul:100|floatformat:2 }}%)</text>
                                     {% endwith %}                                </g>

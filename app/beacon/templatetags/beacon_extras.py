@@ -15,3 +15,8 @@ def startswith(string, pattern):
     if string.startswith(pattern):
         return True
     return False
+
+@register.filter
+def sum_dict_values(d):
+    values_list = d.values()
+    return sum(values_list)

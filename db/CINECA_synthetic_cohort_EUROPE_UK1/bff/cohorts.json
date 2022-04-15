@@ -13,25 +13,26 @@
                "availabilityCount" : 2287,
                "distribution" : {
                   "ethnicities" : {
-                     "African" : 119,
-                     "Any other Asian background" : 120,
-                     "Any other Black background" : 104,
-                     "Any other mixed background" : 92,
-                     "Any other white background" : 114,
-                     "Asian or Asian British" : 125,
-                     "Bangladeshi" : 96,
-                     "Black or Black British" : 131,
-                     "British" : 114,
-                     "Caribbean" : 127,
-                     "Chinese" : 100,
-                     "Indian" : 110,
-                     "Irish" : 111,
-                     "Mixed" : 127,
-                     "Other ethnic group" : 116,
-                     "Pakistani" : 115,
-                     "White" : 105,
-                     "White and Asian" : 114,
-                     "White and Black African" : 115
+                     "Bangladeshi": 96,
+                     "Any other white background": 114,
+                     "Pakistani": 115,
+                     "Chinese": 100,
+                     "Caribbean": 127,
+                     "Irish": 111,
+                     "British": 114,
+                     "White and Asian": 114,
+                     "Any other Asian background": 120,
+                     "African": 119,
+                     "Asian or Asian British": 125,
+                     "White and Black African": 115,
+                     "White and Black Caribbean": 132,
+                     "Any other Black background": 104,
+                     "Any other mixed background": 92,
+                     "Black or Black British": 131,
+                     "Indian": 110,
+                     "Mixed": 127,
+                     "White": 105,
+                     "Other ethnic group": 116
                   }
                }
             },
@@ -44,7 +45,48 @@
                      "male" : 1233
                   }
                }
+            },
+            "eventLocations" : {
+               "availability" : true,
+               "availabilityCount" : 1597,
+               "distribution" : {
+                  "locations" : {
+                     "Northern Ireland": 317,
+                     "Wales": 339,
+                     "Scotland": 308,
+                     "England": 322,
+                     "Republic of Ireland": 311
+                  }
+               }
+            },
+            "eventDiseases" : {
+               "availability" : true,
+               "availabilityCount" : 1705,
+               "distribution" : {
+                  "diseases" : {
+                     "iron deficiency anaemia": 142,
+                     "obesity": 136,
+                     "thyroiditis": 141,
+                     "schizophrenia": 138,
+                     "asthma": 134,
+                     "agranulocytosis": 111,
+                     "gastro-oesophageal reflux disease": 140,
+                     "varicose veins of lower extremities": 139,
+                     "sarcoidosis": 136,
+                     "multiple sclerosis": 125,
+                     "influenza due to certain identified influenza virus": 135,
+                     "fibrosis and cirrhosis of liver": 132,
+                     "insulin-dependent diabetes mellitus": 165,
+                     "eating disorders": 134,
+                     "haemorrhoids": 127,
+                     "dental caries": 139,
+                     "bipolar affective disorder": 134,
+                     "acute bronchitis": 121,
+                     "cardiomyopathy": 133
+                  }
+               }
             }
+
          }
       ],
       "id" : "CINECA_synthetic_cohort_UK1",
