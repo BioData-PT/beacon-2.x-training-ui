@@ -15,7 +15,7 @@ from app.utils import get_db_handle, get_collection_handle
 
 # Get environment variables or use default
 DATABASE_NAME = os.getenv('DATABASE_NAME', 'beacon')
-DATABASE_HOST = os.getenv('DATABASE_HOST', 'localhost')
+DATABASE_HOST = os.getenv('DATABASE_HOST', 'mongo')
 DATABASE_PORT = os.getenv('DATABASE_PORT', '27017')
 USERNAME = os.getenv('USERNAME', 'root')
 PASSWORD = os.getenv('PASSWORD', 'example')
