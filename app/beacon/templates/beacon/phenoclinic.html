@@ -46,11 +46,16 @@
             <span>
                 <p><i class="fa fa-lightbulb-o" aria-hidden="true"></i> Query Examples</p>
                 <div>
+                    <!--        
                     <p class="example phenoclinic">individuals and ethnicity=NCIT:C16352, <br> geographicOrigin=England, Weight>50, Height-standing>150</p>
                     <p class="example phenoclinic">individuals and Chinese, male, Height-standing>180</p>
                     <p class="example phenoclinic">individuals and ethnicity=NCIT:C16352, female</p>
                     <p class="example phenoclinic">individuals and ethnicity=NCIT:C16352, <br> England, diseases.diseaseCode.label=asthma</p>
                     <p class="example phenoclinic">biosamples and blood</p>
+                    -->
+                    <p class="example phenoclinic">individuals and id=CR310, sex.label=female</p>
+                    <p class="example phenoclinic">individuals and diseases.diseaseCode.id=ICD10CM:C18.9</p>
+                    <p class="example phenoclinic">biosamples and biosampleStatus.label=abnormal sample</p>
                 </div>
             </span>
             <a target="_blank" href="{% url 'beacon:query_help' %}"><i class="fa fa-question" aria-hidden="true"></i> Query Help</a>        
