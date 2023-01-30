@@ -10,6 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+from pathlib import Path
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -19,8 +25,9 @@ SECRET_KEY = SECRET_KEY_DEFAULT
 # use SECRET_KEY value imported from secret.py
 try:
 	import secret
-except:
+except Exception as e:
 	print("SECRET.PY FILE NOT FOUND, USING INSECURE KEY")
+	print(e)
 
 if SECRET_KEY in ("CHANGE ME PLEASE", SECRET_KEY_DEFAULT):
     print("CHANGE SECRET KEY VALUE ON app/secret.py !!!")
@@ -30,15 +37,6 @@ if SECRET_KEY in ("CHANGE ME PLEASE", SECRET_KEY_DEFAULT):
 DEBUG = False # changed from True
 
 ALLOWED_HOSTS = ["localhost", "146.193.228.52"]
-
-
-from pathlib import Path
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-
 
 
 # Application definition
