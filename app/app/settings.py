@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # use SECRET_KEY value imported from secret.py
 import secret
-if SECRET_KEY == "CHANGE ME PLEASE"
+if SECRET_KEY == "CHANGE ME PLEASE":
     print("CHANGE SECRET KEY VALUE ON app/secret.py !!!")
     
 
