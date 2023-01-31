@@ -36,7 +36,9 @@ if SECRET_KEY in ("CHANGE ME PLEASE", SECRET_KEY_DEFAULT):
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False # changed from True
 
-ALLOWED_HOSTS = ["localhost", "146.193.228.52"]
+#ALLOWED_HOSTS = ["localhost","beacon-pt", "146.193.228.52"]
+ALLOWED_HOSTS = ["localhost", "beacon-pt"]
+
 
 
 # Application definition
