@@ -30,7 +30,7 @@ except Exception as e:
 	print(e)
 
 if SECRET_KEY in ("CHANGE ME PLEASE", SECRET_KEY_DEFAULT):
-    print("CHANGE SECRET KEY VALUE ON app/secret.py !!!")
+    print("CHANGE SECRET KEY VALUE ON app/app/secret.py !!!")
     
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -131,6 +131,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# solution (inefficient) to static files not loading
+import os
+if DEBUG:
+    STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'static') ]    
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+MEDIA_URL = 'media/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
