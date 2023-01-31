@@ -24,7 +24,7 @@ urlpatterns = [
 handler404 = 'beacon.views.handle_page_not_found'
 
 # solution (inefficient) to static files not loading
-from django.conf.urls import url
+from django.conf.urls import url, re_path
 from django.conf import settings
 from django.views.static import serve
 
