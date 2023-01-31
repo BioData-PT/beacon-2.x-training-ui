@@ -137,7 +137,7 @@ import os
 if DEBUG:
     STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'static') ]    
 else:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    STATIC_ROOT = os.path.join(BASE_DIR, 'beacon/static')
 
 
 MEDIA_URL = 'media/'
