@@ -135,7 +135,7 @@ STATIC_URL = 'static/'
 # solution (inefficient) to static files not loading
 import os
 if not DEBUG:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'app/beacon/static')
+    STATIC_ROOT = os.path.join(BASE_DIR, 'beacon/static')
 
 
 # Default primary key field type
