@@ -30,7 +30,7 @@ except Exception as e:
 	print(e)
 
 if SECRET_KEY in ("CHANGE ME PLEASE", SECRET_KEY_DEFAULT):
-    print("CHANGE SECRET KEY VALUE ON app/secret.py !!!")
+    print("CHANGE SECRET KEY VALUE ON app/app/secret.py !!!")
     
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -135,7 +135,7 @@ STATIC_URL = 'static/'
 # solution (inefficient) to static files not loading
 import os
 if not DEBUG:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    STATIC_ROOT = os.path.join(BASE_DIR, 'app/beacon/static')
 
 
 # Default primary key field type
