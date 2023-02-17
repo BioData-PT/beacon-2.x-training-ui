@@ -24,9 +24,11 @@ SECRET_KEY_DEFAULT = 'django-insecure-3pdl)^a8o6#bft2!5$abk4+8eq=(xbc$xow$-c3+8x
 SECRET_KEY = SECRET_KEY_DEFAULT
 # use SECRET_KEY value imported from secret.py
 try:
-	import secret
+    # import SECRET_KEY custom value
+    import secret
+    SECRET_KEY = secret.SECRET_KEY 
 except Exception as e:
-	print("SECRET.PY FILE NOT FOUND, USING INSECURE KEY")
+	print("WARNING: SECRET.PY FILE NOT FOUND, USING INSECURE KEY")
 	print(e)
 
 if SECRET_KEY in ("CHANGE ME PLEASE", SECRET_KEY_DEFAULT):
