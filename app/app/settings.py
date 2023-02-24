@@ -20,18 +20,25 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = 'django-insecure-3pdl)^a8o6#bft2!5$abk4+8eq=(xbc$xow$-c3+8xw=cr%u%o'
-
+SECRET_KEY_DEFAULT = 'django-insecure-3pdl)^a8o6#bft2!5$abk4+8eq=(xbc$xow$-c3+8xw=cr%u%o'
+SECRET_KEY = SECRET_KEY_DEFAULT
 # use SECRET_KEY value imported from secret.py
-import secret
-if SECRET_KEY == "CHANGE ME PLEASE"
-    print("CHANGE SECRET KEY VALUE ON app/secret.py !!!")
+try:
+	import secret
+except Exception as e:
+	print("SECRET.PY FILE NOT FOUND, USING INSECURE KEY")
+	print(e)
+
+if SECRET_KEY in ("CHANGE ME PLEASE", SECRET_KEY_DEFAULT):
+    print("CHANGE SECRET KEY VALUE ON app/app/secret.py !!!")
     
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False # changed from True
 
-ALLOWED_HOSTS = ["146.193.228.52"]
+#ALLOWED_HOSTS = ["localhost","beacon-pt", "146.193.228.52"]
+ALLOWED_HOSTS = ["localhost", "beacon-pt"]
+
 
 
 # Application definition
@@ -125,7 +132,24 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# solution (inefficient) to static files not loading
+import os
+if DEBUG:
+    STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'static') ]    
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'beacon/static')
+
+
+MEDIA_URL = 'media/'
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Allowed mimetypes
+import mimetypes
+
+mimetypes.add_type("text/javascript", ".js", True)
+mimetypes.add_type("text/css", ".css", True)
