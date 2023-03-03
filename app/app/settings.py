@@ -25,11 +25,12 @@ SECRET_KEY = SECRET_KEY_DEFAULT
 # use SECRET_KEY value imported from secret.py
 try:
     # import SECRET_KEY custom value
-    import secret
-    SECRET_KEY = secret.SECRET_KEY 
+    import app.secret as secret
+    SECRET_KEY = secret.SECRET_KEY
+    print("SECRET_KEY imported successfully from secret.py")
 except Exception as e:
 	print("WARNING: SECRET.PY FILE NOT FOUND, USING INSECURE KEY")
-	print(e)
+	print(repr(e))
 
 if SECRET_KEY in ("CHANGE ME PLEASE", SECRET_KEY_DEFAULT):
     print("CHANGE SECRET KEY VALUE ON app/app/secret.py !!!")
@@ -38,7 +39,9 @@ if SECRET_KEY in ("CHANGE ME PLEASE", SECRET_KEY_DEFAULT):
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False # changed from True
 
-#ALLOWED_HOSTS = ["localhost","beacon-pt", "146.193.228.52"]
+
+BEACON_IP_ADDR = "192.92.147.84"
+#ALLOWED_HOSTS = ["localhost","beacon-pt", BEACON_IP_ADDR]
 ALLOWED_HOSTS = ["localhost", "beacon-pt"]
 
 
