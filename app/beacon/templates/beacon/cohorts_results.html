@@ -520,7 +520,21 @@
                     {% endwith %}
                     {% endif %}
                     <!-- end collectionEvents -->
-    
+
+
+                    <!-- Start info -->
+                    {% if cohort.info %}
+                    <h2>Info</h2>
+                    <ul>
+                        {% if cohort.info.credits %}
+                        <li>
+                            <span class="strong">credits</span>
+                            <span class="content">{{cohort.credits}}</span>
+                        </li>
+                        {% endif %}
+                        
+                    {% endif %}
+                    <!-- end info -->
             </div>
 
             {% endfor %}
