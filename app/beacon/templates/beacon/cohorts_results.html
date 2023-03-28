@@ -527,10 +527,15 @@
                     <h2>Info</h2>
                     <ul>
                         {% if cohort.info.credits %}
-                        <li>
-                            <span class="strong">credits</span>
-                            <span class="content">{{cohort.credits}}</span>
-                        </li>
+                        <h3>Credits</h3>
+                        <ul>
+                            {% for key, value in cohort.info.credits.items %}
+                            <li>
+                                <span class="strong2">{{key}}</span>
+                                <span class="content">{{value}}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
                         {% endif %}
                     </ul>
                     {% endif %}
