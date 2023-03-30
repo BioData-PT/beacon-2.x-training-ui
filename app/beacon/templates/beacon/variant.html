@@ -21,7 +21,7 @@
 
     <main>
         <h1>
-            <img src="{% static 'beacon/img/training_ui.png' %}" alt="">
+            <img src="{% static 'beacon/img/training_ui.png' %}" alt="beacon-training-ui-img">
         </h1>
         <form action="{% url 'beacon:variant_response' %}" method="post">
             {% csrf_token %}
@@ -51,7 +51,11 @@
         </div>
         {% if error_message %}<p class="error"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></strong> {{ error_message }}</p>{% endif %}
     </main>
-   
+    <h1>
+        <center>
+        <img src="{% static 'beacon/img/biodata_elixir_logo.png' %}" alt="biodata.pt & elixir-PT logo" class="biodata-elixir-logo">
+        </center>
+    </h1>
     {% include "beacon/footer.html" %}
 
     </body>
