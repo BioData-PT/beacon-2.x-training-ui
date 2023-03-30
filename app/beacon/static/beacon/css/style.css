@@ -828,5 +828,7 @@ body footer section#EU img {
 .biodata-elixir-logo {
   display: block;
   margin: 0 auto;
-  margin-right: 40%;
-}
+  margin-right: 25.3%;
+  width: 40%;
+  height auto;
+} 
