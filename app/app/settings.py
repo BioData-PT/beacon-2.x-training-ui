@@ -167,13 +167,12 @@ LOGGING = {
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
-            'level': logging.DEBUG,  # increase log level to DEBUG
         },
     },
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': logging.DEBUG,  # increase log level to DEBUG
+            'level': 'INFO',
         },
     },
 }
