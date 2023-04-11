@@ -17,6 +17,9 @@ from app.utils import get_db_handle, get_collection_handle
 DATABASE_NAME = os.getenv('DATABASE_NAME', 'beacon')
 DATABASE_HOST = os.getenv('DATABASE_HOST', 'mongo')
 DATABASE_PORT = os.getenv('DATABASE_PORT', '27017')
+BEACON_HOST = os.getenv('BEACON_HOST', 'localhost')
+BEACON_PORT = os.getenv('BEACON_PORT', '5050')
+BEACON_LOCATION = os.getenv('BEACON_LOCATION', '/api/')
 USERNAME = os.getenv('USERNAME', 'root')
 PASSWORD = os.getenv('PASSWORD', 'example')
 
