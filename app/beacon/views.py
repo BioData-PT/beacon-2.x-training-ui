@@ -5,6 +5,7 @@ from django.shortcuts import render
 import re
 import json
 import os
+import requests
 
 from app.utils import get_db_handle, get_collection_handle
 
@@ -280,7 +281,6 @@ def phenoclinic(request):
     }
     return render(request, 'beacon/phenoclinic.html', context)
 
-
 def parse_query(request, schema):
     error = ""
     # separate key-value pairs
@@ -365,6 +365,7 @@ def parse_query(request, schema):
 
     return query_json, error 
 
+"""
 def phenoclinic_response(request):
     try:
         target_collection = request.POST['target']
@@ -392,6 +393,52 @@ def phenoclinic_response(request):
         })
     print(f"Query: {target_collection} {query_json} ")
     results = list(collection_handle.find(query_json))
+    count = len(results)
+    keys = set([k for result in results for k in result.keys()])
+    context = {
+        'cookies': request.COOKIES,
+        'error_message': error_message,
+        'count': count,
+        'results': results,
+        'target_collection': target_collection,
+        'query': query_request,
+        'keys': keys
+    }
+    return render(request, 'beacon/phenoclinic_results.html', context)
+"""
+
+def phenoclinic_response(request):
+    try:
+        target_collection = request.POST['target']
+        query_request = request.POST['query']
+    except KeyError:
+        error_message = "Something went wrong with the request, please try again."
+        return render(request, 'beacon/phenoclinic_results.html', {
+            'cookies': request.COOKIES,
+            'error_message': error_message,
+            'target_collection': target_collection,
+            'query': query_request
+        })
+
+    collection_handle = get_collection_handle(db_handle, target_collection)
+
+    schema = INDIVIDUALS_DICT if target_collection == "individuals" else BIOSAMPLES_DICT
+    query_json, error_message = parse_query(query_request, schema)
+    if not query_json:
+        error_message = "The query string could not be prepared, please check the schema and try again. Remember to separate the key-value pairs with comma."
+        return render(request, 'beacon/phenoclinic_results.html', {
+            'cookies': request.COOKIES,
+            'error_message': error_message,
+            'target_collection': target_collection,
+            'query': query_request
+        })
+    print(f"Query: {target_collection} {query_json} ")
+    
+    
+    #results = list(collection_handle.find(query_json))
+    
+    # TODO: REPLACE RESULS FOR API CALL
+    results = requests.get(BEACON_HOST+":"+BEACON_PORT+BEACON_LOCATION, parameter={key: value}, arguments)
     count = len(results)
     keys = set([k for result in results for k in result.keys()])
     context = {
