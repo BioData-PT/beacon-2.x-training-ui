@@ -29,8 +29,12 @@ try:
     SECRET_KEY = secret.SECRET_KEY
     print("SECRET_KEY imported successfully from secret.py")
 except Exception as e:
-	print("WARNING: SECRET.PY FILE NOT FOUND, USING INSECURE KEY")
-	print(repr(e))
+    print("WARNING: SECRET.PY FILE NOT FOUND, USING INSECURE KEY")
+    print(repr(e))
+    print("Below I will generate a key you can use, copy it and put it on secret.py in the training-ui-files directory")
+    # importing the function from utils
+    from django.core.management.utils import get_random_secret_key
+    print(get_random_secret_key())
 
 if SECRET_KEY in ("CHANGE ME PLEASE", SECRET_KEY_DEFAULT):
     print("CHANGE SECRET KEY VALUE ON app/app/secret.py !!!")
