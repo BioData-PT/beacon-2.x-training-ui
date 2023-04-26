@@ -45,7 +45,7 @@ DEBUG = False # changed from True
 
 
 BEACON_IP_ADDR = "192.92.147.84"
-BEACON_DOMAINS = ["beacon-pt","gdi-tp-1.vps.tecnico.ulisboa.pt","beacon.biodata.pt"]
+BEACON_DOMAINS = ["beacon-pt","gdi-tp-1.vps.tecnico.ulisboa.pt","beacon.biodata.pt", "beacon-test.biodata.pt"]
 ALLOWED_HOSTS = ["localhost", BEACON_IP_ADDR]
 ALLOWED_HOSTS += BEACON_DOMAINS
 #ALLOWED_HOSTS = ["localhost", "beacon-pt"]
