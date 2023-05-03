@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse
 from django.http import Http404
 from django.shortcuts import render
 import re
@@ -18,6 +18,7 @@ from app.utils import get_db_handle, get_collection_handle
 DATABASE_NAME = os.getenv('DATABASE_NAME', 'beacon')
 DATABASE_HOST = os.getenv('DATABASE_HOST', 'mongo')
 DATABASE_PORT = os.getenv('DATABASE_PORT', '27017')
+BEACON_PROT = os.getenv('BEACON_PROT', 'http') # could be https
 BEACON_HOST = os.getenv('BEACON_HOST', 'localhost')
 BEACON_PORT = os.getenv('BEACON_PORT', '5050')
 BEACON_LOCATION = os.getenv('BEACON_LOCATION', '/api/')
@@ -407,8 +408,13 @@ def phenoclinic_response(request):
     return render(request, 'beacon/phenoclinic_results.html', context)
 """
 
-def phenoclinic_response(request):
+# USING API
+def phenoclinic_response(request: HttpRequest):
     try:
+        # debug prints
+        print(f"Request: {request.POST}")
+        # =================
+        
         target_collection = request.POST['target']
         query_request = request.POST['query']
     except KeyError:
@@ -437,8 +443,13 @@ def phenoclinic_response(request):
     
     #results = list(collection_handle.find(query_json))
     
-    # TODO: REPLACE RESULS FOR API CALL
-    results = requests.get(BEACON_HOST+":"+BEACON_PORT+BEACON_LOCATION, parameter={key: value}, arguments)
+    payload = {}
+    url = f"{BEACON_PROT}://{BEACON_HOST}:{BEACON_PORT}{BEACON_LOCATION}individuals/"
+    
+    print(f"Debug: payload: {payload}")
+    print(f"Debug: URL = {url}")
+    results = requests.post(url=url, json=payload)
+    print(f"Debug: results: {results}")
     count = len(results)
     keys = set([k for result in results for k in result.keys()])
     context = {
