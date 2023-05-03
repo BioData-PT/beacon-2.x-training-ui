@@ -452,7 +452,8 @@ def phenoclinic_response(request: HttpRequest):
     logging.info(f"Debug: URL = {url}")
     
     try:
-        results = requests.post(url=url, json=payload).json()
+        response = requests.post(url=url, json=payload).json()
+        results = response['response']['resultSets'][0]['results']
     except Exception as e:
         error_message = "Something went wrong while trying to access the API, please try again."
         logging.error(f"Error while accessing API: {e}")
@@ -466,7 +467,10 @@ def phenoclinic_response(request: HttpRequest):
     
     logging.info(f"Debug: results: {results}")
     count = len(results)
-    keys = set([k for result in results for k in result.keys()])
+    
+    keys = set()
+    if len(results):
+        keys = set([k for result in results for k in result.keys()])
     context = {
         'cookies': request.COOKIES,
         'error_message': error_message,
