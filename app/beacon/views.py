@@ -6,6 +6,7 @@ import re
 import json
 import os
 import requests
+import logging
 
 from app.utils import get_db_handle, get_collection_handle
 
@@ -410,9 +411,10 @@ def phenoclinic_response(request):
 
 # USING API
 def phenoclinic_response(request: HttpRequest):
+    
     try:
         # debug prints
-        print(f"Request: {request.POST}")
+        logging.info(f"Request: {request.POST}")
         # =================
         
         target_collection = request.POST['target']
@@ -446,8 +448,8 @@ def phenoclinic_response(request: HttpRequest):
     payload = {}
     url = f"{BEACON_PROT}://{BEACON_HOST}:{BEACON_PORT}{BEACON_LOCATION}individuals/"
     
-    print(f"Debug: payload: {payload}")
-    print(f"Debug: URL = {url}")
+    logging.info(f"Debug: payload: {payload}")
+    logging.info(f"Debug: URL = {url}")
     
     try:
         results = requests.post(url=url, json=payload)
@@ -461,7 +463,7 @@ def phenoclinic_response(request: HttpRequest):
     })
     
     
-    print(f"Debug: results: {results}")
+    logging.info(f"Debug: results: {results}")
     count = len(results)
     keys = set([k for result in results for k in result.keys()])
     context = {
