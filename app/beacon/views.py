@@ -448,7 +448,19 @@ def phenoclinic_response(request: HttpRequest):
     
     print(f"Debug: payload: {payload}")
     print(f"Debug: URL = {url}")
-    results = requests.post(url=url, json=payload)
+    
+    try:
+        results = requests.post(url=url, json=payload)
+    except KeyError:
+        error_message = "Something went wrong while trying to access the API, please try again."
+        return render(request, 'beacon/phenoclinic_results.html', {
+        'cookies': request.COOKIES,
+        'error_message': error_message,
+        'target_collection': target_collection,
+        'query': query_request
+    })
+    
+    
     print(f"Debug: results: {results}")
     count = len(results)
     keys = set([k for result in results for k in result.keys()])
