@@ -1,4 +1,4 @@
 Django>=3.0,<4.0
 pymongo
 django-mathfilters
-requests
+requests>=2.28.1
