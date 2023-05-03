@@ -445,7 +445,7 @@ def phenoclinic_response(request: HttpRequest):
     
     #results = list(collection_handle.find(query_json))
     
-    payload = {}
+    payload = {"meta":{"apiVersion": "2.0"}, "query": {"filters": [], "includeResultsetResponses": "HIT", "pagination":{"skip":0, "limit":10}, "testMode": False, "requestedGranularity": "record"} }
     url = f"{BEACON_PROT}://{BEACON_HOST}:{BEACON_PORT}{BEACON_LOCATION}individuals/"
     
     logging.info(f"Debug: payload: {payload}")
