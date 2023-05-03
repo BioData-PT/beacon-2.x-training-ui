@@ -452,9 +452,10 @@ def phenoclinic_response(request: HttpRequest):
     logging.info(f"Debug: URL = {url}")
     
     try:
-        results = requests.post(url=url, json=payload)
-    except KeyError:
+        results = requests.post(url=url, json=payload).json()
+    except Exception as e:
         error_message = "Something went wrong while trying to access the API, please try again."
+        logging.error(f"Error while accessing API: {e}")
         return render(request, 'beacon/phenoclinic_results.html', {
         'cookies': request.COOKIES,
         'error_message': error_message,
