@@ -283,8 +283,9 @@ def phenoclinic_response_API(request: HttpRequest):
         
         target_collection = request.POST['target']
         query_request = request.POST['query']
-    except KeyError:
+    except KeyError as ex:
         error_message = "Something went wrong with the request, please try again."
+        logging.error(error_message + f" Exception: {ex}")
         return render(request, 'beacon/phenoclinic_results.html', {
             'cookies': request.COOKIES,
             'error_message': error_message,
@@ -329,7 +330,7 @@ def phenoclinic_response_API(request: HttpRequest):
     })
     
     
-    logging.info(f"Debug: results: {results}")
+    #logging.info(f"Debug: results: {results}")
     count = len(results)
     
     keys = set()
