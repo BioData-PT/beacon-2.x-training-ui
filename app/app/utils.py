@@ -126,7 +126,7 @@ def parse_query_api(request, schema=None):
     # info to identidy each key, operator and value
     ALLOWED_CHARS_NAME = r"(a-z|A-Z|0-9|\.|\-|_| )"
     ALLOWED_CHARS_VALUE = r"(a-z|A-Z|0-9|\.|\-|_| |:)"
-    pattern = f'^({ALLOWED_CHARS_NAME}+)(<=|>=|=|<|>|!)({ALLOWED_CHARS_VALUE}+)'
+    pattern = f'({ALLOWED_CHARS_NAME}+)(<=|>=|=|<|>|!)({ALLOWED_CHARS_VALUE}+)'
     operator_list = ["=","<",">","!","<=",">="]
 
     # loop through every key-value pair and parse it
@@ -150,7 +150,7 @@ def parse_query_api(request, schema=None):
                 operator = "="
             else:
                 # this filtering term is not registered
-                error = "Some of the query terms are incorrect/not available. Please, check the schema, the filtering terms and the query syntax and try again."
+                error = f"Some of the query terms are incorrect/not available ({element}). Please, check the schema, the filtering terms and the query syntax and try again."
                 continue
         
         filter = { 
