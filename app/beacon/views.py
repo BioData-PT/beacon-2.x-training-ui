@@ -336,7 +336,7 @@ def phenoclinic_response_API(request: HttpRequest):
     
     
     #logging.info(f"Debug: results: {results}")
-    count = len(results)
+    count = response['responseSummary']['numTotalResults']
     
     keys = set()
     if len(results):
