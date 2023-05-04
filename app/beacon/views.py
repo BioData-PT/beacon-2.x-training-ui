@@ -9,7 +9,7 @@ import requests
 import logging
 
 from app.schemas import INDIVIDUALS_DICT, BIOSAMPLES_DICT, FILTERING_TERMS_DICT
-from app.utils import get_db_handle, get_collection_handle, parse_query, parse_query_api
+from app.utils import get_db_handle, get_collection_handle, get_payload_default, parse_query, parse_query_api
 
 
 ##################################################
@@ -26,6 +26,8 @@ BEACON_PORT = os.getenv('BEACON_PORT', '5050')
 BEACON_LOCATION = os.getenv('BEACON_LOCATION', '/api/')
 USERNAME = os.getenv('USERNAME', 'root')
 PASSWORD = os.getenv('PASSWORD', 'example')
+
+BEACON_URL = url = f"{BEACON_PROT}://{BEACON_HOST}:{BEACON_PORT}{BEACON_LOCATION}"
 
 db_handle, mongo_client = get_db_handle(DATABASE_NAME, DATABASE_HOST, DATABASE_PORT, USERNAME, PASSWORD)
 
@@ -310,8 +312,10 @@ def phenoclinic_response_API(request: HttpRequest):
     
     #results = list(collection_handle.find(query_json))
     
-    payload = {"meta":{"apiVersion": "2.0"}, "query": {"filters": [], "includeResultsetResponses": "HIT", "pagination":{"skip":0, "limit":10}, "testMode": False, "requestedGranularity": "record"} }
-    url = f"{BEACON_PROT}://{BEACON_HOST}:{BEACON_PORT}{BEACON_LOCATION}individuals/"
+    url = f"{BEACON_URL}individuals/"
+    
+    payload = query_json
+    
     
     logging.info(f"Debug: payload: {payload}")
     logging.info(f"Debug: URL = {url}")
