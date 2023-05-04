@@ -124,7 +124,8 @@ def parse_query_api(request, schema):
     # separate key-value pairs
     request_list = request.split(",")
     # info to identidy each key, operator and value
-    pattern = '(.+)([<=|>=|=|<|>|\!])(.+)'
+    ALLOWED_CHARS_RE = "[a-z|A-Z|0-9|\.|\-|_]"
+    pattern = f'({ALLOWED_CHARS_RE}+)(<=|>=|=|<|>|!)({ALLOWED_CHARS_RE}+)'
     operator_list = ["=","<",">","!","<=",">="]
 
     # loop through every key-value pair and parse it
