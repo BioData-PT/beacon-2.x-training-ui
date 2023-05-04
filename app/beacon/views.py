@@ -369,8 +369,9 @@ def parse_query(request, schema):
 
 def phenoclinic_response(request):
     # choose which method to use
-    return phenoclinic_response_DB(request)
-    #return phenoclinic_response_API(request)
+    
+    #return phenoclinic_response_DB(request)
+    return phenoclinic_response_API(request)
 
 def phenoclinic_response_DB(request):
     try:
@@ -432,7 +433,7 @@ def phenoclinic_response_API(request: HttpRequest):
             'query': query_request
         })
 
-    collection_handle = get_collection_handle(db_handle, target_collection)
+    #collection_handle = get_collection_handle(db_handle, target_collection)
 
     schema = INDIVIDUALS_DICT if target_collection == "individuals" else BIOSAMPLES_DICT
     query_json, error_message = parse_query(query_request, schema)
