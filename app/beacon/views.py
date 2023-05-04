@@ -1,12 +1,15 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse
 from django.http import Http404
 from django.shortcuts import render
 import re
 import json
 import os
+import requests
+import logging
 
-from app.utils import get_db_handle, get_collection_handle
+from app.schemas import INDIVIDUALS_DICT, BIOSAMPLES_DICT, FILTERING_TERMS_DICT
+from app.utils import get_db_handle, get_collection_handle, get_payload_default, parse_query, parse_query_api
 
 
 ##################################################
@@ -17,11 +20,14 @@ from app.utils import get_db_handle, get_collection_handle
 DATABASE_NAME = os.getenv('DATABASE_NAME', 'beacon')
 DATABASE_HOST = os.getenv('DATABASE_HOST', 'mongo')
 DATABASE_PORT = os.getenv('DATABASE_PORT', '27017')
-BEACON_HOST = os.getenv('BEACON_HOST', 'localhost')
+BEACON_PROT = os.getenv('BEACON_PROT', 'http') # could be https
+BEACON_HOST = os.getenv('BEACON_HOST', 'beacon')
 BEACON_PORT = os.getenv('BEACON_PORT', '5050')
 BEACON_LOCATION = os.getenv('BEACON_LOCATION', '/api/')
 USERNAME = os.getenv('USERNAME', 'root')
 PASSWORD = os.getenv('PASSWORD', 'example')
+
+BEACON_URL = url = f"{BEACON_PROT}://{BEACON_HOST}:{BEACON_PORT}{BEACON_LOCATION}"
 
 db_handle, mongo_client = get_db_handle(DATABASE_NAME, DATABASE_HOST, DATABASE_PORT, USERNAME, PASSWORD)
 
@@ -213,65 +219,7 @@ def region_response(request):
 ### PHENOCLINIC
 ##################################################
 
-# Custom dicts to define the 'type' of object
-INDIVIDUALS_DICT = {
-    "diseases": "array_object_complex",
-    "ethnicity": "object_id_label",
-    "exposures": "array_object_complex",
-    "geographicOrigin": "object_id_label",
-    "id": "simple",
-    "interventionsOrProcedures": "array_object_complex",
-    "measures": "array_object_measures",
-    "pedigrees": "array_object_complex",
-    "phenotypicFeatures": "array_object_complex",
-    "sex": "object_id_label",
-    "treatments": "array_object_complex"
-}
 
-BIOSAMPLES_DICT = {
-    "biosampleStatus": "object_id_label",
-    "collectionDate": "simple",
-    "collectionMoment": "simple",
-    "diagnosticMarkers": "array_object_id_label",
-    "histologicalDiagnosis": "object_id_label",
-    "id": "simple",
-    "individualId": "simple",
-    "measurements": "array_object_measures",
-    "obtentionProcedure": "object_complex",
-    "pathologicalStage": "array_object_id_label",
-    "pathologicalTnmFinding": "array_object_id_label",
-    "phenotypicFeatures": "array_object_complex",
-    "sampleOriginDetail": "object_id_label",
-    "sampleOriginType": "object_id_label",
-    "sampleProcessing": "object_id_label",
-    "sampleStorage": "object_id_label",
-    "tumorGrade": "object_id_label",
-    "tumorProgression": "object_id_label",
-}
-
-# Filtering terms dict as 'filtering term: (target entity, target schema term, label)'
-FILTERING_TERMS_DICT = {
-    "female": ("individuals", "sex.label", None),
-    "NCIT:C16576": ("individuals", "sex.id", "female"),
-    "male": ("individuals", "sex.label", None),
-    "NCIT:C20197": ("individuals", "sex.id", "male"),
-    "England": ("individuals", "geographicOrigin.label", None),
-    "GAZ:00002641": ("individuals", "geographicOrigin.id", "England"),
-    "Northern Ireland": ("individuals", "geographicOrigin.label", None),
-    "GAZ:00002638": ("individuals", "geographicOrigin.id", "Northern Ireland"),
-    "Chinese": ("individuals", "ethnicity.label", None),
-    "NCIT:C41260": ("individuals", "ethnicity.id", "Chinese"),
-    "Black or Black British": ("individuals", "ethnicity.label", None),
-    "NCIT:C16352": ("individuals", "ethnicity.id", "Black or Black British"),
-    "blood": ("biosamples", "sampleOriginType.label", None),
-    "UBERON:0000178": ("biosamples", "sampleOriginType.id", "blood"),
-    "reference sample": ("biosamples", "biosampleStatus.label", None),
-    "EFO:0009654": ("biosamples", "biosampleStatus.id", "reference sample"),
-    "asthma": ("individuals", "diseases.diseaseCode.label", None),
-    "ICD10:J45": ("individuals", "diseases.diseaseCode.id", "asthma"),
-    "obesity": ("individuals", "diseases.diseaseCode.label", None),
-    "ICD10:E66": ("individuals", "diseases.diseaseCode.id", "obesity"),
-}
 
 def phenoclinic(request):
     context = {
@@ -280,92 +228,13 @@ def phenoclinic(request):
     }
     return render(request, 'beacon/phenoclinic.html', context)
 
-
-def parse_query(request, schema):
-    error = ""
-    # separate key-value pairs
-    request_list = request.split(",")
-    # info to identidy each key, operator and value
-    pattern = '(.+)([=|<|>])(.+)'
-    operator_dict = {
-        "=": "$eq",
-        ">": "$gt",
-        "<": "$lt"
-    }
-    # loop through every key-value pair and parse it
-    query_list_normal_obj = [] 
-    query_list_array_obj = []
-    for element in request_list:
-        element = element.strip()
-        try:
-            m = re.match(pattern, element, re.IGNORECASE)
-            key_full = m.group(1)
-            key_list = key_full.split(".")
-            key = key_list[0]
-            value = m.group(3)
-            operator = m.group(2)
-        except:
-            if element in FILTERING_TERMS_DICT.keys():
-                key_full = FILTERING_TERMS_DICT[element][1]
-                key_list = key_full.split(".")
-                key = key_list[0]
-                value = element
-                operator = "="
-            else:
-                # this filtering term is not registered
-                error = "Some of the query terms are incorrect/not available. Please, check the schema, the filtering terms and the query syntax and try again."
-                continue
-        
-        # detect if value if string or ontology
-        key_type = ".id" if ":" in value else ".label"  # useful if object_id_label
-        
-        # for this UI we assume if the value is float, the key is measurements ('array_object_measures')
-        try:
-            value= float(value)
-            str_operator = operator_dict[operator]
-            # control cases where the user didn't put commas in the query
-            if not key.startswith(tuple(schema.keys())):
-                query_measure = f"{{'measures': {{'$elemMatch': {{'assayCode{key_type}': '{key}',  'measurementValue.value': {{'{str_operator}': {value}}}}}}} }}"
-                query_list_array_obj.append(query_measure)
-            else:
-                error = "Some of the query terms are incorrect/not available. Please, check the schema, the filtering terms and the query syntax and try again."
-        # if not, we can have 'object_id_label', 'simple', 'array_object_id_label' or 'array_object_complex'
-        except ValueError:
-            if key in schema and schema[key] == "object_id_label":
-                query_normal = f"'{key}{key_type}': '{value}'"   
-                query_list_normal_obj.append(query_normal)
-            elif key in schema and schema[key] == "simple":
-                query_normal = f"'{key}': '{value}'"   
-                query_list_normal_obj.append(query_normal)
-            elif key in schema and schema[key] == "array_object_id_label":
-                key_sub = ".".join(key_list[1:])
-                query_array = f"{{'{key}': {{'$elemMatch': {{'{key_sub}{key_type}': '{value}'}}}}}}"
-                query_list_array_obj.append(query_array)
-            elif key in schema and schema[key] == "array_object_complex":
-                key_sub = ".".join(key_list[1:])
-                query_array = f"{{'{key}': {{'$elemMatch': {{'{key_sub}': '{value}'}}}}}}"
-                query_list_array_obj.append(query_array)
-            else:
-                error = "Some of the query terms are incorrect/not available. Please, check the schema, the filtering terms and the query syntax and try again."
-                
-    # prepare query string            
-    query_string_array_obj = ""
-    query_string_normal_obj = ""
-    if query_list_array_obj:
-        query_string_array_obj = "'$and':[" +  ",".join(query_list_array_obj) + "]"
-    if query_list_normal_obj: 
-        query_string_normal_obj = ",".join(query_list_normal_obj)
-
-    comma = "," if query_string_array_obj and query_string_normal_obj else ""
-    query_string = ""
-    query_string = "{" + query_string_array_obj + comma + query_string_normal_obj + "}"
-
-    query_string = query_string.replace("'", '"')
-    query_json = json.loads(query_string)
-
-    return query_json, error 
-
 def phenoclinic_response(request):
+    # choose which method to use
+    
+    #return phenoclinic_response_DB(request)
+    return phenoclinic_response_API(request)
+
+def phenoclinic_response_DB(request):
     try:
         target_collection = request.POST['target']
         query_request = request.POST['query']
@@ -394,6 +263,85 @@ def phenoclinic_response(request):
     results = list(collection_handle.find(query_json))
     count = len(results)
     keys = set([k for result in results for k in result.keys()])
+    context = {
+        'cookies': request.COOKIES,
+        'error_message': error_message,
+        'count': count,
+        'results': results,
+        'target_collection': target_collection,
+        'query': query_request,
+        'keys': keys
+    }
+    return render(request, 'beacon/phenoclinic_results.html', context)
+
+
+# USING API
+def phenoclinic_response_API(request: HttpRequest):
+    
+    try:
+        # debug prints
+        logging.info(f"Request: {request.POST}")
+        # =================
+        
+        target_collection = request.POST['target']
+        query_request = request.POST['query']
+    except KeyError as ex:
+        error_message = "Something went wrong with the request, please try again."
+        logging.error(error_message + f" Exception: {ex}")
+        return render(request, 'beacon/phenoclinic_results.html', {
+            'cookies': request.COOKIES,
+            'error_message': error_message,
+            'target_collection': target_collection,
+            'query': query_request
+        })
+
+    #collection_handle = get_collection_handle(db_handle, target_collection)
+
+    schema = INDIVIDUALS_DICT if target_collection == "individuals" else BIOSAMPLES_DICT
+    query_json, error_message = parse_query_api(query_request, schema)
+    if not query_json:
+        error_message = "The query string could not be prepared, please check the schema and try again. Remember to separate the key-value pairs with comma."
+        return render(request, 'beacon/phenoclinic_results.html', {
+            'cookies': request.COOKIES,
+            'error_message': error_message,
+            'target_collection': target_collection,
+            'query': query_request
+        })
+    print(f"Query: {target_collection} {query_json} ")
+    
+    
+    #results = list(collection_handle.find(query_json))
+    
+    url = f"{BEACON_URL}individuals/"
+    
+    payload = query_json
+    
+    
+    logging.info(f"Debug: payload: {payload}")
+    logging.info(f"Debug: URL = {url}")
+    
+    try:
+        response = requests.post(url=url, json=payload).json()
+        results = response['response']['resultSets'][0]['results']
+    except Exception as e:
+        error_message = "Something went wrong while trying to access the API, please try again."
+        logging.error(f"Error while accessing API: {e}")
+        
+        return render(request, 'beacon/phenoclinic_results.html', {
+        'cookies': request.COOKIES,
+        'error_message': error_message,
+        'target_collection': target_collection,
+        'query': query_request
+    })
+    
+    
+    #logging.info(f"Debug: results: {results}")
+    count = response['response']['resultSets'][0]['resultsCount']
+    logging.debug("Debug: count: " + str(count))
+    
+    keys = set()
+    if len(results):
+        keys = set([k for result in results for k in result.keys()])
     context = {
         'cookies': request.COOKIES,
         'error_message': error_message,

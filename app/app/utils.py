@@ -1,4 +1,7 @@
 from pymongo import MongoClient
+from app.schemas import INDIVIDUALS_DICT, BIOSAMPLES_DICT, FILTERING_TERMS_DICT
+import json, re, logging
+from app.settings import SKIP_DEFAULT, LIMIT_DEFAULT
 
 def get_db_handle(db_name, host, port, username, password):
     client = MongoClient(host=host,
@@ -11,3 +14,171 @@ def get_db_handle(db_name, host, port, username, password):
 
 def get_collection_handle(db_handle,collection_name):
     return db_handle[collection_name]
+
+
+
+def parse_query(request, schema):
+    error = ""
+    # separate key-value pairs
+    request_list = request.split(",")
+    # info to identidy each key, operator and value
+    pattern = '(.+)([=|<|>])(.+)'
+    operator_dict = {
+        "=": "$eq",
+        ">": "$gt",
+        "<": "$lt"
+    }
+    # loop through every key-value pair and parse it
+    query_list_normal_obj = [] 
+    query_list_array_obj = []
+    for element in request_list:
+        element = element.strip()
+        try:
+            m = re.match(pattern, element, re.IGNORECASE)
+            key_full = m.group(1)
+            key_list = key_full.split(".")
+            key = key_list[0]
+            value = m.group(3)
+            operator = m.group(2)
+        except:
+            if element in FILTERING_TERMS_DICT.keys():
+                key_full = FILTERING_TERMS_DICT[element][1]
+                key_list = key_full.split(".")
+                key = key_list[0]
+                value = element
+                operator = "="
+            else:
+                # this filtering term is not registered
+                error = "Some of the query terms are incorrect/not available. Please, check the schema, the filtering terms and the query syntax and try again."
+                continue
+        
+        # detect if value if string or ontology
+        key_type = ".id" if ":" in value else ".label"  # useful if object_id_label
+        
+        # for this UI we assume if the value is float, the key is measurements ('array_object_measures')
+        try:
+            value= float(value)
+            str_operator = operator_dict[operator]
+            # control cases where the user didn't put commas in the query
+            if not key.startswith(tuple(schema.keys())):
+                query_measure = f"{{'measures': {{'$elemMatch': {{'assayCode{key_type}': '{key}',  'measurementValue.value': {{'{str_operator}': {value}}}}}}} }}"
+                query_list_array_obj.append(query_measure)
+            else:
+                error = "Some of the query terms are incorrect/not available. Please, check the schema, the filtering terms and the query syntax and try again."
+        # if not, we can have 'object_id_label', 'simple', 'array_object_id_label' or 'array_object_complex'
+        except ValueError:
+            if key in schema and schema[key] == "object_id_label":
+                query_normal = f"'{key}{key_type}': '{value}'"   
+                query_list_normal_obj.append(query_normal)
+            elif key in schema and schema[key] == "simple":
+                query_normal = f"'{key}': '{value}'"   
+                query_list_normal_obj.append(query_normal)
+            elif key in schema and schema[key] == "array_object_id_label":
+                key_sub = ".".join(key_list[1:])
+                query_array = f"{{'{key}': {{'$elemMatch': {{'{key_sub}{key_type}': '{value}'}}}}}}"
+                query_list_array_obj.append(query_array)
+            elif key in schema and schema[key] == "array_object_complex":
+                key_sub = ".".join(key_list[1:])
+                query_array = f"{{'{key}': {{'$elemMatch': {{'{key_sub}': '{value}'}}}}}}"
+                query_list_array_obj.append(query_array)
+            else:
+                error = "Some of the query terms are incorrect/not available. Please, check the schema, the filtering terms and the query syntax and try again."
+                
+    # prepare query string            
+    query_string_array_obj = ""
+    query_string_normal_obj = ""
+    if query_list_array_obj:
+        query_string_array_obj = "'$and':[" +  ",".join(query_list_array_obj) + "]"
+    if query_list_normal_obj: 
+        query_string_normal_obj = ",".join(query_list_normal_obj)
+
+    comma = "," if query_string_array_obj and query_string_normal_obj else ""
+    query_string = ""
+    query_string = "{" + query_string_array_obj + comma + query_string_normal_obj + "}"
+
+    query_string = query_string.replace("'", '"')
+    query_json = json.loads(query_string)
+
+    return query_json, error
+
+# returns empty POST payload
+def get_payload_default():
+    payload = {}
+    payload["meta"] = {"apiVersion": "2.0"}
+    payload["query"] = {
+        "filters": [], 
+        "includeResultsetResponses":"HIT", 
+        "pagination": {
+            "skip": SKIP_DEFAULT, 
+            "limit": LIMIT_DEFAULT
+        },
+        "testMode": False,
+        "requestedGranularity": "record"
+    }
+    
+    return payload
+    
+# like parse_query but requests API instead of DB
+def parse_query_api(request, schema=None):
+    error = ""
+    # separate key-value pairs
+    request_list = request.split(",")
+    # info to identidy each key, operator and value
+    ALLOWED_CHARS_NAME = r"[a-z|A-Z|0-9|\.|\-|_| ]"
+    ALLOWED_CHARS_VALUE = r"[a-z|A-Z|0-9|\.|\-|_| |:]"
+    pattern = f'({ALLOWED_CHARS_NAME}+)(<=|>=|=|<|>|!)({ALLOWED_CHARS_VALUE}+)'
+    operator_list = ["=","<",">","!","<=",">="]
+
+    # loop through every key-value pair and parse it
+    filter_list = []
+    for element in request_list:
+        element = element.strip()
+        logging.debug(f"debug parse_query - element: {element}")
+        try: # <id> <operator> <value>
+            m = re.match(pattern, element, re.IGNORECASE)
+            key_full = m.group(1).strip()
+            key_list = key_full.split(".")
+            key = key_list[0]
+            value = m.group(3).strip()
+            operator = m.group(2).strip()
+        except: # just value
+            if element in FILTERING_TERMS_DICT.keys():
+                key_full = FILTERING_TERMS_DICT[element][1]
+                key_list = key_full.split(".")
+                key = key_list[0]
+                value = element
+                operator = "="
+            else:
+                # this filtering term is not registered
+                error = f"Some of the query terms are incorrect/not available ({element}). Please, check the schema, the filtering terms and the query syntax and try again."
+                continue
+        
+        filter = { 
+                  "id": key_full,
+                  "operator": operator,
+                  "value": value
+                  }
+        
+        logging.debug(f"parse_query: filter before conversion: {filter}")
+        
+        # detect if value is a string or ontology code
+        key_type = "id" if ":" in value else "label"  # useful if object_id_label
+        
+        # check if need to add key_type
+        if key_list[-1] not in ("id","label"):
+            filter["id"] = f"{key_full}.{key_type}"
+            logging.debug(f"parse_query: filter id changed to {filter['id']}")
+        
+        logging.debug
+        
+        filter_list.append(filter)
+        
+                
+    
+    #query_json = json.loads(query_string)
+    query_json = get_payload_default()
+    query_json["query"]["filters"] = filter_list
+    
+    logging.debug(f"parsed query_json: {json.dumps(query_json, indent=2)}")
+
+    return query_json, error

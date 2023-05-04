@@ -41,7 +41,7 @@ if SECRET_KEY in ("CHANGE ME PLEASE", SECRET_KEY_DEFAULT):
     
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False # changed from True
+DEBUG = False
 
 
 BEACON_IP_ADDR = "192.92.147.84"
@@ -52,7 +52,9 @@ ALLOWED_HOSTS = ["localhost"]
 ALLOWED_HOSTS += BEACON_DOMAINS
 #ALLOWED_HOSTS = ["localhost", "beacon-pt"]
 
-
+# query result defaults
+SKIP_DEFAULT = 0
+LIMIT_DEFAULT = 20
 
 # Application definition
 
@@ -154,6 +156,27 @@ else:
 
 
 MEDIA_URL = 'media/'
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "DEBUG",
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
+            "propagate": False,
+        },
+    },
+}
 
 
 # Default primary key field type
