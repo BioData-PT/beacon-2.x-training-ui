@@ -367,8 +367,12 @@ def parse_query(request, schema):
 
     return query_json, error 
 
-"""
 def phenoclinic_response(request):
+    # choose which method to use
+    return phenoclinic_response_DB(request)
+    #return phenoclinic_response_API(request)
+
+def phenoclinic_response_DB(request):
     try:
         target_collection = request.POST['target']
         query_request = request.POST['query']
@@ -407,10 +411,10 @@ def phenoclinic_response(request):
         'keys': keys
     }
     return render(request, 'beacon/phenoclinic_results.html', context)
-"""
+
 
 # USING API
-def phenoclinic_response(request: HttpRequest):
+def phenoclinic_response_API(request: HttpRequest):
     
     try:
         # debug prints
