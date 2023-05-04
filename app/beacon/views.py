@@ -8,7 +8,8 @@ import os
 import requests
 import logging
 
-from app.utils import get_db_handle, get_collection_handle
+from app.schemas import INDIVIDUALS_DICT, BIOSAMPLES_DICT, FILTERING_TERMS_DICT
+from app.utils import get_db_handle, get_collection_handle, parse_query
 
 
 ##################################################
@@ -216,65 +217,7 @@ def region_response(request):
 ### PHENOCLINIC
 ##################################################
 
-# Custom dicts to define the 'type' of object
-INDIVIDUALS_DICT = {
-    "diseases": "array_object_complex",
-    "ethnicity": "object_id_label",
-    "exposures": "array_object_complex",
-    "geographicOrigin": "object_id_label",
-    "id": "simple",
-    "interventionsOrProcedures": "array_object_complex",
-    "measures": "array_object_measures",
-    "pedigrees": "array_object_complex",
-    "phenotypicFeatures": "array_object_complex",
-    "sex": "object_id_label",
-    "treatments": "array_object_complex"
-}
 
-BIOSAMPLES_DICT = {
-    "biosampleStatus": "object_id_label",
-    "collectionDate": "simple",
-    "collectionMoment": "simple",
-    "diagnosticMarkers": "array_object_id_label",
-    "histologicalDiagnosis": "object_id_label",
-    "id": "simple",
-    "individualId": "simple",
-    "measurements": "array_object_measures",
-    "obtentionProcedure": "object_complex",
-    "pathologicalStage": "array_object_id_label",
-    "pathologicalTnmFinding": "array_object_id_label",
-    "phenotypicFeatures": "array_object_complex",
-    "sampleOriginDetail": "object_id_label",
-    "sampleOriginType": "object_id_label",
-    "sampleProcessing": "object_id_label",
-    "sampleStorage": "object_id_label",
-    "tumorGrade": "object_id_label",
-    "tumorProgression": "object_id_label",
-}
-
-# Filtering terms dict as 'filtering term: (target entity, target schema term, label)'
-FILTERING_TERMS_DICT = {
-    "female": ("individuals", "sex.label", None),
-    "NCIT:C16576": ("individuals", "sex.id", "female"),
-    "male": ("individuals", "sex.label", None),
-    "NCIT:C20197": ("individuals", "sex.id", "male"),
-    "England": ("individuals", "geographicOrigin.label", None),
-    "GAZ:00002641": ("individuals", "geographicOrigin.id", "England"),
-    "Northern Ireland": ("individuals", "geographicOrigin.label", None),
-    "GAZ:00002638": ("individuals", "geographicOrigin.id", "Northern Ireland"),
-    "Chinese": ("individuals", "ethnicity.label", None),
-    "NCIT:C41260": ("individuals", "ethnicity.id", "Chinese"),
-    "Black or Black British": ("individuals", "ethnicity.label", None),
-    "NCIT:C16352": ("individuals", "ethnicity.id", "Black or Black British"),
-    "blood": ("biosamples", "sampleOriginType.label", None),
-    "UBERON:0000178": ("biosamples", "sampleOriginType.id", "blood"),
-    "reference sample": ("biosamples", "biosampleStatus.label", None),
-    "EFO:0009654": ("biosamples", "biosampleStatus.id", "reference sample"),
-    "asthma": ("individuals", "diseases.diseaseCode.label", None),
-    "ICD10:J45": ("individuals", "diseases.diseaseCode.id", "asthma"),
-    "obesity": ("individuals", "diseases.diseaseCode.label", None),
-    "ICD10:E66": ("individuals", "diseases.diseaseCode.id", "obesity"),
-}
 
 def phenoclinic(request):
     context = {
@@ -282,90 +225,6 @@ def phenoclinic(request):
         'error_message': None,
     }
     return render(request, 'beacon/phenoclinic.html', context)
-
-def parse_query(request, schema):
-    error = ""
-    # separate key-value pairs
-    request_list = request.split(",")
-    # info to identidy each key, operator and value
-    pattern = '(.+)([=|<|>])(.+)'
-    operator_dict = {
-        "=": "$eq",
-        ">": "$gt",
-        "<": "$lt"
-    }
-    # loop through every key-value pair and parse it
-    query_list_normal_obj = [] 
-    query_list_array_obj = []
-    for element in request_list:
-        element = element.strip()
-        try:
-            m = re.match(pattern, element, re.IGNORECASE)
-            key_full = m.group(1)
-            key_list = key_full.split(".")
-            key = key_list[0]
-            value = m.group(3)
-            operator = m.group(2)
-        except:
-            if element in FILTERING_TERMS_DICT.keys():
-                key_full = FILTERING_TERMS_DICT[element][1]
-                key_list = key_full.split(".")
-                key = key_list[0]
-                value = element
-                operator = "="
-            else:
-                # this filtering term is not registered
-                error = "Some of the query terms are incorrect/not available. Please, check the schema, the filtering terms and the query syntax and try again."
-                continue
-        
-        # detect if value if string or ontology
-        key_type = ".id" if ":" in value else ".label"  # useful if object_id_label
-        
-        # for this UI we assume if the value is float, the key is measurements ('array_object_measures')
-        try:
-            value= float(value)
-            str_operator = operator_dict[operator]
-            # control cases where the user didn't put commas in the query
-            if not key.startswith(tuple(schema.keys())):
-                query_measure = f"{{'measures': {{'$elemMatch': {{'assayCode{key_type}': '{key}',  'measurementValue.value': {{'{str_operator}': {value}}}}}}} }}"
-                query_list_array_obj.append(query_measure)
-            else:
-                error = "Some of the query terms are incorrect/not available. Please, check the schema, the filtering terms and the query syntax and try again."
-        # if not, we can have 'object_id_label', 'simple', 'array_object_id_label' or 'array_object_complex'
-        except ValueError:
-            if key in schema and schema[key] == "object_id_label":
-                query_normal = f"'{key}{key_type}': '{value}'"   
-                query_list_normal_obj.append(query_normal)
-            elif key in schema and schema[key] == "simple":
-                query_normal = f"'{key}': '{value}'"   
-                query_list_normal_obj.append(query_normal)
-            elif key in schema and schema[key] == "array_object_id_label":
-                key_sub = ".".join(key_list[1:])
-                query_array = f"{{'{key}': {{'$elemMatch': {{'{key_sub}{key_type}': '{value}'}}}}}}"
-                query_list_array_obj.append(query_array)
-            elif key in schema and schema[key] == "array_object_complex":
-                key_sub = ".".join(key_list[1:])
-                query_array = f"{{'{key}': {{'$elemMatch': {{'{key_sub}': '{value}'}}}}}}"
-                query_list_array_obj.append(query_array)
-            else:
-                error = "Some of the query terms are incorrect/not available. Please, check the schema, the filtering terms and the query syntax and try again."
-                
-    # prepare query string            
-    query_string_array_obj = ""
-    query_string_normal_obj = ""
-    if query_list_array_obj:
-        query_string_array_obj = "'$and':[" +  ",".join(query_list_array_obj) + "]"
-    if query_list_normal_obj: 
-        query_string_normal_obj = ",".join(query_list_normal_obj)
-
-    comma = "," if query_string_array_obj and query_string_normal_obj else ""
-    query_string = ""
-    query_string = "{" + query_string_array_obj + comma + query_string_normal_obj + "}"
-
-    query_string = query_string.replace("'", '"')
-    query_json = json.loads(query_string)
-
-    return query_json, error 
 
 def phenoclinic_response(request):
     # choose which method to use
