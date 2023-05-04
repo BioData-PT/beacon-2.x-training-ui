@@ -54,7 +54,7 @@ ALLOWED_HOSTS += BEACON_DOMAINS
 
 # query result defaults
 SKIP_DEFAULT = 0
-LIMIT_DEFAULT = 10
+LIMIT_DEFAULT = 20
 
 # Application definition
 
