@@ -124,8 +124,8 @@ def parse_query_api(request, schema=None):
     # separate key-value pairs
     request_list = request.split(",")
     # info to identidy each key, operator and value
-    ALLOWED_CHARS_NAME = r"(a-z|A-Z|0-9|\.|\-|_)"
-    ALLOWED_CHARS_VALUE = r"(a-z|A-Z|0-9|\.|\-|_|:)"
+    ALLOWED_CHARS_NAME = r"(a-z|A-Z|0-9|\.|\-|_| )"
+    ALLOWED_CHARS_VALUE = r"(a-z|A-Z|0-9|\.|\-|_| |:)"
     pattern = f'^({ALLOWED_CHARS_NAME}+)(<=|>=|=|<|>|!)({ALLOWED_CHARS_VALUE}+)'
     operator_list = ["=","<",">","!","<=",">="]
 
