@@ -119,20 +119,21 @@ def get_payload_default():
     return payload
     
 # like parse_query but requests API instead of DB
-def parse_query_api(request, schema):
+def parse_query_api(request, schema=None):
     error = ""
     # separate key-value pairs
     request_list = request.split(",")
     # info to identidy each key, operator and value
-    ALLOWED_CHARS_NAME = "[a-z|A-Z|0-9|\.|\-|_]"
-    ALLOWED_CHARS_VALUE = "[a-z|A-Z|0-9|\.|\-|_|:]"
-    pattern = f'^({ALLOWED_CHARS_NAME}+)(<=|>=|=|<|>|!)({ALLOWED_CHARS_VALUE}+)$'
+    ALLOWED_CHARS_NAME = r"(a-z|A-Z|0-9|\.|\-|_)"
+    ALLOWED_CHARS_VALUE = r"(a-z|A-Z|0-9|\.|\-|_|:)"
+    pattern = f'^({ALLOWED_CHARS_NAME}+)(<=|>=|=|<|>|!)({ALLOWED_CHARS_VALUE}+)'
     operator_list = ["=","<",">","!","<=",">="]
 
     # loop through every key-value pair and parse it
     filter_list = []
     for element in request_list:
         element = element.strip()
+        logging.debug(f"debug parse_query - element: {element}")
         try: # <id> <operator> <value>
             m = re.match(pattern, element, re.IGNORECASE)
             key_full = m.group(1).strip()
