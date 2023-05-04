@@ -159,10 +159,14 @@ def parse_query_api(request, schema):
         logging.debug(f"parse_query: filter before conversion: {filter}")
         
         # detect if value is a string or ontology code
-        key_type = ".id" if ":" in value else ".label"  # useful if object_id_label
+        key_type = "id" if ":" in value else "label"  # useful if object_id_label
         
         # check if need to add key_type
-        # TODO
+        if key_list[-1] not in ("id","label"):
+            filter["id"] = f"{key_full}.{key_type}"
+            logging.debug(f"parse_query: filter id changed to {filter['id']}")
+        
+        logging.debug
         
         filter_list.append(filter)
         
