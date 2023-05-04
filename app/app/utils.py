@@ -183,5 +183,7 @@ def parse_query_api(request, schema):
 
     query_string = query_string.replace("'", '"')
     query_json = json.loads(query_string)
+    
+    logging.debug(f"query_json: {json.dumps(query_json, indent=2, sort_keys=True)}")
 
     return query_json, error 
