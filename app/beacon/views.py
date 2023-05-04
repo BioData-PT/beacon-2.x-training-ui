@@ -326,6 +326,7 @@ def phenoclinic_response_API(request: HttpRequest):
     except Exception as e:
         error_message = "Something went wrong while trying to access the API, please try again."
         logging.error(f"Error while accessing API: {e}")
+        
         return render(request, 'beacon/phenoclinic_results.html', {
         'cookies': request.COOKIES,
         'error_message': error_message,

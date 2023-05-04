@@ -169,7 +169,8 @@ def parse_query_api(request, schema):
                 
     
     #query_json = json.loads(query_string)
-    query_json = filter_list
+    query_json = get_payload_default()
+    query_json["query"]["filters"] = filter_list
     
     logging.debug(f"parsed query_json: {json.dumps(query_json, indent=2)}")
 
