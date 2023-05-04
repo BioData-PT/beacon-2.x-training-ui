@@ -9,7 +9,7 @@ import requests
 import logging
 
 from app.schemas import INDIVIDUALS_DICT, BIOSAMPLES_DICT, FILTERING_TERMS_DICT
-from app.utils import get_db_handle, get_collection_handle, parse_query
+from app.utils import get_db_handle, get_collection_handle, parse_query, parse_query_api
 
 
 ##################################################
@@ -296,7 +296,7 @@ def phenoclinic_response_API(request: HttpRequest):
     #collection_handle = get_collection_handle(db_handle, target_collection)
 
     schema = INDIVIDUALS_DICT if target_collection == "individuals" else BIOSAMPLES_DICT
-    query_json, error_message = parse_query(query_request, schema)
+    query_json, error_message = parse_query_api(query_request, schema)
     if not query_json:
         error_message = "The query string could not be prepared, please check the schema and try again. Remember to separate the key-value pairs with comma."
         return render(request, 'beacon/phenoclinic_results.html', {
