@@ -312,7 +312,8 @@ def phenoclinic_response_API(request: HttpRequest):
     
     #results = list(collection_handle.find(query_json))
     
-    url = f"{BEACON_URL}individuals/"
+    route = "individuals" if target_collection == "individuals" else "biosamples"
+    url = f"{BEACON_URL}{route}/"
     
     payload = query_json
     
