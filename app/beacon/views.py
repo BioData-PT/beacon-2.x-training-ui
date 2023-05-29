@@ -237,6 +237,9 @@ def region(request):
     }
     return render(request, 'beacon/region.html', context)
 
+def region_response(request):
+    return region_response_API(request)
+
 def region_response_API(request):
         
     try:
