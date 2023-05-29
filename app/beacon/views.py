@@ -312,7 +312,7 @@ def region_response_API(request):
         'query': query_request,
         'keys': keys
     }
-    return render(request, 'beacon/region.html', context)
+    return render(request, 'beacon/region_results.html', context)
 
 def region_response_DB(request):
     try:
