@@ -95,7 +95,7 @@ def variant(request):
     return render(request, 'beacon/variant.html', context)
 
 def variant_response(request):
-    return variant_response_DB(request)
+    return variant_response_API(request)
 
 def variant_response_DB(request):
     try:
