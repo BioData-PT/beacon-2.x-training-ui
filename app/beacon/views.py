@@ -9,7 +9,7 @@ import requests
 import logging
 
 from app.schemas import INDIVIDUALS_DICT, BIOSAMPLES_DICT, FILTERING_TERMS_DICT
-from app.utils import get_db_handle, get_collection_handle, get_payload_default, get_variant_query, parse_query, parse_query_api
+from app.utils import get_db_handle, get_collection_handle, get_payload_default, get_region_query, get_variant_query, parse_query, parse_query_api
 
 
 ##################################################
@@ -259,7 +259,7 @@ def region_response_API(request):
             'query': query_request,
         })
 
-    query_json, error_message = get_variant_query(query_request)
+    query_json, error_message = get_region_query(query_request)
     if not query_json:
         error_message = "Something went wrong while parsing the query: " + error_message
         return render(request, 'beacon/region.html', {
