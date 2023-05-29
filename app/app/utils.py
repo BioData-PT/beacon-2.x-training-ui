@@ -78,7 +78,7 @@ def get_variant_query(input_query):
 def get_region_query(input_query):
     error_message = ""
     
-    pattern = '^(X|Y|MT|[1-9]|1[0-9]|2[0-2])\s*\:\s*(\d+)\s+(\d+)\s*$'
+    pattern = '^(X|Y|MT|[1-9]|1[0-9]|2[0-2])\s*\:\s*(\d+)\s*-\s*(\d+)\s*$'
     
     m = re.match(pattern, input_query, re.IGNORECASE)
     
