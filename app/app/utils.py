@@ -64,7 +64,7 @@ def get_variant_query(input_query):
         "start": start,
         # get this precise position 
         # instead of all that start on there
-        "end": int(start)+1,
+        "end": str(int(start)+1),
         "referenceBases": reference,
         "alternateBases": alternate
     }
