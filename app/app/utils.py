@@ -40,7 +40,7 @@ def get_payload_default():
 ##################################################
 
 def get_variant_query(input_query):
-    error = ""
+    error_message = ""
     
     #pattern = f'({ALLOWED_CHARS_NAME}+)(<=|>=|=|<|>|!)({ALLOWED_CHARS_VALUE}+)$'
     pattern = '^(X|Y|MT|[1-9]|1[0-9]|2[0-2])\s*\:\s*(\d+)\s+([ATCGN]+)\s*\>\s*([ATCGN]+)\s*$'
@@ -69,7 +69,37 @@ def get_variant_query(input_query):
         "alternateBases": alternate
     }
     
-    return query_json, error
+    return query_json, error_message
+
+##################################################
+### REGION
+##################################################
+
+def get_region_query(input_query):
+    error_message = ""
+    
+    pattern = '^(X|Y|MT|[1-9]|1[0-9]|2[0-2])\s*\:\s*(\d+)\s+(\d+)\s*$'
+    
+    m = re.match(pattern, input_query, re.IGNORECASE)
+    
+    if not m:
+        error_message = "The query pattern is wrong. Please, use 'chr : <start_position> <end_position>' and try again."
+        return None, error_message
+    
+    chromosome = m.group(1)
+    start = m.group(2)
+    end = m.group(3)
+    
+    LOG.info(f"Query: {chromosome} : {start} - {end}")
+    
+    query_json = get_payload_default()
+    query_json["query"]["requestParameters"] = {
+        "Chromosome": chromosome,
+        "start": start,
+        "end": end,
+    }
+    
+    return query_json, error_message
 
 ##################################################
 ### PHENOCLINIC
@@ -165,7 +195,7 @@ def parse_query(request, schema):
 # Returns json to query the API using filters
 # like parse_query but requests API instead of DB
 def parse_query_api(request):
-    error = ""
+    error_message = ""
     # separate key-value pairs
     request_list = request.split(",")
     # info to identidy each key, operator and value
@@ -195,7 +225,7 @@ def parse_query_api(request):
                 operator = "="
             else:
                 # this filtering term is not registered
-                error = f"Some of the query terms are incorrect/not available ({element}). Please, check the schema, the filtering terms and the query syntax and try again."
+                error_message = f"Some of the query terms are incorrect/not available ({element}). Please, check the schema, the filtering terms and the query syntax and try again."
                 continue
         
         filter = { 
@@ -222,4 +252,4 @@ def parse_query_api(request):
     
     logging.debug(f"parsed query_json: {json.dumps(query_json, indent=2)}")
 
-    return query_json, error
+    return query_json, error_message

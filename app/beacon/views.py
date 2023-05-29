@@ -237,7 +237,81 @@ def region(request):
     }
     return render(request, 'beacon/region.html', context)
 
-def region_response(request):
+def region_response_API(request):
+        
+    try:
+        # debug prints
+        logging.info(f"Request: {request.POST}")
+        # =================
+        
+        query_request = request.POST['query']
+    except KeyError as ex:
+        error_message = "Something went wrong with the request, please try again."
+        logging.error(error_message + f" Exception: {ex}")
+        return render(request, 'beacon/region.html', {
+            'cookies': request.COOKIES,
+            'error_message': error_message,
+            'count': 0,
+            'results': [],
+            'query': query_request,
+        })
+
+    query_json, error_message = get_variant_query(query_request)
+    if not query_json:
+        error_message = "Something went wrong while parsing the query: " + error_message
+        return render(request, 'beacon/region.html', {
+            'cookies': request.COOKIES,
+            'error_message': error_message,
+            'count': 0,
+            'results': [],
+            'query': query_request,
+        })
+    print(f"Query: {query_json} ")
+    
+    route = "g_variants"
+    url = f"{BEACON_URL}{route}/"
+    
+    payload = query_json
+    
+    
+    logging.info(f"Debug: payload: {payload}")
+    logging.info(f"Debug: URL = {url}")
+    
+    try:
+        # query the API
+        response = requests.post(url=url, json=payload).json()
+        results = response['response']['resultSets'][0]['results']
+    except Exception as e:
+        error_message = "Something went wrong while trying to access the API, please try again."
+        logging.error(f"Error while accessing API: {e}")
+        
+        return render(request, 'beacon/region.html', {
+            'cookies': request.COOKIES,
+            'error_message': error_message,
+            'count': 0,
+            'results': [],
+            'query': query_request,
+        })
+    
+    
+    #logging.info(f"Debug: results: {results}")
+    count = response['response']['resultSets'][0]['resultsCount']
+    logging.debug("Debug: count: " + str(count))
+    
+    keys = set()
+    if len(results):
+        keys = set([k for result in results for k in result.keys()])
+    context = {
+        'error_message': None,
+        'cookies': request.COOKIES,
+        'count': count,
+        'results': results,
+        'query': query_request,
+        'keys': keys
+    }
+    return render(request, 'beacon/region.html', context)
+
+def region_response_DB(request):
     try:
         query = request.POST['query']
     except KeyError:
