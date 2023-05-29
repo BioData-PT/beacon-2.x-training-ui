@@ -3,6 +3,8 @@ from app.schemas import INDIVIDUALS_DICT, BIOSAMPLES_DICT, FILTERING_TERMS_DICT
 import json, re, logging
 from app.settings import SKIP_DEFAULT, LIMIT_DEFAULT
 
+LOG:logging.Logger = logging.getLogger(__name__)
+
 def get_db_handle(db_name, host, port, username, password):
     client = MongoClient(host=host,
                          port=int(port),
@@ -16,7 +18,61 @@ def get_collection_handle(db_handle,collection_name):
     return db_handle[collection_name]
 
 
+# returns empty POST payload
+def get_payload_default():
+    payload = {}
+    payload["meta"] = {"apiVersion": "2.0"}
+    payload["query"] = {
+        "filters": [], 
+        "includeResultsetResponses":"HIT", 
+        "pagination": {
+            "skip": SKIP_DEFAULT, 
+            "limit": LIMIT_DEFAULT
+        },
+        "testMode": False,
+        "requestedGranularity": "record"
+    }
+    
+    return payload
 
+##################################################
+### VARIANT
+##################################################
+
+def get_variant_query(input_query):
+    error = ""
+    
+    #pattern = f'({ALLOWED_CHARS_NAME}+)(<=|>=|=|<|>|!)({ALLOWED_CHARS_VALUE}+)$'
+    pattern = '^(X|Y|MT|[1-9]|1[0-9]|2[0-2])\s*\:\s*(\d+)\s+([ATCGN]+)\s*\>\s*([ATCGN]+)\s*$'
+    
+    m = re.match(pattern, input_query, re.IGNORECASE)
+    
+    if not m:
+        error_message = "The query pattern is wrong. Please, use 'chr : position reference > alternate' and try again."
+        return None, error_message
+    
+    chromosome = m.group(1)
+    start = int(m.group(2))
+    reference = m.group(3).upper()
+    alternate = m.group(4).upper()
+    
+    LOG.info(f"Query: {chromosome} : {start} {reference} > {alternate}")
+    
+    query_json = get_payload_default()
+    query_json["query"]["requestParameters"] = {
+        "Chromosome": chromosome,
+        "start": start,
+        "referenceBases": reference,
+        "alternateBases": alternate
+    }
+    
+    return query_json, error
+
+##################################################
+### PHENOCLINIC
+##################################################
+
+# NOT USED ANYMORE
 def parse_query(request, schema):
     error = ""
     # separate key-value pairs
@@ -101,25 +157,11 @@ def parse_query(request, schema):
 
     return query_json, error
 
-# returns empty POST payload
-def get_payload_default():
-    payload = {}
-    payload["meta"] = {"apiVersion": "2.0"}
-    payload["query"] = {
-        "filters": [], 
-        "includeResultsetResponses":"HIT", 
-        "pagination": {
-            "skip": SKIP_DEFAULT, 
-            "limit": LIMIT_DEFAULT
-        },
-        "testMode": False,
-        "requestedGranularity": "record"
-    }
     
-    return payload
-    
+# Receives message query (like "name = John")
+# Returns json to query the API using filters
 # like parse_query but requests API instead of DB
-def parse_query_api(request, schema=None):
+def parse_query_api(request):
     error = ""
     # separate key-value pairs
     request_list = request.split(",")
@@ -127,7 +169,7 @@ def parse_query_api(request, schema=None):
     ALLOWED_CHARS_NAME = r"[a-z|A-Z|0-9|\.|\-|_| ]"
     ALLOWED_CHARS_VALUE = r"[a-z|A-Z|0-9|\.|\-|_| |:]"
     pattern = f'({ALLOWED_CHARS_NAME}+)(<=|>=|=|<|>|!)({ALLOWED_CHARS_VALUE}+)$'
-    operator_list = ["=","<",">","!","<=",">="]
+    # operator_list = ["=","<",">","!","<=",">="]
 
     # loop through every key-value pair and parse it
     filter_list = []
@@ -167,13 +209,9 @@ def parse_query_api(request, schema=None):
         # check if need to add key_type
         if key_list[-1] not in ("id","label"):
             filter["id"] = f"{key_full}.{key_type}"
-            logging.debug(f"parse_query: filter id changed to {filter['id']}")
-        
-        logging.debug
+            LOG.debug(f"parse_query: filter id changed to {filter['id']}")
         
         filter_list.append(filter)
-        
-                
     
     #query_json = json.loads(query_string)
     query_json = get_payload_default()
