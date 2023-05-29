@@ -52,7 +52,7 @@ def get_variant_query(input_query):
         return None, error_message
     
     chromosome = m.group(1)
-    start = int(m.group(2))
+    start = m.group(2)
     reference = m.group(3).upper()
     alternate = m.group(4).upper()
     
