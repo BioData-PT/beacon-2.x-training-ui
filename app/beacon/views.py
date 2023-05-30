@@ -9,7 +9,7 @@ import requests
 import logging
 
 from app.schemas import INDIVIDUALS_DICT, BIOSAMPLES_DICT, FILTERING_TERMS_DICT
-from app.utils import get_db_handle, get_collection_handle, get_payload_default, parse_query, parse_query_api
+from app.utils import get_cohort_query, get_db_handle, get_collection_handle, get_payload_default, get_region_query, get_variant_query, parse_query, parse_query_api
 
 
 ##################################################
@@ -55,6 +55,10 @@ except:
 ##################################################
 
 def cohorts(request):
+    return cohorts_api(request)
+
+
+def cohorts_db(request):
     collection_handle = get_collection_handle(db_handle, "cohorts")
 
     try:
@@ -82,6 +86,47 @@ def cohorts(request):
 
     return render(request, 'beacon/cohorts_results.html', context)
 
+def cohorts_api(request):
+
+    query_json, error_message = get_cohort_query()
+    route = "cohorts"
+    url = f"{BEACON_URL}{route}"
+    
+    payload = query_json
+    
+        
+    try:
+        # query the API
+        response = requests.post(url=url, json=payload).json()
+        # results = response['response']['resultSets'][0]['results']
+        results = response['response']['collections']
+    except Exception as e:
+        error_message = "Something went wrong while trying to access the API, please try again."
+        logging.error(f"Error while accessing API: {e}")
+        
+        return render(request, 'beacon/variant_results.html', {
+            'cookies': request.COOKIES,
+            'error_message': error_message,
+            'count': 0,
+            'results': [],
+        })
+    
+    #count = response['response']['resultSets'][0]['resultsCount']
+    count = response['responseSummary']['numTotalResults']
+    
+    keys = set()
+    if len(results):
+        keys = set([k for result in results for k in result.keys()])
+    
+    context = {
+        'error_message': None,
+        'cookies': request.COOKIES,
+        'count': count,
+        'results': results,
+        'keys': keys
+    }
+
+    return render(request, 'beacon/cohorts_results.html', context)
 
 ##################################################
 ### VARIANT
@@ -95,6 +140,9 @@ def variant(request):
     return render(request, 'beacon/variant.html', context)
 
 def variant_response(request):
+    return variant_response_API(request)
+
+def variant_response_DB(request):
     try:
         query = request.POST['query']
     except KeyError:
@@ -120,8 +168,6 @@ def variant_response(request):
     start = int(m.group(2))
     reference = m.group(3).upper()
     alternate = m.group(4).upper()
-
-    print(f"Query: {chromosome} : {start} {reference} > {alternate}")
 
     # our test DB only contains one chromosome (22)
     # raise error if another chr is used
@@ -151,6 +197,80 @@ def variant_response(request):
 
     return render(request, 'beacon/variant_results.html', context)
 
+def variant_response_API(request):
+        
+    try:
+        # debug prints
+        logging.info(f"Request: {request.POST}")
+        # =================
+        
+        query_request = request.POST['query']
+    except KeyError as ex:
+        error_message = "Something went wrong with the request, please try again."
+        logging.error(error_message + f" Exception: {ex}")
+        return render(request, 'beacon/variant_results.html', {
+            'cookies': request.COOKIES,
+            'error_message': error_message,
+            'count': 0,
+            'results': [],
+            'query': query_request,
+        })
+
+    query_json, error_message = get_variant_query(query_request)
+    if not query_json:
+        error_message = "Something went wrong while parsing the query: " + error_message
+        return render(request, 'beacon/variant_results.html', {
+            'cookies': request.COOKIES,
+            'error_message': error_message,
+            'count': 0,
+            'results': [],
+            'query': query_request,
+        })
+    print(f"Query: {query_json} ")
+    
+    route = "g_variants"
+    url = f"{BEACON_URL}{route}/"
+    
+    payload = query_json
+    
+    
+    logging.info(f"Debug: payload: {payload}")
+    logging.info(f"Debug: URL = {url}")
+    
+    try:
+        # query the API
+        response = requests.post(url=url, json=payload).json()
+        results = response['response']['resultSets'][0]['results']
+    except Exception as e:
+        error_message = "Something went wrong while trying to access the API, please try again."
+        logging.error(f"Error while accessing API: {e}")
+        
+        return render(request, 'beacon/variant_results.html', {
+            'cookies': request.COOKIES,
+            'error_message': error_message,
+            'count': 0,
+            'results': [],
+            'query': query_request,
+        })
+    
+    
+    #logging.info(f"Debug: results: {results}")
+    count = response['response']['resultSets'][0]['resultsCount']
+    logging.debug("Debug: count: " + str(count))
+    
+    keys = set()
+    if len(results):
+        keys = set([k for result in results for k in result.keys()])
+    context = {
+        'error_message': None,
+        'cookies': request.COOKIES,
+        'count': count,
+        'results': results,
+        'query': query_request,
+        'keys': keys
+    }
+    return render(request, 'beacon/variant_results.html', context)
+
 ##################################################
 ### REGION
 ##################################################
@@ -163,6 +283,83 @@ def region(request):
     return render(request, 'beacon/region.html', context)
 
 def region_response(request):
+    return region_response_API(request)
+
+def region_response_API(request):
+        
+    try:
+        # debug prints
+        logging.info(f"Request: {request.POST}")
+        # =================
+        
+        query_request = request.POST['query']
+    except KeyError as ex:
+        error_message = "Something went wrong with the request, please try again."
+        logging.error(error_message + f" Exception: {ex}")
+        return render(request, 'beacon/region.html', {
+            'cookies': request.COOKIES,
+            'error_message': error_message,
+            'count': 0,
+            'results': [],
+            'query': query_request,
+        })
+
+    query_json, error_message = get_region_query(query_request)
+    if not query_json:
+        error_message = "Something went wrong while parsing the query: " + error_message
+        return render(request, 'beacon/region.html', {
+            'cookies': request.COOKIES,
+            'error_message': error_message,
+            'count': 0,
+            'results': [],
+            'query': query_request,
+        })
+    print(f"Query: {query_json} ")
+    
+    route = "g_variants"
+    url = f"{BEACON_URL}{route}/"
+    
+    payload = query_json
+    
+    
+    logging.info(f"Debug: payload: {payload}")
+    logging.info(f"Debug: URL = {url}")
+    
+    try:
+        # query the API
+        response = requests.post(url=url, json=payload).json()
+        results = response['response']['resultSets'][0]['results']
+    except Exception as e:
+        error_message = "Something went wrong while trying to access the API, please try again."
+        logging.error(f"Error while accessing API: {e}")
+        
+        return render(request, 'beacon/region.html', {
+            'cookies': request.COOKIES,
+            'error_message': error_message,
+            'count': 0,
+            'results': [],
+            'query': query_request,
+        })
+    
+    
+    #logging.info(f"Debug: results: {results}")
+    count = response['response']['resultSets'][0]['resultsCount']
+    logging.debug("Debug: count: " + str(count))
+    
+    keys = set()
+    if len(results):
+        keys = set([k for result in results for k in result.keys()])
+    context = {
+        'error_message': None,
+        'cookies': request.COOKIES,
+        'count': count,
+        'results': results,
+        'query': query_request,
+        'keys': keys
+    }
+    return render(request, 'beacon/region_results.html', context)
+
+def region_response_DB(request):
     try:
         query = request.POST['query']
     except KeyError:
@@ -234,6 +431,7 @@ def phenoclinic_response(request):
     #return phenoclinic_response_DB(request)
     return phenoclinic_response_API(request)
 
+# NOT USED ANYMORE
 def phenoclinic_response_DB(request):
     try:
         target_collection = request.POST['target']
@@ -295,10 +493,7 @@ def phenoclinic_response_API(request: HttpRequest):
             'query': query_request
         })
 
-    #collection_handle = get_collection_handle(db_handle, target_collection)
-
-    schema = INDIVIDUALS_DICT if target_collection == "individuals" else BIOSAMPLES_DICT
-    query_json, error_message = parse_query_api(query_request, schema)
+    query_json, error_message = parse_query_api(query_request)
     if not query_json:
         error_message = "The query string could not be prepared, please check the schema and try again. Remember to separate the key-value pairs with comma."
         return render(request, 'beacon/phenoclinic_results.html', {
@@ -322,6 +517,7 @@ def phenoclinic_response_API(request: HttpRequest):
     logging.info(f"Debug: URL = {url}")
     
     try:
+        # query the API
         response = requests.post(url=url, json=payload).json()
         results = response['response']['resultSets'][0]['results']
     except Exception as e:
