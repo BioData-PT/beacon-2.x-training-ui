@@ -259,7 +259,7 @@ def parse_query_api(request):
 ### COHORTS
 ##################################################
 
-def get_cohort_query(input_query):
+def get_cohort_query():
     error_message = ""
     
     LOG.info(f"Query: (All Cohorts)")

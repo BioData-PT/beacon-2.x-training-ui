@@ -88,7 +88,7 @@ def cohorts_db(request):
 
 def cohorts_api(request):
 
-    query_json, error_message = get_variant_query(query_request)
+    query_json, error_message = get_variant_query()
     route = "cohorts"
     url = f"{BEACON_URL}{route}"
     
