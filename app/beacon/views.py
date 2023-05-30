@@ -98,7 +98,8 @@ def cohorts_api(request):
     try:
         # query the API
         response = requests.post(url=url, json=payload).json()
-        results = response['response']['resultSets'][0]['results']
+        # results = response['response']['resultSets'][0]['results']
+        results = response['response']['collections']
     except Exception as e:
         error_message = "Something went wrong while trying to access the API, please try again."
         logging.error(f"Error while accessing API: {e}")
@@ -110,7 +111,8 @@ def cohorts_api(request):
             'results': [],
         })
     
-    count = response['response']['resultSets'][0]['resultsCount']
+    #count = response['response']['resultSets'][0]['resultsCount']
+    count = response['responseSummary']['numTotalResults']
     
     keys = set()
     if len(results):
