@@ -105,7 +105,7 @@ def get_region_query(input_query):
 ### PHENOCLINIC
 ##################################################
 
-# NOT USED ANYMORE
+# NOT USED ANYMORE, RUNS ON DB
 def parse_query(request, schema):
     error = ""
     # separate key-value pairs
@@ -240,7 +240,8 @@ def parse_query_api(request):
         key_type = "id" if ":" in value else "label"  # useful if object_id_label
         
         # check if need to add key_type
-        if key_list[-1] not in ("id","label"):
+        keyEnd = key_list[-1]
+        if not ( keyEnd in ("id","label") or keyEnd.endswith("Id") ):
             filter["id"] = f"{key_full}.{key_type}"
             LOG.debug(f"parse_query: filter id changed to {filter['id']}")
         
