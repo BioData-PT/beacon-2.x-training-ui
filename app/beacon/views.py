@@ -55,6 +55,10 @@ except:
 ##################################################
 
 def cohorts(request):
+    return cohorts_api(request)
+
+
+def cohorts_db(request):
     collection_handle = get_collection_handle(db_handle, "cohorts")
 
     try:
@@ -82,6 +86,45 @@ def cohorts(request):
 
     return render(request, 'beacon/cohorts_results.html', context)
 
+def cohorts_api(request):
+
+    query_json, error_message = get_variant_query(query_request)
+    route = "cohorts"
+    url = f"{BEACON_URL}{route}"
+    
+    payload = query_json
+    
+        
+    try:
+        # query the API
+        response = requests.post(url=url, json=payload).json()
+        results = response['response']['resultSets'][0]['results']
+    except Exception as e:
+        error_message = "Something went wrong while trying to access the API, please try again."
+        logging.error(f"Error while accessing API: {e}")
+        
+        return render(request, 'beacon/variant_results.html', {
+            'cookies': request.COOKIES,
+            'error_message': error_message,
+            'count': 0,
+            'results': [],
+        })
+    
+    count = response['response']['resultSets'][0]['resultsCount']
+    
+    keys = set()
+    if len(results):
+        keys = set([k for result in results for k in result.keys()])
+    
+    context = {
+        'error_message': None,
+        'cookies': request.COOKIES,
+        'count': count,
+        'results': results,
+        'keys': keys
+    }
+
+    return render(request, 'beacon/cohorts_results.html', context)
 
 ##################################################
 ### VARIANT
