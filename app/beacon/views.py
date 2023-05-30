@@ -9,7 +9,7 @@ import requests
 import logging
 
 from app.schemas import INDIVIDUALS_DICT, BIOSAMPLES_DICT, FILTERING_TERMS_DICT
-from app.utils import get_db_handle, get_collection_handle, get_payload_default, get_region_query, get_variant_query, parse_query, parse_query_api
+from app.utils import get_cohort_query, get_db_handle, get_collection_handle, get_payload_default, get_region_query, get_variant_query, parse_query, parse_query_api
 
 
 ##################################################
@@ -88,7 +88,7 @@ def cohorts_db(request):
 
 def cohorts_api(request):
 
-    query_json, error_message = get_variant_query()
+    query_json, error_message = get_cohort_query()
     route = "cohorts"
     url = f"{BEACON_URL}{route}"
     
