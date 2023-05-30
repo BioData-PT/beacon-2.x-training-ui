@@ -253,3 +253,17 @@ def parse_query_api(request):
     logging.debug(f"parsed query_json: {json.dumps(query_json, indent=2)}")
 
     return query_json, error_message
+
+
+##################################################
+### COHORTS
+##################################################
+
+def get_cohort_query():
+    error_message = ""
+    
+    LOG.info(f"Query: (All Cohorts)")
+    
+    query_json = get_payload_default()
+    
+    return query_json, error_message
