@@ -77,7 +77,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'app.app.beacon.middleware.BeaconMiddleware' # custom middleware
+    'app.beacon.middleware.BeaconMiddleware' # custom middleware
 ]
 
 ROOT_URLCONF = 'app.urls'
