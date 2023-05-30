@@ -9,11 +9,7 @@ import requests
 import logging
 
 from app.schemas import INDIVIDUALS_DICT, BIOSAMPLES_DICT, FILTERING_TERMS_DICT
-<<<<<<< HEAD
-from app.utils import get_db_handle, get_collection_handle, get_payload_default, get_region_query, get_variant_query, parse_query, parse_query_api
-=======
 from app.utils import get_cohort_query, get_db_handle, get_collection_handle, get_payload_default, get_region_query, get_variant_query, parse_query, parse_query_api
->>>>>>> dev-api-variant
 
 
 ##################################################
