@@ -831,4 +831,8 @@ body footer section#EU img {
   margin-right: 25.3%;
   width: 40%;
   height auto;
-} 
+}
+
+.phenoclinic-menu {
+  display: none;
+}
