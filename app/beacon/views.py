@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
 from django.http import Http404
 from django.shortcuts import render
+from django.utils.datastructures import MultiValueDictKeyError
 import re
 import json
 import os
@@ -483,15 +484,18 @@ def phenoclinic_response_API(request: HttpRequest):
         
         target_collection = request.POST['target']
         query_request = request.POST['query']
-    except KeyError as ex:
+        
+    except MultiValueDictKeyError as ex:
         error_message = "Something went wrong with the request, please try again."
         logging.error(error_message + f" Exception: {ex}")
         return render(request, 'beacon/phenoclinic_results.html', {
             'cookies': request.COOKIES,
             'error_message': error_message,
-            'target_collection': target_collection,
-            'query': query_request
+            # avoids crash when target_collection is not defined
+            # 'target_collection': target_collection, 
+            # 'query': query_request
         })
+
 
     query_json, error_message = parse_query_api(query_request)
     if not query_json:
