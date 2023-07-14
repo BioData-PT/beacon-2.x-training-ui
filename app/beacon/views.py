@@ -113,8 +113,8 @@ def cohorts_api(request):
             'results': [],
         })
     
-    #count = response['response']['resultSets'][0]['resultsCount']
-    exists, count, results = get_response_data(response)
+    # cohorts have different result format
+    count = response['responseSummary']['numTotalResults']
     
     keys = set()
     if len(results):
@@ -123,7 +123,7 @@ def cohorts_api(request):
     context = {
         'error_message': None,
         'cookies': request.COOKIES,
-        'exists': exists,
+        #'exists': exists,
         'count': count,
         'results': results,
         'keys': keys
