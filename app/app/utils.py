@@ -38,8 +38,8 @@ def get_payload_default():
 # returns boolean, count, records from json response
 def get_response_data(response_json):
     
-    bool_resp = response_json['response_summary']['exists']
-    count_resp = response_json['response_summary']['numTotalResults']
+    bool_resp = response_json['responseSummary']['exists']
+    count_resp = response_json['responseSummary']['numTotalResults']
     
     results = response_json['response']['resultSets']
     records_resp = []
