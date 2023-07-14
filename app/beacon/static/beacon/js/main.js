@@ -76,9 +76,9 @@
     var cookieValue = "";
 
     loginButton.on("click", function(){
-        controlledItem.toggleClass("blurry");
-        countsResult.toggleClass("blurry");
-        errorLogin.toggleClass("active");
+        //controlledItem.toggleClass("blurry");
+        //countsResult.toggleClass("blurry");
+        //errorLogin.toggleClass("active");
         $(this).text(function(i, text){
             // cookie
             text === "LOG IN" ? cookieValue = "true" : cookieValue = "false";

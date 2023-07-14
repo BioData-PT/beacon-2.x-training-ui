@@ -127,21 +127,22 @@ body nav div a.selected {
 }
 /* line 64, ../sass/_main.scss */
 body nav button {
-  background-color: #1070B7;
-  padding: 6px 12px;
+  background-color: transparent;
+  /*padding: 6px 12px;*/
   color: white;
   text-transform: uppercase;
   font-weight: bold;
   font-size: 11px;
-  border-radius: 8px;
+  /*border-radius: 8px;*/
   border: none;
-  margin: 10px 30px 10px 0;
+  margin: 5px 5px 0px 0px;
   transition: ease .5s;
   cursor: pointer;
 }
 /* line 77, ../sass/_main.scss */
 body nav button:hover {
-  background-color: #74C5EB;
+  /*background-color: #74C5EB;*/
+  filter: brightness(0.85);
 }
 /* line 81, ../sass/_main.scss */
 body nav button.hidden {
