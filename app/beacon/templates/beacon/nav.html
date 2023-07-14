@@ -15,12 +15,20 @@
 
     </div>
 
-    <button type="submit">
-        <a href="/login?state=aHR0cHM6Ly9iZWFjb24uZ2RpLmJpb2RhdGEucHQv">
-            <!--  <img src="/static/beacon/img/login-small.png" alt="[LS Login]" width="200" > -->
-            <img src="/static/beacon/img/login-grey-wide.png" alt="[LS Login]" width="150" >
-       </a>
-      </button>
+    {% if cookies.username %}
+    <username_placeholder>
+        <p>Logged in as {{ cookies.username }}</p>
+    </username_placeholder>
+    {% else %}
+        <button type="submit">
+            <a href="/login?state=aHR0cHM6Ly9iZWFjb24uZ2RpLmJpb2RhdGEucHQv">
+                <!--  <img src="/static/beacon/img/login-small.png" alt="[LS Login]" width="200" > -->
+                <img src="/static/beacon/img/login-grey-wide.png" alt="[LS Login]" width="150" >
+        </a>
+        </button>
+    {% endif %}
+
+
 
     <!-- <button id="login" {% if hidden == 'true' %} class="hidden"{% endif %}>{% if cookies.loggedIn == 'true' %}LOG OUT{% else %}LOG IN{% endif %}</button> -->
     <!-- <button id="login">{% if cookies.loggedIn == 'true' %}LOG OUT{% else %}LOG IN{% endif %}</button> -->

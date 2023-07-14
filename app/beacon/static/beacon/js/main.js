@@ -206,4 +206,47 @@
         clipboardText.val("");
     });
 
+    // Function to decode the access token
+    function getUserId() {
+        var token = getCookie("Authorization"); // Get the value of the "Authorization" cookie
+
+        // Check if the token exists
+        if (token) {
+            // Decode the token
+            var base64Url = token.split('.')[1];
+            var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+
+            // Parse the token as JSON
+            var tokenData = JSON.parse(jsonPayload);
+
+            // Get the value of the "sub" field
+            var sub = tokenData.sub;
+
+            // Do something with the "sub" value
+            console.log("sub: ", sub);
+        } else {
+            console.log("Access token not found.");
+        }
+  }
+
+  // Function to get the value of a cookie
+  function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
+
 })();

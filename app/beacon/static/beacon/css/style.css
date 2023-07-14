@@ -148,6 +148,20 @@ body nav button:hover {
 body nav button.hidden {
   visibility: hidden;
 }
+
+body nav username_placeholder {
+  background-color: #1070B7;
+  /*padding: 6px 12px;*/
+  color: white;
+  /*text-transform: uppercase;*/
+  font-weight: bold;
+  font-size: 11px;
+  /*border-radius: 8px;*/
+  padding: 10px 15px 10px 15px;
+  border: none;
+  margin: 5px 10px 0px 0px;
+}
+
 /* line 87, ../sass/_main.scss */
 body main {
   width: 85%;
