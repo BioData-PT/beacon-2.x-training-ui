@@ -11,7 +11,7 @@ import logging
 
 from app.schemas import INDIVIDUALS_DICT, BIOSAMPLES_DICT, FILTERING_TERMS_DICT
 from app.utils import get_cohort_query, get_db_handle, get_collection_handle, get_payload_default, get_region_query, get_variant_query, parse_query, parse_query_api
-
+from app.utils import get_response_data
 
 ##################################################
 ### DATABASE CONFIG
@@ -48,7 +48,7 @@ try:
     assert individuals_test > 0
 except:
     print("\nThe DB does not contain the Beacon test data. Please, check the DB and the loading step and try to initiate the Beacon app again.")
-    exit(0)
+    #exit(0)
 
 
 ##################################################
@@ -109,11 +109,12 @@ def cohorts_api(request):
             'cookies': request.COOKIES,
             'error_message': error_message,
             'count': 0,
+            'exists': False,
             'results': [],
         })
     
     #count = response['response']['resultSets'][0]['resultsCount']
-    count = response['responseSummary']['numTotalResults']
+    exists, count, results = get_response_data(response)
     
     keys = set()
     if len(results):
@@ -122,6 +123,7 @@ def cohorts_api(request):
     context = {
         'error_message': None,
         'cookies': request.COOKIES,
+        'exists': exists,
         'count': count,
         'results': results,
         'keys': keys
@@ -212,6 +214,7 @@ def variant_response_API(request):
         return render(request, 'beacon/variant_results.html', {
             'cookies': request.COOKIES,
             'error_message': error_message,
+            'exists': False,
             'count': 0,
             'results': [],
             'query': query_request,
@@ -227,7 +230,7 @@ def variant_response_API(request):
             'results': [],
             'query': query_request,
         })
-    print(f"Query: {query_json} ")
+    print(f"Query: {query_json}")
     
     route = "g_variants"
     url = f"{BEACON_URL}{route}/"
@@ -240,7 +243,12 @@ def variant_response_API(request):
     
     try:
         # query the API
-        response = requests.post(url=url, json=payload).json()
+        headers = {
+            'Content-type': 'application/json',
+            'Authorization': request.COOKIES.get('Authorization')
+        }
+        logging.debug(f"Debug: headers: {headers}")
+        response = requests.post(url=url, json=payload, headers=headers).json()
         results = response['response']['resultSets'][0]['results']
     except Exception as e:
         error_message = "Something went wrong while trying to access the API, please try again."
@@ -256,7 +264,8 @@ def variant_response_API(request):
     
     
     #logging.info(f"Debug: results: {results}")
-    count = response['response']['resultSets'][0]['resultsCount']
+    #count = response['response']['resultSets'][0]['resultsCount']
+    exists, count, results = get_response_data(response)
     logging.debug("Debug: count: " + str(count))
     
     keys = set()
@@ -265,6 +274,7 @@ def variant_response_API(request):
     context = {
         'error_message': None,
         'cookies': request.COOKIES,
+        'exists': exists,
         'count': count,
         'results': results,
         'query': query_request,
@@ -300,6 +310,7 @@ def region_response_API(request):
         return render(request, 'beacon/region.html', {
             'cookies': request.COOKIES,
             'error_message': error_message,
+            'exists': False,
             'count': 0,
             'results': [],
             'query': query_request,
@@ -311,6 +322,7 @@ def region_response_API(request):
         return render(request, 'beacon/region.html', {
             'cookies': request.COOKIES,
             'error_message': error_message,
+            'exists': False,
             'count': 0,
             'results': [],
             'query': query_request,
@@ -328,7 +340,11 @@ def region_response_API(request):
     
     try:
         # query the API
-        response = requests.post(url=url, json=payload).json()
+        headers = {
+            'Content-type': 'application/json',
+            'Authorization': request.COOKIES.get('Authorization')
+        }
+        response = requests.post(url=url, json=payload, headers=headers).json()
         results = response['response']['resultSets'][0]['results']
     except Exception as e:
         error_message = "Something went wrong while trying to access the API, please try again."
@@ -337,6 +353,7 @@ def region_response_API(request):
         return render(request, 'beacon/region.html', {
             'cookies': request.COOKIES,
             'error_message': error_message,
+            'exists': False,
             'count': 0,
             'results': [],
             'query': query_request,
@@ -344,7 +361,8 @@ def region_response_API(request):
     
     
     #logging.info(f"Debug: results: {results}")
-    count = response['response']['resultSets'][0]['resultsCount']
+    #count = response['response']['resultSets'][0]['resultsCount']
+    exists, count, results = get_response_data(response)
     logging.debug("Debug: count: " + str(count))
     
     keys = set()
@@ -353,6 +371,7 @@ def region_response_API(request):
     context = {
         'error_message': None,
         'cookies': request.COOKIES,
+        'exists': exists,
         'count': count,
         'results': results,
         'query': query_request,
@@ -522,7 +541,11 @@ def phenoclinic_response_API(request: HttpRequest):
     
     try:
         # query the API
-        response = requests.post(url=url, json=payload).json()
+        headers = {
+            'Content-type': 'application/json',
+            'Authorization': request.COOKIES.get('Authorization')
+        }
+        response = requests.post(url=url, json=payload, headers=headers).json()
         results = response['response']['resultSets'][0]['results']
     except Exception as e:
         error_message = "Something went wrong while trying to access the API, please try again."
@@ -537,7 +560,8 @@ def phenoclinic_response_API(request: HttpRequest):
     
     
     #logging.info(f"Debug: results: {results}")
-    count = response['response']['resultSets'][0]['resultsCount']
+    #count = response['response']['resultSets'][0]['resultsCount']
+    exists, count, results = get_response_data(response)
     logging.debug("Debug: count: " + str(count))
     
     keys = set()
@@ -546,6 +570,7 @@ def phenoclinic_response_API(request: HttpRequest):
     context = {
         'cookies': request.COOKIES,
         'error_message': error_message,
+        'exists': exists,
         'count': count,
         'results': results,
         'target_collection': target_collection,
