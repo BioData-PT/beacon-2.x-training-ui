@@ -30,12 +30,11 @@
             <form action="{% url 'beacon:phenoclinic_response' %}" method="post">
                 {% csrf_token %}
                 <div>
-                    <div class="phenoclinic-menu">
                         <select name="target">
                             <option value="individuals" {% if target_collection == 'individuals' %}selected{% endif %}>Individuals</option>
                             <option value="biosamples" {% if target_collection == 'biosamples' %}selected{% endif %}>Biosamples</option>
                         </select>
-                    </div>
+                    
                     <i class="fa fa-angle-down" aria-hidden="true" onclick="toggleMenu()"></i>
                     <input type="text" 
                            name="query"  
@@ -43,14 +42,7 @@
                            title="Search key=value, key><=value if integer, or filtering term. Use comma to separate the filters." 
                            value="{% if query %}{{query}}{% endif %}">
                 </div>
-                
-                <script>
-                    function toggleMenu() {
-                        var phenoMenu = document.querySelector('.phenoclinic-menu');
-                        phenoMenu.style.display = (phenoMenu.style.display === 'none') ? 'block' : 'none';
-                    }
-                </script>
-
+            
                 <button type="submit"><i class="fas fa-search"></i></button>
                 <!-- <span id="filtering-terms-wrapper">
                     <i class="fa fa-filter" aria-hidden="true"></i>
