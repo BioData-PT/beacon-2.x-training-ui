@@ -57,7 +57,7 @@
         <div class="results">
             {% if error_message %}<span class="error"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></strong> {{ error_message }}</span>{% endif %}
 
-            {% if results %}
+            {% if exists %}
             <div id="tabs" >
                 <p class="tablinks active" attr-target="boolean">Boolean</p>
                 <p class="tablinks" attr-target="counts">Counts</p>
