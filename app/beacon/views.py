@@ -562,6 +562,7 @@ def phenoclinic_response_API(request: HttpRequest):
     #logging.info(f"Debug: results: {results}")
     #count = response['response']['resultSets'][0]['resultsCount']
     exists, count, results = get_response_data(response)
+    logging.debug("Debug: exists: " + str(exists))
     logging.debug("Debug: count: " + str(count))
     
     keys = set()
