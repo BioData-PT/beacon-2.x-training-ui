@@ -99,7 +99,7 @@
                 {% if not results %}
                     <p>No records shown, you may try to login or request record access to datasets on <a href="https://rems.gdi.biodata.pt">REMS</a>.</p>
                 {% endif %}
-                {% else %}
+                {% else %} <!-- have records to show -->
                     <div id="table-type" class="controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
                         <p>Result type:</p>
                         <div><input type="radio" id="tidy" name="table-type" value="tidy" checked="checked" autocomplete="off"><label for="tidy">Tidy</label></div>
@@ -178,36 +178,37 @@
                             </tbody>
                         </table>
                     </div>
-                {% endif %}
-                {% else %}
-                <div class="table-wrapper tidy active controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
-                    <table class="results-table display">
-                        <thead>
-                            <tr>
-                                <th>id</th>
-                                <th>individualId</th>
-                                <th>sampleOriginType</th>
-                                <th>biosampleStatus</th>
-                                <th>collectionDate</th>
-                                <th>collectionMoment</th>
+                
+                    {% else %}
+                    <div class="table-wrapper tidy active controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
+                        <table class="results-table display">
+                            <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>individualId</th>
+                                    <th>sampleOriginType</th>
+                                    <th>biosampleStatus</th>
+                                    <th>collectionDate</th>
+                                    <th>collectionMoment</th>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for result in results %}
-                            <tr>
-                                <td>{{result.id|default_if_none:'-' }}</td>
-                                <td>{{result.individualId|default_if_none:'-' }}</td>
-                                <td><p><span class="duo">{{result.sampleOriginType.id|default_if_none:'-'}}</span> {{result.sampleOriginType.label|default_if_none:'-'}}</p></td>
-                                <td><p><span class="duo">{{result.biosampleStatus.id|default_if_none:'-'}}</span> {{result.biosampleStatus.label|default_if_none:'-'}}</p></td>
-                                <td>{{result.collectionDate|default_if_none:'-' }}</td>
-                                <td>{{result.collectionMoment|default_if_none:'-' }}</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for result in results %}
+                                <tr>
+                                    <td>{{result.id|default_if_none:'-' }}</td>
+                                    <td>{{result.individualId|default_if_none:'-' }}</td>
+                                    <td><p><span class="duo">{{result.sampleOriginType.id|default_if_none:'-'}}</span> {{result.sampleOriginType.label|default_if_none:'-'}}</p></td>
+                                    <td><p><span class="duo">{{result.biosampleStatus.id|default_if_none:'-'}}</span> {{result.biosampleStatus.label|default_if_none:'-'}}</p></td>
+                                    <td>{{result.collectionDate|default_if_none:'-' }}</td>
+                                    <td>{{result.collectionMoment|default_if_none:'-' }}</td>
 
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endif %}
                 {% endif %}
             </section>
 
