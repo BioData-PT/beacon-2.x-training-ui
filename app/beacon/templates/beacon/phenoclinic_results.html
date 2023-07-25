@@ -97,7 +97,7 @@
                     <span class="error error-login {% if cookies.loggedIn == 'false'  or not cookies.loggedIn %}active{% endif %}"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></strong> You have to be logged in to see this result.</span>
                     
                     {% if not results %}
-                        <p>No records shown, you may try to login or request record access to datasets on <a href="https://rems.gdi.biodata.pt">REMS</a>.</p>
+                        <p>No records shown, you may try to login or request record access to datasets on <a href="https://rems.gdi.biodata.pt" target="_blank">REMS</a>.</p>
                     {% else %} <!-- have records to show -->
                         <div id="table-type" class="controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
                             <p>Result type:</p>
