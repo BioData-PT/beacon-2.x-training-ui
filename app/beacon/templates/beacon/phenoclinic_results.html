@@ -79,138 +79,137 @@
             {% if error_message %}<span class="error"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></strong> {{ error_message }}</span>{% endif %}
 
             {% if exists %}
-            <div id="tabs" >
-                <p class="tablinks active" attr-target="boolean">Boolean</p>
-                <p class="tablinks" attr-target="counts">Counts</p>
-                <p class="tablinks" attr-target="full">Full</p>
-            </div>
-            <section id="boolean" class="active">
-                <p>{{exists}}</p>
-            </section>
+                <div id="tabs" >
+                    <p class="tablinks active" attr-target="boolean">Boolean</p>
+                    <p class="tablinks" attr-target="counts">Counts</p>
+                    <p class="tablinks" attr-target="full">Full</p>
+                </div>
+                <section id="boolean" class="active">
+                    <p>{{exists}}</p>
+                </section>
 
-            <section id="counts">
-                <span class="error error-login {% if cookies.loggedIn == 'false'  or not cookies.loggedIn %}active{% endif %}"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></strong> You have to be logged in to see this result.</span>
-                <p class="{% if cookies.loggedIn == 'false'  or not cookies.loggedIn %}blurry{% endif %}">{{count}} result(s)</p>
-            </section>
+                <section id="counts">
+                    <span class="error error-login {% if cookies.loggedIn == 'false'  or not cookies.loggedIn %}active{% endif %}"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></strong> You have to be logged in to see this result.</span>
+                    <p class="{% if cookies.loggedIn == 'false'  or not cookies.loggedIn %}blurry{% endif %}">{{count}} result(s)</p>
+                </section>
 
-            <section id="full">
-                <span class="error error-login {% if cookies.loggedIn == 'false'  or not cookies.loggedIn %}active{% endif %}"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></strong> You have to be logged in to see this result.</span>
-                
-                {% if not results %}
-                    <p>No records shown, you may try to login or request record access to datasets on <a href="https://rems.gdi.biodata.pt">REMS</a>.</p>
-                {% endif %}
-                {% else %} <!-- have records to show -->
-                    <div id="table-type" class="controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
-                        <p>Result type:</p>
-                        <div><input type="radio" id="tidy" name="table-type" value="tidy" checked="checked" autocomplete="off"><label for="tidy">Tidy</label></div>
-                        <div><input type="radio" id="raw" name="table-type" value="raw" autocomplete="off"><label for="raw">Raw</label></div>
-                    </div>
+                <section id="full">
+                    <span class="error error-login {% if cookies.loggedIn == 'false'  or not cookies.loggedIn %}active{% endif %}"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></strong> You have to be logged in to see this result.</span>
+                    
+                    {% if not results %}
+                        <p>No records shown, you may try to login or request record access to datasets on <a href="https://rems.gdi.biodata.pt">REMS</a>.</p>
+                    {% else %} <!-- have records to show -->
+                        <div id="table-type" class="controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
+                            <p>Result type:</p>
+                            <div><input type="radio" id="tidy" name="table-type" value="tidy" checked="checked" autocomplete="off"><label for="tidy">Tidy</label></div>
+                            <div><input type="radio" id="raw" name="table-type" value="raw" autocomplete="off"><label for="raw">Raw</label></div>
+                        </div>
 
-                    <div class="table-wrapper raw controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
-                        <table class="results-table display">
-                            <thead>
-                                <tr>
-                                    {% for key in keys %}
-                                    {% if not key|startswith:'_' %}
-                                    <th>{{key}}</th>
-                                    {% endif %}
-                                    {% endfor %}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {%for result in results%}
+                        <div class="table-wrapper raw controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
+                            <table class="results-table display">
+                                <thead>
                                     <tr>
-                                    {% for key in keys %}
-                                    {% if not key|startswith:'_' %}
-                                        <td class="raw">
-                                            <div class="json" attr-data="{{result|lookup:key}}">
-                                            </div>
-                                        </td>
-                                    {% endif %}
-                                    {% endfor %}
+                                        {% for key in keys %}
+                                        {% if not key|startswith:'_' %}
+                                        <th>{{key}}</th>
+                                        {% endif %}
+                                        {% endfor %}
                                     </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table> 
-                    </div>
-
-                    {% if target_collection == "individuals" %}
-                    <div class="table-wrapper tidy active controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
-                        <table class="results-table display">
-                            <thead>
-                                <tr>
-                                    <th>id</th>
-                                    <th>sex</th>
-                                    <th>ethnicity</th>
-                                    <th>geographicOrigin</th>
-                                    <th>measures</th>
-                                    <th>diseases</th>
-                                    <th>interventionsOrProcedures</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for result in results %}
-                                <tr>
-                                    <td>{{result.id|default_if_none:'-' }}</td>
-                                    <td><p><span class="duo">{{result.sex.id|default_if_none:'-'}}</span> {{result.sex.label|default_if_none:'-'}}</p></td>
-                                    <td><p><span class="duo">{{result.ethnicity.id|default_if_none:'-'}}</span> {{result.ethnicity.label|default_if_none:'-'}}</p></td>
-                                    <td><p><span class="duo">{{result.geographicOrigin.id|default_if_none:'-'}}</span> {{result.geographicOrigin.label|default_if_none:'-'}}</p></td>
-                                    <td>
-                                        {% for measure in result.measures %}
-                                        <p><span class="strong">date:</span> {{measure.date|default_if_none:'-'}}</p>
-                                        <p><span class="duo">{{measure.assayCode.id|default_if_none:'-'}}</span> {{measure.assayCode.label|default_if_none:'-'}}</p>
-                                        <p>{{measure.measurementValue.value|default_if_none:'-'}} {{measure.measurementValue.units.label|default_if_none:'-'}}</p>
-                                        <br>
+                                </thead>
+                                <tbody>
+                                    {%for result in results%}
+                                        <tr>
+                                        {% for key in keys %}
+                                        {% if not key|startswith:'_' %}
+                                            <td class="raw">
+                                                <div class="json" attr-data="{{result|lookup:key}}">
+                                                </div>
+                                            </td>
+                                        {% endif %}
                                         {% endfor %}
-                                    </td>
-                                    <td>
-                                        {% for disease in result.diseases %}
-                                        <p><span class="duo">{{disease.diseaseCode.id|default_if_none:'-'}}</span> {{disease.diseaseCode.label|default_if_none:'-'}}</p>
-                                        {% endfor %}
-                                    </td>
-                                    <td>
-                                        {% for procedure in result.interventionsOrProcedures %}
-                                        <p><span class="duo">{{procedure.procedureCode.id|default_if_none:'-'}}</span> {{procedure.procedureCode.label|default_if_none:'-'}}</p>
-                                        {% endfor %}
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                
-                    {% else %}
-                    <div class="table-wrapper tidy active controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
-                        <table class="results-table display">
-                            <thead>
-                                <tr>
-                                    <th>id</th>
-                                    <th>individualId</th>
-                                    <th>sampleOriginType</th>
-                                    <th>biosampleStatus</th>
-                                    <th>collectionDate</th>
-                                    <th>collectionMoment</th>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table> 
+                        </div>
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for result in results %}
-                                <tr>
-                                    <td>{{result.id|default_if_none:'-' }}</td>
-                                    <td>{{result.individualId|default_if_none:'-' }}</td>
-                                    <td><p><span class="duo">{{result.sampleOriginType.id|default_if_none:'-'}}</span> {{result.sampleOriginType.label|default_if_none:'-'}}</p></td>
-                                    <td><p><span class="duo">{{result.biosampleStatus.id|default_if_none:'-'}}</span> {{result.biosampleStatus.label|default_if_none:'-'}}</p></td>
-                                    <td>{{result.collectionDate|default_if_none:'-' }}</td>
-                                    <td>{{result.collectionMoment|default_if_none:'-' }}</td>
+                        {% if target_collection == "individuals" %}
+                        <div class="table-wrapper tidy active controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
+                            <table class="results-table display">
+                                <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>sex</th>
+                                        <th>ethnicity</th>
+                                        <th>geographicOrigin</th>
+                                        <th>measures</th>
+                                        <th>diseases</th>
+                                        <th>interventionsOrProcedures</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for result in results %}
+                                    <tr>
+                                        <td>{{result.id|default_if_none:'-' }}</td>
+                                        <td><p><span class="duo">{{result.sex.id|default_if_none:'-'}}</span> {{result.sex.label|default_if_none:'-'}}</p></td>
+                                        <td><p><span class="duo">{{result.ethnicity.id|default_if_none:'-'}}</span> {{result.ethnicity.label|default_if_none:'-'}}</p></td>
+                                        <td><p><span class="duo">{{result.geographicOrigin.id|default_if_none:'-'}}</span> {{result.geographicOrigin.label|default_if_none:'-'}}</p></td>
+                                        <td>
+                                            {% for measure in result.measures %}
+                                            <p><span class="strong">date:</span> {{measure.date|default_if_none:'-'}}</p>
+                                            <p><span class="duo">{{measure.assayCode.id|default_if_none:'-'}}</span> {{measure.assayCode.label|default_if_none:'-'}}</p>
+                                            <p>{{measure.measurementValue.value|default_if_none:'-'}} {{measure.measurementValue.units.label|default_if_none:'-'}}</p>
+                                            <br>
+                                            {% endfor %}
+                                        </td>
+                                        <td>
+                                            {% for disease in result.diseases %}
+                                            <p><span class="duo">{{disease.diseaseCode.id|default_if_none:'-'}}</span> {{disease.diseaseCode.label|default_if_none:'-'}}</p>
+                                            {% endfor %}
+                                        </td>
+                                        <td>
+                                            {% for procedure in result.interventionsOrProcedures %}
+                                            <p><span class="duo">{{procedure.procedureCode.id|default_if_none:'-'}}</span> {{procedure.procedureCode.label|default_if_none:'-'}}</p>
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    
+                        {% else %}
+                        <div class="table-wrapper tidy active controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
+                            <table class="results-table display">
+                                <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>individualId</th>
+                                        <th>sampleOriginType</th>
+                                        <th>biosampleStatus</th>
+                                        <th>collectionDate</th>
+                                        <th>collectionMoment</th>
 
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for result in results %}
+                                    <tr>
+                                        <td>{{result.id|default_if_none:'-' }}</td>
+                                        <td>{{result.individualId|default_if_none:'-' }}</td>
+                                        <td><p><span class="duo">{{result.sampleOriginType.id|default_if_none:'-'}}</span> {{result.sampleOriginType.label|default_if_none:'-'}}</p></td>
+                                        <td><p><span class="duo">{{result.biosampleStatus.id|default_if_none:'-'}}</span> {{result.biosampleStatus.label|default_if_none:'-'}}</p></td>
+                                        <td>{{result.collectionDate|default_if_none:'-' }}</td>
+                                        <td>{{result.collectionMoment|default_if_none:'-' }}</td>
+
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% endif %}
                     {% endif %}
-                {% endif %}
-            </section>
+                </section>
 
             {% else %}
             <p>No results found.</p>
