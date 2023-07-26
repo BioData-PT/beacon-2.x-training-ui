@@ -217,7 +217,7 @@ def variant_response_API(request):
             'exists': False,
             'count': 0,
             'results': [],
-            'query': query_request,
+            'query': "",
         })
 
     query_json, error_message = get_variant_query(query_request)
@@ -313,7 +313,7 @@ def region_response_API(request):
             'exists': False,
             'count': 0,
             'results': [],
-            'query': query_request,
+            'query': "",
         })
 
     query_json, error_message = get_region_query(query_request)
