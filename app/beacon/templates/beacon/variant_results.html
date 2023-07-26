@@ -74,98 +74,103 @@
             <section id="full">
                 <span class="error error-login {% if cookies.loggedIn == 'false'  or not cookies.loggedIn %}active{% endif %}"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></strong> You have to be logged in to see this result.</span>
                 
-                <div id="table-type" class="controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
-                    <p>Result type:</p>
-                    <div><input type="radio" id="tidy" name="table-type" value="tidy" autocomplete="off" checked="checked"><label for="tidy">Tidy</label></div>
-                    <div><input type="radio" id="raw" name="table-type" value="raw" autocomplete="off" ><label for="raw">Raw</label></div>
-                </div>
+                {% if not results %}
+                        <p>No records shown, you may try to login or request record access to datasets on <a href="https://rems.gdi.biodata.pt" target="_blank">REMS</a>.</p>
+                {% else %} <!-- have records to show -->
 
-                <div class="table-wrapper raw controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
-                    <table class="results-table display">
-                        <thead>
-                            <tr>
-                                {% for key in keys %}
-                                {% if not key|startswith:'_' %}
-                                <th>{{key}}</th>
-                                {% endif %}
-                                {% endfor %}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {%for result in results%}
+                    <div id="table-type" class="controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
+                        <p>Result type:</p>
+                        <div><input type="radio" id="tidy" name="table-type" value="tidy" autocomplete="off" checked="checked"><label for="tidy">Tidy</label></div>
+                        <div><input type="radio" id="raw" name="table-type" value="raw" autocomplete="off" ><label for="raw">Raw</label></div>
+                    </div>
+
+                    <div class="table-wrapper raw controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
+                        <table class="results-table display">
+                            <thead>
                                 <tr>
-                                {% for key in keys %}
-                                {% if not key|startswith:'_' %}
-                                    <td class="raw">
-                                        <div class="json" attr-data="{{result|lookup:key}}">
+                                    {% for key in keys %}
+                                    {% if not key|startswith:'_' %}
+                                    <th>{{key}}</th>
+                                    {% endif %}
+                                    {% endfor %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for result in results%}
+                                    <tr>
+                                    {% for key in keys %}
+                                    {% if not key|startswith:'_' %}
+                                        <td class="raw">
+                                            <div class="json" attr-data="{{result|lookup:key}}">
+                                            </div>
+                                        </td>
+                                    {% endif %}
+                                    {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table> 
+                    </div>
+
+                    <div class="table-wrapper tidy active controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
+                        <table class="results-table display">
+                            <thead>
+                                <tr>
+                                    <th>variantInternalId</th>
+                                    <th>identifiers</th>
+                                    <th>variantType</th>
+                                    <th>position</th>
+                                    <th>referenceBases</th>
+                                    <th>alternateBases</th>
+                                    <th>molecularAttributes</th>
+                                    <th>caseLevelData</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for result in results %}
+                                <tr>
+                                    <td>{{result.variantInternalId|default_if_none:'-' }}</td>
+                                    <td>
+                                        {% for key, value in result.identifiers.items %}
+                                        <p><span class="strong">{{key}}:</span> {{value}}</p>
+                                        {% endfor %}
+                                    </td>
+                                    <td>{{result.variation.variantType|default_if_none:'-' }}</td>
+                                    <td>
+                                        <p>{{result.variation.location.interval.start.value}} - {{result.variation.location.interval.end.value}}</p>
+                                    </td>
+                                    <td>{{result.variation.referenceBases|default_if_none:'-' }}</td>
+                                    <td>{{result.variation.alternateBases|default_if_none:'-' }}</td>
+                                    <td> 
+                                        <p><span class="strong">molecularAttributes:</span> {{result.molecularAttributes.aminoacidChanges|join:', ' }}</p>
+                                        <p><span class="strong">geneIds:</span> {{result.molecularAttributes.aminoacidChanges|join:', ' }}</p>
+                                        <p><span class="strong">molecularEffects:</span> {% for i in result.molecularAttributes.molecularEffects%} {{i.label}} {% endfor %}</p>
+                                        <p><span class="strong">annotationImpact:</span> {{result.molecularAttributes.aminoacidChanges|join:', ' }}</p>
+                                    </td>
+                                    {% if result.caseLevelData|length < 10 %}
+                                    <td>{% for item in result.caseLevelData %}
+                                        {{item.biosampleId}}
+                                        {{item.zygosity.label}}
+                                        <br>
+                                        {% endfor %}
+                                    </td>
+                                    {% else %}
+                                    <td>
+                                        <div id="long-content-wrapper">
+                                        {% for item in result.caseLevelData %}
+                                        {{item.biosampleId}}
+                                        {{item.zygosity.label}}
+                                        <br>
+                                        {% endfor %}
                                         </div>
                                     </td>
-                                {% endif %}
-                                {% endfor %}
+                                    {% endif %}
                                 </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table> 
-                </div>
-
-                <div class="table-wrapper tidy active controlled {% if cookies.loggedIn == 'false' or not cookies.loggedIn %}blurry{% endif %}">
-                    <table class="results-table display">
-                        <thead>
-                            <tr>
-                                <th>variantInternalId</th>
-                                <th>identifiers</th>
-                                <th>variantType</th>
-                                <th>position</th>
-                                <th>referenceBases</th>
-                                <th>alternateBases</th>
-                                <th>molecularAttributes</th>
-                                <th>caseLevelData</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for result in results %}
-                            <tr>
-                                <td>{{result.variantInternalId|default_if_none:'-' }}</td>
-                                <td>
-                                    {% for key, value in result.identifiers.items %}
-                                    <p><span class="strong">{{key}}:</span> {{value}}</p>
-                                    {% endfor %}
-                                </td>
-                                <td>{{result.variation.variantType|default_if_none:'-' }}</td>
-                                <td>
-                                    <p>{{result.variation.location.interval.start.value}} - {{result.variation.location.interval.end.value}}</p>
-                                </td>
-                                <td>{{result.variation.referenceBases|default_if_none:'-' }}</td>
-                                <td>{{result.variation.alternateBases|default_if_none:'-' }}</td>
-                                <td> 
-                                    <p><span class="strong">molecularAttributes:</span> {{result.molecularAttributes.aminoacidChanges|join:', ' }}</p>
-                                    <p><span class="strong">geneIds:</span> {{result.molecularAttributes.aminoacidChanges|join:', ' }}</p>
-                                    <p><span class="strong">molecularEffects:</span> {% for i in result.molecularAttributes.molecularEffects%} {{i.label}} {% endfor %}</p>
-                                    <p><span class="strong">annotationImpact:</span> {{result.molecularAttributes.aminoacidChanges|join:', ' }}</p>
-                                </td>
-                                {% if result.caseLevelData|length < 10 %}
-                                <td>{% for item in result.caseLevelData %}
-                                    {{item.biosampleId}}
-                                    {{item.zygosity.label}}
-                                    <br>
-                                    {% endfor %}
-                                </td>
-                                {% else %}
-                                <td>
-                                    <div id="long-content-wrapper">
-                                    {% for item in result.caseLevelData %}
-                                    {{item.biosampleId}}
-                                    {{item.zygosity.label}}
-                                    <br>
-                                    {% endfor %}
-                                    </div>
-                                </td>
-                                {% endif %}
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
             </section>
 
             {% else %}
