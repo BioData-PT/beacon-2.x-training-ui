@@ -13,5 +13,6 @@ urlpatterns = [
     path('phenoclinic_response', views.phenoclinic_response, name='phenoclinic_response'),
     path('cohorts', views.cohorts, name='cohorts'),
     path('query_help', views.query_help, name='query_help'),
+    path('api_help', views.api_help, name='api_help'),
     path('filtering_terms', views.filtering_terms, name='filtering_terms'),
 ]

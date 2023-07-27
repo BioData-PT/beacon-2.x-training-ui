@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
 from django.http import Http404
-from django.shortcuts import render
 from django.utils.datastructures import MultiValueDictKeyError
 import re
 import json
@@ -609,7 +608,15 @@ def filtering_terms(request):
     }
 
     return render(request, 'beacon/filtering_terms.html', context)
+
+
+##################################################
+### API HELP
+##################################################
+
+def api_help(request):
     
+    return render(request, 'beacon/api_help.html')    
 
 ##################################################
 ### ERRORS

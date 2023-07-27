@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Biodata.pt Beacon - API Help</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width, shrink-to-fit=no"/>
+
+        <script src="https://kit.fontawesome.com/b023714a8f.js" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet"
+	      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" />
+
+        <link rel="stylesheet" href="{% static 'beacon/css/style.css' %}" />
+        <link rel="stylesheet" href="{% static 'beacon/css/datatables.css' %}" />
+
+    </head>
+<body>
+
+
+    {% with selected='filtering_terms' hidden='true' filtering_terms='true'%}{% include "beacon/nav.html" %}{% endwith %}
+    
+
+    <main>
+        <h1>
+            <img src="{% static 'beacon/img/training_ui.png' %}" alt="">
+        </h1>
+        <div class="results">
+            <p>This website works as a user interface (UI) to interact with the Beacon v2 API running on this node. (<a target="_blank" href="/api/">Access the API here!</a>).</p>
+            
+            <p>However, the UI features are quite limited in comparison with all the possibilities offered by the API. This page teaches users the basics of querying the API and offers a few examples of queries that might be useful for a begginer.</p>
+
+            <p>For more detailed information about the API, please refer to the <a target="_blank" href="http://docs.genomebeacons.org/">Beacon v2 documentation</a>.</p>
+
+            <h2>API endpoints</h2>
+            
+            <p>The main API endpoints are the following:</p>
+
+            <ul>
+                <li><span class="mono">/api/</span> - root of the API</li>
+                <li><span class="mono">/api/info</span> - get general Beacon information (typically metadata about the Beacon itself and who maintains it)</li>
+                
+                <li><span class="mono">/api/datasets</span> - get information about the existing datasets, which contain an unique identifier for each dataset and tipically carry information about the data present as a whole</li>
+                <li><span class="mono">/api/cohorts</span> - get information about the existing cohorts, which contain statistics about the individuals present in the respective dataset </li>
+                <li><span class="mono">/api/g_variants</span> - query genomic variations</li>
+                <li><span class="mono">/api/individuals</span> - query individuals, which represent people</li>
+                <li><span class="mono">/api/biosamples</span> - query biosamples, which represent biological samples taken from an individual</li>
+                <li><span class="mono">/api/runs</span> - query runs, which contain information about the DNA sequencing process of a biosample</li>
+                <li><span class="mono">/api/analyses</span> - query analyses, which contain information about the variant calling, anotation and other processes on a run</li>
+            </ul>
+            
+            Each of these endpoints (excluding the first 2, that return information about the Beacon itself) have an extra endpoints:
+            <ul>
+                <li><span class="mono">/api/&ltendpoint&gt/{id}</span> - Get a specific entry from that endpoint with that id (e.g. <span class="mono">/api/individuals/CR562</span> returns the record about individual CR562)</li>
+                <li><span class="mono">/api/&ltendpoint&gt/{id}/&ltother_endpoint&gt</span> - Get the entries from &ltother_endpoint&gt that is related to the entry from &ltendpoint&gt with the specified id (e.g. <span class="mono">/api/individuals/CR562/biosamples</span> returns all the biosamples taken from individual CR562)</li>
+            </ul>
+
+            <h2>Querying the API</h2>
+            
+
+            <p>This information is structured as specified in the Beacon schemas: 
+                <a target="_blank" href="http://docs.genomebeacons.org/schemas-md/individuals_defaultSchema/">Individuals</a> and 
+                <a target="_blank" href="http://docs.genomebeacons.org/schemas-md/biosamples_defaultSchema/">Biosamples</a>.</p>
+            <!-- <p>For the purpose of simplicity, in this training Beacon the more complex and nested fields won't be available for use in the query.</p> -->
+            <p>For the purpose of simplicity, the "simple" fileds (i.e. the ones only nested with the terms "id" and "label") can be used without specifying these terms. For example, <span class="mono">ethnicity=NCIT:C16352</span> instead of <span class="mono">ethnicity.id=NCIT:C16352</span> or <span class="mono">ethnicity=England</span> instead of <span class="mono">ethnicity.label=England</span></p>
+            <p>Some of the available fields and how to use them are specified in the tables below.</p>
+            <p>In multiple filters queries, the key-value pairs need to be comma-separated. Also, remember the possibility of using <a target="_blank" href="{% url 'beacon:filtering_terms' %}">Filtering Terms</a>.</p>
+            <h2>Individuals</h2>
+            
+            <h2>Biosamples</h2>
+            bla bla 
+        </div>
+
+    </main>
+   
+    <h1>
+        
+        <img src="{% static 'beacon/img/biodata_elixir_logo.png' %}" alt="biodata.pt & elixir-PT logo" class="biodata-elixir-logo">
+    </h1> 
+    
+    {% include "beacon/footer.html" %}
+
+    </body>
+</html>
