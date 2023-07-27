@@ -781,6 +781,15 @@ body main div.cohort-card svg.bar-plot .bar:focus text {
   fill: #1070B7;
   font-size: 11px;
 }
+
+/* QUERY HELP header h2 */
+body main div.results h2 {
+  font-size: 170%;
+  font-weight: 300;
+  margin: 1em 0 0.7em;
+  font-weight: bold;
+}
+
 /* line 680, ../sass/_main.scss */
 body footer {
   width: 100%;
@@ -845,7 +854,7 @@ body footer section#EU img {
   margin: 0 auto;
   margin-right: 25.3%;
   width: 40%;
-  height auto;
+  height: auto;
 }
 
 .phenoclinic-menu {
