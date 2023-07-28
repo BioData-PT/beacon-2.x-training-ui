@@ -428,6 +428,8 @@ body main div.results a:hover {
 /* line 343, ../sass/_main.scss */
 body main div.results span.mono {
   font-family: monospace;
+  font-size: 120%;
+  margin: 5px 0;
 }
 /* line 347, ../sass/_main.scss */
 body main div.results div#tabs {
@@ -783,7 +785,7 @@ body main div.cohort-card svg.bar-plot .bar:focus text {
 }
 
 /* QUERY HELP header h2 */
-body main div.results h2 {
+body main div.results h2.api_help {
   font-size: 170%;
   font-weight: 300;
   margin: 1em 0 0.7em;

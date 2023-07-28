@@ -32,30 +32,86 @@
 
             <p>For more detailed information about the API, please refer to the <a target="_blank" href="http://docs.genomebeacons.org/">Beacon v2 documentation</a>.</p>
 
-            <h2>API endpoints</h2>
+            <h2 class="api_help">API endpoints</h2>
             
             <p>The main API endpoints are the following:</p>
 
-            <ul>
-                <li><span class="mono">/api/</span> - root of the API</li>
-                <li><span class="mono">/api/info</span> - get general Beacon information (typically metadata about the Beacon itself and who maintains it)</li>
-                
-                <li><span class="mono">/api/datasets</span> - get information about the existing datasets, which contain an unique identifier for each dataset and tipically carry information about the data present as a whole</li>
-                <li><span class="mono">/api/cohorts</span> - get information about the existing cohorts, which contain statistics about the individuals present in the respective dataset </li>
-                <li><span class="mono">/api/g_variants</span> - query genomic variations</li>
-                <li><span class="mono">/api/individuals</span> - query individuals, which represent people</li>
-                <li><span class="mono">/api/biosamples</span> - query biosamples, which represent biological samples taken from an individual</li>
-                <li><span class="mono">/api/runs</span> - query runs, which contain information about the DNA sequencing process of a biosample</li>
-                <li><span class="mono">/api/analyses</span> - query analyses, which contain information about the variant calling, anotation and other processes on a run</li>
-            </ul>
+            <div class="table-wrapper basic">
+                <table class="basic-table display">
+                    <thead>
+                        <tr>
+                            <th>Endpoint</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <td><span class="mono">/api</span></td>
+                                <td>root of the API</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">/api/info</span></td>
+                                <td>get general Beacon information (typically metadata about the Beacon itself and who maintains it)</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">/api/datasets</span></td>
+                                <td>get information about the existing datasets, which contain an unique identifier for each dataset and tipically carry information about the data present as a whole</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">/api/cohorts</span></td>
+                                <td>get information about the existing cohorts, which contain statistics about the individuals present in the respective dataset </td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">/api/individuals</span></td>
+                                <td>query individuals, which represent people</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">/api/biosamples</span></td>
+                                <td>query biosamples, which represent biological samples taken from an individual</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">/api/runs</span></td>
+                                <td>query runs, which contain information about the DNA sequencing process of a biosample</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono">/api/analyses</span></td>
+                                <td>query analyses, which contain information about the variant calling, anotation and other processes on a run</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono"></span></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono"></span></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><span class="mono"></span></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                    </tbody>
+                </table> 
+            </div>
             
             Each of these endpoints (excluding the first 2, that return information about the Beacon itself) have an extra endpoints:
             <ul>
-                <li><span class="mono">/api/&ltendpoint&gt/{id}</span> - Get a specific entry from that endpoint with that id (e.g. <span class="mono">/api/individuals/CR562</span> returns the record about individual CR562)</li>
-                <li><span class="mono">/api/&ltendpoint&gt/{id}/&ltother_endpoint&gt</span> - Get the entries from &ltother_endpoint&gt that is related to the entry from &ltendpoint&gt with the specified id (e.g. <span class="mono">/api/individuals/CR562/biosamples</span> returns all the biosamples taken from individual CR562)</li>
+                <li><span class="mono">/api/{endpoint}/{id}</span> - Get a specific entry from that endpoint with that id (e.g. <span class="mono">/api/individuals/CR562</span> returns the record about individual CR562)</li>
+                <li><span class="mono">/api/{endpoint}/{id}/{other_endpoint}</span> - Get the entries from {other_endpoint} that is related to the entry from {endpoint} with the specified id (e.g. <span class="mono">/api/individuals/CR562/biosamples</span> returns all the biosamples taken from individual CR562)</li>
             </ul>
 
-            <h2>Querying the API</h2>
+            <h2 class="api_help">Querying the API</h2>
             
 
             <p>This information is structured as specified in the Beacon schemas: 
@@ -65,9 +121,9 @@
             <p>For the purpose of simplicity, the "simple" fileds (i.e. the ones only nested with the terms "id" and "label") can be used without specifying these terms. For example, <span class="mono">ethnicity=NCIT:C16352</span> instead of <span class="mono">ethnicity.id=NCIT:C16352</span> or <span class="mono">ethnicity=England</span> instead of <span class="mono">ethnicity.label=England</span></p>
             <p>Some of the available fields and how to use them are specified in the tables below.</p>
             <p>In multiple filters queries, the key-value pairs need to be comma-separated. Also, remember the possibility of using <a target="_blank" href="{% url 'beacon:filtering_terms' %}">Filtering Terms</a>.</p>
-            <h2>Individuals</h2>
+            <h2 class="api_help">Individuals</h2>
             
-            <h2>Biosamples</h2>
+            <h2 class="api_help">Biosamples</h2>
             bla bla 
         </div>
 
