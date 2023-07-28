@@ -733,6 +733,15 @@ body main div.cohort-card hr {
   border-top: 1px solid #717578;
   width: 60%;
 }
+
+/* Cohort results header of primary fields */
+body main div.results h2.cohort-result-header {
+  font-size: 115%;
+  font-weight: 300;
+  margin: 1em 0 0.7em;
+  font-weight: bold;
+}
+
 /* line 632, ../sass/_main.scss */
 body main div.cohort-card form {
   margin: 0;

@@ -64,7 +64,7 @@
 
                     <h1 class="cohort-name">{{cohort.name}}</h1>
     
-                    <h2>Basic attributes</h2>
+                    <h2 class="cohort-result-header">Basic attributes</h2>
                     <ul>
                         {% if cohort.cohortType %}
                         <li>
@@ -270,7 +270,7 @@
                     </ul>
                     <!-- collectionEvents -->
                     {% if cohort.collectionEvents %}
-                    <h2>Collection Events</h2>
+                    <h2 class="cohort-result-header">Collection Events</h2>
                     {% with collectionEvent=cohort.collectionEvents|first %}
                     <ul>
                         {% if collectionEvent.eventTimeline %}
@@ -524,7 +524,7 @@
 
                     <!-- Start info -->
                     {% if cohort.info %}
-                    <h2>Info</h2>
+                    <h2 class="cohort-result-header">Info</h2>
                     <ul>
                         {% if cohort.info.credits %}
                         <span class="strong">Credits</span>
