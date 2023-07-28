@@ -675,13 +675,15 @@ body main div.cohort-card h1.error {
   display: inline-block;
 }
 /* line 592, ../sass/_main.scss */
-body main div.cohort-card h2 {
-  font-size: 90%;
-  font-weight: 300;
-  margin: 1em 0 8px;
+body main div.results div.cohort-card h2 {
+  font-size: 115%;
+  /*font-weight: 300;*/
+  font-weight: bold; 
+  /*margin: 1em 0 8px;*/
+  margin: 1em 0 0.7em;
 }
 /* line 597, ../sass/_main.scss */
-body main div.cohort-card h2.error {
+body main div.results div.cohort-card h2.error {
   color: white;
   margin-bottom: 0;
   background-color: #DC4F5F;
@@ -732,14 +734,6 @@ body main div.cohort-card hr {
   border: none;
   border-top: 1px solid #717578;
   width: 60%;
-}
-
-/* Cohort results header of primary fields */
-body main div.results h2.cohort-result-header {
-  font-size: 115%;
-  font-weight: 300;
-  margin: 1em 0 0.7em;
-  font-weight: bold;
 }
 
 /* line 632, ../sass/_main.scss */
