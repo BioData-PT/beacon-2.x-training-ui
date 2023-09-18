@@ -27,6 +27,13 @@
                 <img src="/static/beacon/img/login-grey-wide.png" alt="[LS Login]" width="150" >
         </a>
         </button>
+
+        <!-- Script to set the "state", the url the user will be redirected to by Beacon when login ends -->
+        <script>
+            const element = document.getElementById("login-button").getElementsByTagName("a")[0];
+            const currentUrl = window.location.href;
+            element.setAttribute("href", `/login?state=${btoa(currentUrl)}`);
+        </script>
     {% endif %}
 
 
