@@ -20,33 +20,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY_DEFAULT = 'django-insecure-3pdl)^a8o6#bft2!5$abk4+8eq=(xbc$xow$-c3+8xw=cr%u%o'
-SECRET_KEY = SECRET_KEY_DEFAULT
-# use SECRET_KEY value imported from secret.py
-try:
-    # import SECRET_KEY custom value
-    import app.secret as secret
-    SECRET_KEY = secret.SECRET_KEY
-    print("SECRET_KEY imported successfully from secret.py")
-except Exception as e:
-    print("WARNING: SECRET.PY FILE NOT FOUND, USING INSECURE KEY")
-    print(repr(e))
-    print("Below I will generate a key you can use, copy it and put it on secret.py in the training-ui-files directory")
-    # importing the function from utils
-    from django.core.management.utils import get_random_secret_key
-    print(get_random_secret_key())
+#SECRET_KEY_DEFAULT = 'django-insecure-3pdl)^a8o6#bft2!5$abk4+8eq=(xbc$xow$-c3+8xw=cr%u%o'
 
-if SECRET_KEY in ("CHANGE ME PLEASE", SECRET_KEY_DEFAULT):
-    print("CHANGE SECRET KEY VALUE ON app/app/secret.py !!!")
-    
+# generate random key to be used until container is killed
+from django.core.management.utils import get_random_secret_key
+from os import getenv
+SECRET_KEY = get_random_secret_key()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-
-BEACON_IP_ADDR = "192.92.147.84"
 #BEACON_DOMAINS = ["beacon-pt","gdi-tp-1.vps.tecnico.ulisboa.pt","beacon.biodata.pt", "beacon-test.biodata.pt"]
-BEACON_DOMAINS = ["beacon.biodata.pt", "beacon-test.biodata.pt", "beacon.gdi.biodata.pt"]
+BEACON_DOMAINS_DEFAULT = ["beacon.biodata.pt", "beacon-test.biodata.pt", "beacon.gdi.biodata.pt"]
+
+BEACON_DOMAINS = getenv("BEACON_DOMAINS", BEACON_DOMAINS_DEFAULT)
 #ALLOWED_HOSTS = ["localhost", BEACON_IP_ADDR]
 ALLOWED_HOSTS = ["localhost"]
 ALLOWED_HOSTS += BEACON_DOMAINS
