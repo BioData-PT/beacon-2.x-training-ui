@@ -31,23 +31,8 @@ BEACON_URL = url = f"{BEACON_PROT}://{BEACON_HOST}:{BEACON_PORT}{BEACON_LOCATION
 
 db_handle, mongo_client = get_db_handle(DATABASE_NAME, DATABASE_HOST, DATABASE_PORT, USERNAME, PASSWORD)
 
-print(f"\nConnecting to {DATABASE_HOST}:{DATABASE_PORT} {DATABASE_NAME} as {USERNAME}")
+#print(f"\nConnecting to {DATABASE_HOST}:{DATABASE_PORT} {DATABASE_NAME} as {USERNAME}")
 
-# Test connection
-try:
-    server_info = mongo_client.server_info()
-except:
-    print("\nThe connection to the DB could not be made. Please, check the DB and try to initiate the Beacon app again.")
-    exit(0)
-
-# Test data in DB
-try:
-    individuals_handle = get_collection_handle(db_handle, "individuals")
-    individuals_test = len(list(individuals_handle.find_one()))
-    assert individuals_test > 0
-except:
-    print("\nThe DB does not contain the Beacon test data. Please, check the DB and the loading step and try to initiate the Beacon app again.")
-    #exit(0)
 
 
 ##################################################
