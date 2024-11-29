@@ -233,6 +233,7 @@ def variant_response_API(request):
         }
         logging.debug(f"Debug: headers: {headers}")
         response = requests.post(url=url, json=payload, headers=headers).json()
+        logging.debug(f"Debug: response: {response}")
         results = response['response']['resultSets'][0]['results']
     except Exception as e:
         error_message = "Something went wrong while trying to access the API, please try again."
