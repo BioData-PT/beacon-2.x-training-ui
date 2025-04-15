@@ -73,11 +73,9 @@ def get_variant_query(input_query):
     
     query_json = get_payload_default()
     query_json["query"]["requestParameters"] = {
-        "Chromosome": chromosome,
+        "referenceName": chromosome,
         "start": start,
-        # get this precise position 
-        # instead of all that start on there
-        "end": str(int(start)+1),
+        #"end": str(int(start)+1),
         "referenceBases": reference,
         "alternateBases": alternate
     }
